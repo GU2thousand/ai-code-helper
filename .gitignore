@@ -1,0 +1,37 @@
+.DS_Store
+.idea/
+.vscode/
+*.iml
+
+# Local secrets
+.env
+.env.*
+!.env.example
+.envrc
+**/.npmrc
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+cookies*.txt
+*.hprof
+*.heapdump
+
+# Java
+backend/target/
+*.log
+
+# Node
+frontend/node_modules/
+frontend/dist/
+frontend/coverage/
+
+# Browser test artifacts
+.playwright-cli/
+frontend/.playwright-cli/
+frontend/output/
+
+# Runtime data
+data/

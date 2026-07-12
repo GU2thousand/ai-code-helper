@@ -1,0 +1,7 @@
+app:
+  ai:
+    dashscope:
+      api-key: ""
+      embedding-api-key: ""
+  mcp:
+    enabled: false

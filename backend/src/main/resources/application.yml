@@ -1,0 +1,84 @@
+server:
+  port: ${SERVER_PORT:8081}
+  shutdown: graceful
+  forward-headers-strategy: framework
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+
+spring:
+  application:
+    name: ai-code-helper-backend
+  autoconfigure:
+    exclude: dev.langchain4j.community.dashscope.spring.DashScopeAutoConfiguration
+  mvc:
+    async:
+      request-timeout: 120s
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
+
+app:
+  ai:
+    max-memory-messages: ${AI_MAX_MEMORY_MESSAGES:20}
+    max-conversations: ${AI_MAX_CONVERSATIONS:2000}
+    max-input-characters: ${AI_MAX_INPUT_CHARACTERS:4000}
+    stream-timeout: ${AI_STREAM_TIMEOUT:2m}
+    stream-ticket-ttl: ${AI_STREAM_TICKET_TTL:30s}
+    max-stream-tickets: ${AI_MAX_STREAM_TICKETS:2000}
+    max-pending-stream-tickets-per-owner: ${AI_MAX_PENDING_TICKETS_PER_OWNER:8}
+    max-concurrent-ai-requests: ${AI_MAX_CONCURRENT_REQUESTS:64}
+    max-concurrent-ai-requests-per-owner: ${AI_MAX_CONCURRENT_REQUESTS_PER_OWNER:2}
+    max-ai-starts-per-minute: ${AI_MAX_STARTS_PER_MINUTE:300}
+    max-ai-starts-per-minute-per-owner: ${AI_MAX_STARTS_PER_MINUTE_PER_OWNER:20}
+    dashscope:
+      api-key: ${DASHSCOPE_API_KEY:${langchain4j.community.dashscope.chat-model.api-key:}}
+      streaming-api-key: ${DASHSCOPE_STREAMING_API_KEY:${langchain4j.community.dashscope.streaming-chat-model.api-key:}}
+      embedding-api-key: ${DASHSCOPE_EMBEDDING_API_KEY:${langchain4j.community.dashscope.embedding-model.api-key:}}
+      base-url: ${DASHSCOPE_BASE_URL:${langchain4j.community.dashscope.chat-model.base-url:}}
+      streaming-base-url: ${DASHSCOPE_STREAMING_BASE_URL:${langchain4j.community.dashscope.streaming-chat-model.base-url:}}
+      chat-model: ${DASHSCOPE_CHAT_MODEL:${langchain4j.community.dashscope.chat-model.model-name:qwen-max}}
+      streaming-chat-model: ${DASHSCOPE_STREAMING_CHAT_MODEL:${langchain4j.community.dashscope.streaming-chat-model.model-name:}}
+      embedding-model: ${DASHSCOPE_EMBEDDING_MODEL:${langchain4j.community.dashscope.embedding-model.model-name:text-embedding-v4}}
+      temperature: ${DASHSCOPE_TEMPERATURE:0.3}
+      max-tokens: ${DASHSCOPE_MAX_TOKENS:2048}
+  security:
+    token-secret: ${APP_AUTH_TOKEN_SECRET:}
+    guest-ttl: ${APP_GUEST_TTL:12h}
+    secure-cookies: ${APP_SECURE_COOKIES:false}
+    same-site: ${APP_COOKIE_SAME_SITE:Lax}
+    expose-token-in-response: ${APP_EXPOSE_TOKEN:false}
+  cors:
+    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:http://localhost:5173,http://127.0.0.1:5173}
+  rag:
+    location: ${RAG_LOCATION:classpath*:knowledge-base/*.md}
+    max-results: ${RAG_MAX_RESULTS:4}
+    min-score: ${RAG_MIN_SCORE:0.05}
+  mcp:
+    enabled: ${BIGMODEL_MCP_ENABLED:false}
+    api-key: ${BIGMODEL_API_KEY:}
+    endpoint: ${BIGMODEL_MCP_URL:https://open.bigmodel.cn/api/mcp/web_search_prime/mcp}
+    allowed-tool-names: ${BIGMODEL_MCP_ALLOWED_TOOLS:webSearchPrime,web_search_prime}
+    timeout: ${BIGMODEL_MCP_TIMEOUT:8s}
+    retry-backoff: ${BIGMODEL_MCP_RETRY_BACKOFF:30s}
+  tools:
+    interview-search-url: ${INTERVIEW_SEARCH_URL:https://www.nowcoder.com/search}
+    connect-timeout: ${INTERVIEW_CONNECT_TIMEOUT:4s}
+
+logging:
+  level:
+    root: INFO
+    com.aicodehelper: INFO
+    dev.langchain4j: WARN
+    dev.langchain4j.community.model.dashscope: WARN
+  pattern:
+    level: "%5p [requestId:%X{requestId:-}]"
