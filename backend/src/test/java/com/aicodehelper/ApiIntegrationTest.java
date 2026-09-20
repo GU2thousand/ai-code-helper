@@ -51,6 +51,17 @@ class ApiIntegrationTest {
     private GuestSessionService guestSessions;
 
     @Test
+    void invalidSseRequestsKeepTheirPublicJsonErrors() throws Exception {
+        mockMvc.perform(get("/api/ai/chat/streams/not-a-uuid").accept(MediaType.TEXT_EVENT_STREAM))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.code").value("INVALID_REQUEST"));
+        mockMvc.perform(get("/api/ai/chat/streams/" + java.util.UUID.randomUUID()).accept(MediaType.TEXT_EVENT_STREAM))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.code").value("STREAM_NOT_FOUND"));
+    }
+
+    @Test
     void healthIsAvailableOfflineAndHasSecurityHeaders() throws Exception {
         mockMvc.perform(get("/api/health"))
                 .andExpect(status().isOk())
@@ -207,7 +218,7 @@ class ApiIntegrationTest {
         String streamId = objectMapper.readTree(created.getResponse().getContentAsString())
                 .get("streamId").asText();
 
-        MvcResult started = mockMvc.perform(get("/api/ai/chat/streams/{streamId}", streamId).cookie(cookie))
+        MvcResult started = mockMvc.perform(get("/api/ai/chat/streams/{streamId}", streamId).cookie(cookie).accept(MediaType.TEXT_EVENT_STREAM))
                 .andExpect(request().asyncStarted())
                 .andReturn();
         started.getAsyncResult(5_000);
@@ -218,7 +229,7 @@ class ApiIntegrationTest {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("event:done")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("data:[DONE]")));
 
-        mockMvc.perform(get("/api/ai/chat/streams/{streamId}", streamId).cookie(cookie))
+        mockMvc.perform(get("/api/ai/chat/streams/{streamId}", streamId).cookie(cookie).accept(MediaType.TEXT_EVENT_STREAM))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code").value("STREAM_NOT_FOUND"));
     }

@@ -83,7 +83,8 @@ curl -N -b cookies.txt \
 SSE 事件契约：
 
 - `meta`：模型与 `memoryId`。
-- `message`：增量文本片段，可出现多次。
+- `message`：JSON 对象 `{"content":"增量文本"}`，可出现多次；按 JSON 解码以完整保留空格、换行及缩进。
+- `sources`：本次聊天实际检索到的知识库来源数组。
 - `done`：成功结束，数据固定为 `[DONE]`。
 - `error`：安全错误码，随后连接关闭。
 
@@ -100,7 +101,7 @@ source.addEventListener('error', () => source.close())
 
 ### 重新生成
 
-票据请求可添加 `"regenerate": true`。成功消费票据后，服务端会原子移除同一身份、同一 `memoryId` 的最近一轮 User/Assistant 消息，再生成新回复；仅创建但未消费的票据不会改动记忆。正常流与重新生成流都会先保存记忆快照，只有成功发送 `done` 才提交新记忆；模型错误、发送失败或浏览器断连会恢复旧快照并释放并发额度。
+票据请求可添加 `"regenerate": true`。成功消费票据后，服务端会原子移除同一身份、同一 `memoryId` 的最近一轮 User/Assistant 消息，再生成新回复；仅创建但未消费的票据不会改动记忆。正常流与重新生成流都会先保存记忆快照，模型成功完成后先原子持久化，再发送 `done`；持久化失败返回 `MEMORY_SAVE_FAILED`。完成后的断连不撤销已保存的回复；模型错误、发送失败或浏览器断连会恢复旧快照并释放并发额度。
 
 ## REST API
 
@@ -161,7 +162,7 @@ export BIGMODEL_API_KEY='your-key'
 - 访客 token 使用 HMAC-SHA256 签名，显示名保存在签名 token 中，服务端不维护无界用户缓存。
 - 显式配置的 `APP_AUTH_TOKEN_SECRET` 少于 32 个 UTF-8 字节时应用会拒绝启动；无配置的本地模式使用随机 32 字节密钥。
 - Cookie 默认 `HttpOnly`、`SameSite=Lax`；HTTPS 部署应设置 `APP_SECURE_COOKIES=true`。跨站部署若使用 `SameSite=None`，也必须启用 Secure。
-- CORS 默认只允许 `localhost:5173` 与 `127.0.0.1:5173`，并允许 credentials；生产环境用 `APP_CORS_ALLOWED_ORIGINS` 指定准确来源，不能使用 `*`。
+- CORS 默认允许 `localhost` 与 `127.0.0.1` 的 5173 开发端口和 4173 构建预览端口，并允许 credentials；生产环境用 `APP_CORS_ALLOWED_ORIGINS` 指定准确来源，不能使用 `*`。
 - 响应包含 nosniff、DENY frame、CSP、Referrer-Policy、Permissions-Policy 和 no-store headers。
 - 请求日志只记录方法、路径、状态、耗时、消息字符数与不可逆的会话指纹，不记录 query、完整 prompt、Cookie、API key 或模型响应。
 - MCP 日志关闭，认证 key 只放在请求头；Actuator 只暴露 health/info。
@@ -169,7 +170,7 @@ export BIGMODEL_API_KEY='your-key'
 - 会话容量满时只驱逐非活跃 LRU；驱逐会先同步清理 Core/RAG 两个 LangChain4j `ChatMemoryAccess` 缓存，再删除注册表对象，避免首次失败或缓存驱逐造成记忆分叉。
 - 过期 SSE 票据除请求时惰性清理外，也会每 30 秒主动删除，其中的原始 prompt 不会无限驻留。
 
-生产环境还应把内存会话存储和向量存储迁移到有容量、TTL、备份和访问控制的持久化服务，并在网关层加入 TLS、限流和请求大小限制。当前 Guardrail 是输入侧的启发式规则，不替代业务内容审核；MCP 也应在网关侧配置熔断/退避。应用会取消并忽略已终止流的后续回调，但所用 DashScope SDK 版本不保证 `StreamingHandle.cancel()` 一定关闭已经发出的上游 HTTP 请求，因此生产环境还需设置供应商侧超时、配额和成本告警。
+默认成功会话与自动签名密钥保存在 `APP_DATA_DIR`（`./data`），需要挂载私有持久卷；快照数量受 `AI_MAX_CONVERSATIONS` 限制，失败/取消请求不会写入。`APP_AUTH_TOKEN_SECRET` 可覆盖自动密钥；令牌仍按 `APP_GUEST_TTL` 到期。文件存储支持单实例，生产多实例应迁移到有容量、TTL、备份和访问控制的共享事务存储，并在网关层加入 TLS、限流和请求大小限制。当前 Guardrail 是输入侧的启发式规则，不替代业务内容审核；MCP 也应在网关侧配置熔断/退避。应用会取消并忽略已终止流的后续回调，但所用 DashScope SDK 版本不保证 `StreamingHandle.cancel()` 一定关闭已经发出的上游 HTTP 请求，因此生产环境还需设置供应商侧超时、配额和成本告警。
 
 ## 主要配置
 

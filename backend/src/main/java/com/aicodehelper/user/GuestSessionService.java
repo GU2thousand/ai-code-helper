@@ -10,7 +10,6 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
-import java.security.SecureRandom;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.Base64;
@@ -41,9 +40,10 @@ public class GuestSessionService {
             }
             this.secret = configuredSecret;
         } else {
-            this.secret = new byte[32];
-            new SecureRandom().nextBytes(this.secret);
-            log.warn("APP_AUTH_TOKEN_SECRET is absent; guest sessions will be invalid after restart");
+            this.secret = new com.aicodehelper.storage.LocalStateStore(properties).signingSecret();
+            if (!properties.getStorage().isEnabled()) {
+                log.warn("Durable storage is disabled; configure APP_AUTH_TOKEN_SECRET to retain guest sessions");
+            }
         }
     }
 

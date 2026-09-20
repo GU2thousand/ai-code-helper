@@ -24,7 +24,8 @@ public class AssistantConfiguration {
             ConversationMemoryRegistry memories,
             SafeInputGuardrail guardrail,
             InterviewQuestionTool interviewQuestionTool,
-            OptionalMcpToolProvider mcpToolProvider
+            OptionalMcpToolProvider mcpToolProvider,
+            KnowledgeBaseRetriever contentRetriever
     ) {
         return AiServices.builder(CoreAssistant.class)
                 .chatModel(chatModel)
@@ -33,6 +34,8 @@ public class AssistantConfiguration {
                 .inputGuardrails(guardrail)
                 .tools(interviewQuestionTool)
                 .toolProvider(mcpToolProvider)
+                .contentRetriever(contentRetriever)
+                .storeRetrievedContentInChatMemory(false)
                 .maxToolCallingRoundTrips(3)
                 .build();
     }

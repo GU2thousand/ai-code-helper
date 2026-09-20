@@ -166,7 +166,7 @@ public class AiChatService {
         return invalidList(value, min, max) || value.stream().anyMatch(this::blank);
     }
 
-    private RagSource source(Content content) {
+    public RagSource source(Content content) {
         var metadata = content.textSegment().metadata();
         Object scoreValue = content.metadata().get(ContentMetadata.SCORE);
         Double score = scoreValue instanceof Number number ? number.doubleValue() : null;
