@@ -65,6 +65,9 @@ jobs:
           python3 .github/audit/api.py wait
           playwright-cli snapshot --filename=output/playwright/before-restart-reload.yml
           playwright-cli run-code --filename=.github/audit/browser-restart.js | tee output/playwright/browser-restart.log
+      - name: Inspect incremental rendering with controlled real SSE delivery
+        if: ${{ !cancelled() }}
+        run: playwright-cli run-code --filename=.github/audit/browser-streaming.js | tee output/playwright/browser-streaming.log
       - name: Preserve evidence
         if: always()
         uses: actions/upload-artifact@v4

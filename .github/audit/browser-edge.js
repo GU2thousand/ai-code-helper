@@ -89,4 +89,5 @@ async (page) => {
     return baseline;
   });
   console.log('AUDIT_RESULTS ' + JSON.stringify(results));
+  return results;
 }

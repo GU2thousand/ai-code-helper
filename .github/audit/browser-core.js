@@ -117,4 +117,5 @@ async (page) => {
   });
   await check('unexpected browser console errors on normal flows', async () => { assert(consoleErrors.length === 0, consoleErrors); return consoleErrors; });
   console.log('AUDIT_RESULTS ' + JSON.stringify(results));
+  return results;
 }
