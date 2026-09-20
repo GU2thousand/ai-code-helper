@@ -32,6 +32,8 @@ jobs:
       - name: Install isolated browser inspection tools
         run: |
           npm install --prefix /tmp/audit-tools --no-save @playwright/cli@0.1.21 axe-core@4.13.0
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
           echo '/tmp/audit-tools/node_modules/.bin' >> "$GITHUB_PATH"
       - name: Start real backend, development frontend and production preview
         run: |
@@ -68,6 +70,12 @@ jobs:
       - name: Inspect incremental rendering with controlled real SSE delivery
         if: ${{ !cancelled() }}
         run: playwright-cli run-code --filename=.github/audit/browser-streaming.js | tee output/playwright/browser-streaming.log
+      - name: Inspect plain-text SSE token handling in browser
+        if: ${{ !cancelled() }}
+        run: playwright-cli run-code --filename=.github/audit/browser-contracts.js | tee output/playwright/browser-contracts.log
+      - name: Compare restart with a stable authentication secret
+        if: ${{ !cancelled() }}
+        run: python3 .github/audit/stable-restart.py
       - name: Preserve evidence
         if: always()
         uses: actions/upload-artifact@v4
