@@ -16,7 +16,7 @@
   "dependencies": {
     "@lucide/vue": "1.24.0",
     "axios": "1.18.1",
-    "dompurify": "3.4.12",
+    "dompurify": "3.4.15",
     "highlight.js": "11.11.1",
     "marked": "9.1.6",
     "vue": "3.4.38"
@@ -26,6 +26,6 @@
     "@vue/test-utils": "2.4.6",
     "jsdom": "29.1.1",
     "vite": "8.1.4",
-    "vitest": "4.1.10"
+    "vitest": "4.1.11"
   }
 }
