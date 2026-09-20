@@ -18,6 +18,7 @@ import java.util.List;
 
 /** Single-instance durable state. Mount this directory on persistent, private storage. */
 public final class LocalStateStore {
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(LocalStateStore.class);
     private final Path directory;
     private final int maxConversations;
 
@@ -60,9 +61,11 @@ public final class LocalStateStore {
 
     public synchronized void save(Object id, List<ChatMessage> messages) {
         if (directory == null) return;
+        Path path = conversationPath(id);
         try {
-            Path path = conversationPath(id);
             write(path, ChatMessageSerializer.messagesToJson(messages).getBytes(StandardCharsets.UTF_8));
+        } catch (IOException error) { throw failure(error); }
+        try {
             // Bound disk retention as well as the in-process cache; keep the newly committed turn.
             try (var files = Files.list(directory)) {
                 var snapshots = files.filter(p -> p.getFileName().toString().endsWith(".json"))
@@ -72,7 +75,11 @@ public final class LocalStateStore {
                     Files.deleteIfExists(snapshots.get(i));
                 }
             }
-        } catch (IOException error) { throw failure(error); }
+        } catch (IOException error) {
+            // The atomic commit has already succeeded: never report a failed turn or roll it back
+            // merely because retention cleanup failed. Retry cleanup on the next successful save.
+            log.warn("Durable state retention cleanup failed errorType={}", error.getClass().getSimpleName());
+        }
     }
 
     private Path conversationPath(Object id) {

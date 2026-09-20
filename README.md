@@ -114,6 +114,8 @@ See [backend/.env.example](backend/.env.example) for the full variable list, [ba
 | `POST` | `/api/ai/rag` | RAG answers with cited sources |
 | `POST` | `/api/ai/report` | Structured learning and job-search reports |
 
+SSE `message` events carry JSON (`{"content":" incremental text"}`) to preserve whitespace and code indentation. `sources` events carry retrieved knowledge metadata; the chat UI displays the source titles. Errors before a stream opens return JSON with the appropriate HTTP status, even when the request accepts `text/event-stream`. Both Vite development (5173) and production preview (4173) are allowed by the default local CORS configuration.
+
 The legacy `GET /api/ai/chat?memoryId=...&message=...` remains compatible but is deprecated and has an input-length limit. New code should use the ticket protocol.
 
 ## Validation
@@ -143,7 +145,7 @@ GitHub Actions repeats the Java 21 backend build and Node 20 frontend tests, bui
 └── frontend/   # Vue 3 + Axios + EventSource
 ```
 
-Conversation memory and the vector store currently live in-process and suit development and demonstrations. Production deployments should migrate them to persistent storage with TTL, capacity limits, backups, and access controls, and configure TLS, rate limits, and request-size limits at the gateway.
+By default, completed conversation memory and an automatically generated signing key persist in `APP_DATA_DIR` (`./data`). Mount this private directory on a persistent volume to retain valid guest sessions and conversation context across process/container restarts. `APP_AUTH_TOKEN_SECRET` overrides the stored signing key; rotating it intentionally invalidates existing sessions. Guest tokens still expire after `APP_GUEST_TTL` (12 hours by default). Snapshots contain conversation text, are written atomically with owner-only permissions on POSIX systems, and are capped at `AI_MAX_CONVERSATIONS` (oldest saved conversations are removed). Failed/cancelled turns are not committed. `APP_STORAGE_ENABLED=false` opts into ephemeral demo storage. This file store supports a single backend instance; multi-instance production needs a shared transactional database, TTL/backup/access-control policies and a stable secret. The knowledge vector index is rebuilt lazily in memory.
 
 ## Data and external services
 
@@ -268,6 +270,8 @@ mvn spring-boot:run
 | `POST` | `/api/ai/rag` | RAG 回答及引用来源 |
 | `POST` | `/api/ai/report` | 结构化学习与求职报告 |
 
+SSE `message` 事件使用 JSON（`{"content":" 增量文本"}`），保留空格和代码缩进；`sources` 事件传递检索来源，聊天界面显示来源标题。流尚未建立时的错误返回正确 HTTP 状态及 JSON，即使请求 Accept 为 `text/event-stream`。默认本地 CORS 同时允许开发端口 5173 和构建预览端口 4173。
+
 旧式 `GET /api/ai/chat?memoryId=...&message=...` 仍兼容，但已标记弃用并限制输入长度；新代码应使用票据协议。
 
 ## 验证
@@ -299,7 +303,7 @@ GitHub Actions 会在每次 push 和 pull request 上重复执行 Java 21 后端
 └── frontend/   # Vue 3 + Axios + EventSource
 ```
 
-当前会话记忆和向量库位于进程内，适合开发与演示；生产环境应迁移到带 TTL、容量、备份和访问控制的持久化存储，并在网关层配置 TLS、限流和请求大小限制。
+默认将成功完成的会话记忆和自动生成的签名密钥保存在 `APP_DATA_DIR`（`./data`）。容器部署应挂载私有持久卷，才能跨进程/容器重启保留有效访客身份和对话上下文。`APP_AUTH_TOKEN_SECRET` 优先于磁盘密钥；更换密钥会使旧会话失效。访客令牌仍遵循 `APP_GUEST_TTL`（默认 12 小时）。快照包含聊天内容，使用原子写入和 POSIX 所有者专属权限，最多保留 `AI_MAX_CONVERSATIONS` 份，超限删除最早保存的会话；失败和取消的请求不提交。`APP_STORAGE_ENABLED=false` 可切换为临时演示存储。文件存储仅支持单后端实例；多实例生产部署需要共享事务数据库、TTL/备份/访问控制策略及稳定密钥。知识向量索引仍在内存中惰性重建。
 
 ## 数据与外部服务说明
 

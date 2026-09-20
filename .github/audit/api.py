@@ -119,6 +119,15 @@ def stream_check():
     assert 'text/event-stream' in result['headers'].get('Content-Type', ''), result
     return {'status': result['status'], 'stream': result['body']}
 check('SSE messages and explicit completion', stream_check)
+# A chat stream must actually retrieve knowledge, not just advertise it in the UI.
+rag_ticket = request(b, '/api/ai/chat/streams', {'memoryId':'rag-stream', 'message':'Spring Boot Java 参数校验和分层'})
+def streaming_sources():
+    result = request(b, '/api/ai/chat/streams/' + rag_ticket['body']['streamId'], headers=SSE)
+    events = result['body'].replace('\r\n', '\n').split('\n\n')
+    sources = [json.loads(event.split('data:', 1)[1]) for event in events if 'event:sources' in event]
+    assert sources and sources[0] and sources[0][0].get('title'), result
+    return sources[0]
+check('normal chat stream retrieves and sends knowledge sources', streaming_sources)
 check('SSE ticket replay error contract', lambda: expect(request(a, path, headers=SSE), 404, 'STREAM_NOT_FOUND'))
 check('missing SSE ticket error contract', lambda: expect(request(a, '/api/ai/chat/streams/' + str(uuid.uuid4()), headers=SSE), 404, 'STREAM_NOT_FOUND'))
 check('malformed SSE ticket error contract', lambda: expect(request(a, '/api/ai/chat/streams/not-a-uuid', headers=SSE), 400, 'INVALID_REQUEST'))

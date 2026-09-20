@@ -13,5 +13,5 @@ for name in ('api-results', 'stable-restart'):
     results.extend(json.loads((root / f'{name}.json').read_text()))
 failed = [result for result in results if not result['passed']]
 print(json.dumps({'total':len(results), 'passed':len(results)-len(failed), 'failed':failed}, ensure_ascii=False, indent=2))
-assert len(results) >= 54, 'Missing runtime regression checks'
+assert len(results) >= 56, 'Missing runtime regression checks'
 assert not failed, f'{len(failed)} runtime checks failed'

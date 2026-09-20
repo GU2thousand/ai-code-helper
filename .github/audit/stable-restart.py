@@ -38,6 +38,9 @@ try:
     marker = 'Java stable-history-marker-0920'
     request('/api/ai/chat',{'memoryId':'stable','message':marker})
     before = request('/api/ai/chat',{'memoryId':'stable','message':'what did i just say'})
+    # The recall probe itself becomes the latest user message. Restore the marker
+    # before restart so the second recall has the same, meaningful expectation.
+    request('/api/ai/chat', {'memoryId':'stable', 'message':marker})
     stop()
     start('stable-backend-after.log')
     renewed = request('/api/users/guest',{})

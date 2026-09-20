@@ -42,6 +42,14 @@ async (page) => {
     await page.screenshot({path: 'output/playwright/desktop-chat.png', fullPage: true, animations: "disabled"});
     return network;
   });
+  await check('chat displays actual retrieved knowledge sources', async () => {
+    const sources = page.locator('.knowledge-sources').first();
+    await sources.waitFor();
+    await sources.locator('summary').click();
+    const titles = await sources.locator('li').allTextContents();
+    assert(titles.length > 0 && titles.every(title => title.trim()), titles);
+    return titles;
+  });
   await check('follow-up remembers previous turn', async () => {
     await send('what did i just say');
     const text = await page.locator('.assistant-message').last().innerText();
