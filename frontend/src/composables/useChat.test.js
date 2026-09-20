@@ -1,3 +1,4 @@
+import { computed, watchEffect, nextTick } from 'vue'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { CHAT_STORAGE_KEY, USER_STORAGE_KEY, useChat } from './useChat'
 
@@ -48,6 +49,26 @@ function createHarness(overrides = {}) {
 }
 
 describe('useChat', () => {
+  it('updates reactive consumers before done and announces completion without reload', async () => {
+    const { chat } = createHarness()
+    await chat.initialize()
+    await chat.startStream('Java')
+    const output = computed(() => chat.messages.value.at(-1).content)
+    const status = computed(() => chat.messages.value.at(-1).status)
+    let rendered = ''
+    const stop = watchEffect(() => { rendered = output.value })
+    expect(status.value).toBe('streaming')
+    const source = FakeEventSource.instances.at(-1)
+    source.emit('message', JSON.stringify({ content: ' REST API 42' }))
+    await nextTick()
+    expect(rendered).toBe(' REST API 42')
+    source.emit('sources', JSON.stringify([{ title: 'Java guide' }]))
+    source.emit('done', '[DONE]')
+    expect(status.value).toBe('done')
+    expect(chat.messages.value.at(-1).sources[0].title).toBe('Java guide')
+    stop()
+  })
+
   beforeEach(() => {
     FakeEventSource.instances = []
   })

@@ -56,7 +56,7 @@ export function normalizeChunk(raw) {
 
   try {
     const payload = JSON.parse(text)
-    if (payload == null) return { content: '' }
+    if (payload == null || typeof payload !== 'object' && typeof payload !== 'string') return { content: text }
     if (typeof payload === 'string') return { content: payload }
     if (payload.done === true) return { done: true, content: '' }
     if (payload.error) {
@@ -72,7 +72,7 @@ export function normalizeChunk(raw) {
       ?? payload.data?.content
       ?? payload.data
 
-    return { content: typeof content === 'string' ? content : '' }
+    return { content: typeof content === 'string' ? content : text }
   } catch {
     return { content: text }
   }

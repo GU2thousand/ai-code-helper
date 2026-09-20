@@ -20,10 +20,12 @@ public class ConversationMemoryRegistry implements ChatMemoryProvider {
 
     private final Map<Object, MemoryEntry> memories = new ConcurrentHashMap<>();
     private final Object creationLock = new Object();
+    private final com.aicodehelper.storage.LocalStateStore store;
     private final int maxMessages;
     private final int maxConversations;
 
     public ConversationMemoryRegistry(AppProperties properties) {
+        this.store = new com.aicodehelper.storage.LocalStateStore(properties);
         this.maxMessages = properties.getAi().getMaxMemoryMessages();
         this.maxConversations = properties.getAi().getMaxConversations();
         if (maxConversations < 1) {
@@ -156,12 +158,19 @@ public class ConversationMemoryRegistry implements ChatMemoryProvider {
         }
     }
 
+    public void commit(Object id) {
+        store.save(id, get(id).messages());
+    }
+
     private MemoryEntry newEntry(Object id) {
-        return new MemoryEntry(new SynchronizedChatMemory(MessageWindowChatMemory.builder()
+        MemoryEntry entry = new MemoryEntry(new SynchronizedChatMemory(MessageWindowChatMemory.builder()
                 .id(id)
                 .maxMessages(maxMessages)
                 .alwaysKeepSystemMessageFirst(true)
                 .build()));
+        List<ChatMessage> saved = store.load(id);
+        if (!saved.isEmpty()) entry.memory().set(saved);
+        return entry;
     }
 
     private static final class MemoryEntry {

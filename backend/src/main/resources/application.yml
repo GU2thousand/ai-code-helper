@@ -28,6 +28,9 @@ management:
       show-details: never
 
 app:
+  storage:
+    enabled: ${APP_STORAGE_ENABLED:true}
+    directory: ${APP_DATA_DIR:./data}
   ai:
     max-memory-messages: ${AI_MAX_MEMORY_MESSAGES:20}
     max-conversations: ${AI_MAX_CONVERSATIONS:2000}
@@ -58,7 +61,7 @@ app:
     same-site: ${APP_COOKIE_SAME_SITE:Lax}
     expose-token-in-response: ${APP_EXPOSE_TOKEN:false}
   cors:
-    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:http://localhost:5173,http://127.0.0.1:5173}
+    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:http://localhost:5173,http://127.0.0.1:5173,http://localhost:4173,http://127.0.0.1:4173}
   rag:
     location: ${RAG_LOCATION:classpath*:knowledge-base/*.md}
     max-results: ${RAG_MAX_RESULTS:4}

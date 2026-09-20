@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { buildChatStreamUrl, createChatStream, createGuestUser } from '../api/client'
 import {
   createConversation,
@@ -43,6 +43,7 @@ function restoreConversation(candidate) {
       role: message.role,
       content: typeof message.content === 'string' ? message.content : '',
       status: message.status === 'streaming' ? 'stopped' : (message.status || 'done'),
+      sources: Array.isArray(message.sources) ? message.sources.filter(source => typeof source?.title === 'string').slice(0, 8) : [],
       error: typeof message.error === 'string' ? message.error : undefined,
       createdAt: message.createdAt || fallback.createdAt
     }))
@@ -75,10 +76,11 @@ function normalizeGuest(payload) {
 function userFacingStreamError(message) {
   const value = String(message || '').trim()
   const knownErrors = {
+    MEMORY_SAVE_FAILED: '回复未能保存，请稍后重试。',
     AI_STREAM_ERROR: 'AI 服务暂时无法完成回复，请稍后重试。',
     STREAM_EXPIRED: '本次回复连接已过期，请重新生成。',
     STREAM_NOT_FOUND: '未找到本次回复连接，请重新发送。',
-    GUARDRAIL_BLOCKED: '该请求未通过安全检查，请调整内容后重试。',
+    GUARDRAIL_REJECTED: '该请求未通过安全检查，请调整内容后重试。',
     RATE_LIMITED: '请求过于频繁，请稍后再试。'
   }
 
@@ -251,7 +253,7 @@ export function useChat(dependencies = {}) {
       }
     }
 
-    const assistant = createMessage('assistant', '', 'streaming')
+    const assistant = reactive(createMessage('assistant', '', 'streaming'))
     conversation.messages.push(assistant)
     conversation.messages = conversation.messages.slice(-MAX_MESSAGES_PER_CONVERSATION)
     touchConversation(conversation)
@@ -297,6 +299,14 @@ export function useChat(dependencies = {}) {
         touchConversation(conversation)
       }
     }
+
+    source.addEventListener?.('sources', (event) => {
+      if (activeStream !== context || context.finished) return
+      try {
+        const sources = JSON.parse(event.data)
+        if (Array.isArray(sources)) assistant.sources = sources.filter(source => typeof source?.title === 'string').slice(0, 8)
+      } catch { /* Ignore malformed optional source metadata. */ }
+    })
 
     source.addEventListener?.('done', () => {
       if (activeStream !== context || context.finished) return

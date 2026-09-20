@@ -93,7 +93,9 @@ public class AiChatController {
                     ? memories.rewindLastTurnWithSnapshot(key)
                     : memories.snapshot(key);
             try {
-                return ai.chat(key, body.memoryId(), body.message());
+                ChatResponse result = ai.chat(key, body.memoryId(), body.message());
+                memories.commit(key);
+                return result;
             } catch (RuntimeException error) {
                 memories.restore(key, snapshot);
                 throw error;
@@ -112,7 +114,9 @@ public class AiChatController {
             memoryManager.prepare(key);
             ConversationMemoryRegistry.RewindSnapshot snapshot = memories.snapshot(key);
             try {
-                return ai.rag(key, body.memoryId(), body.message());
+                RagResponse result = ai.rag(key, body.memoryId(), body.message());
+                memories.commit(key);
+                return result;
             } catch (RuntimeException error) {
                 memories.restore(key, snapshot);
                 throw error;
@@ -200,6 +204,7 @@ public class AiChatController {
             HttpServletResponse response
     ) {
         rejectCrossSiteLegacyRequest(request);
+        ai.validateMessage(message);
         response.setHeader("Deprecation", "true");
         response.setHeader("Sunset", DateTimeFormatter.RFC_1123_DATE_TIME.format(
                 ZonedDateTime.ofInstant(Instant.parse("2027-01-01T00:00:00Z"), ZoneOffset.UTC)));
@@ -250,7 +255,8 @@ public class AiChatController {
                     )));
 
             TokenStream stream = ai.stream(conversationKey, message);
-            stream.onPartialResponseWithContext((partial, context) -> {
+            stream.onRetrieved(contents -> lifecycle.sendSources(contents.stream().map(ai::source).toList()))
+                    .onPartialResponseWithContext((partial, context) -> {
                         lifecycle.capture(context == null ? null : context.streamingHandle());
                         lifecycle.sendChunk(partial.text());
                     })
@@ -317,14 +323,30 @@ public class AiChatController {
                 return;
             }
             try {
-                emitter.send(SseEmitter.event().name("message").data(chunk));
+                emitter.send(SseEmitter.event().name("message").data(Map.of("content", chunk)));
             } catch (IOException error) {
                 disconnect();
             }
         }
 
-        private void complete() {
+        private void sendSources(java.util.List<RagSource> sources) {
+            if (terminal.get()) return;
+            try {
+                emitter.send(SseEmitter.event().name("sources").data(sources));
+            } catch (IOException error) { disconnect(); }
+        }
+
+        private synchronized void complete() {
             if (!terminal.compareAndSet(false, true)) {
+                return;
+            }
+            try {
+                memories.commit(conversationKey);
+            } catch (RuntimeException error) {
+                memories.restore(conversationKey, memorySnapshot);
+                try { emitter.send(SseEmitter.event().name("error").data("MEMORY_SAVE_FAILED")); }
+                catch (IOException ignored) { }
+                finally { lease.close(); emitter.complete(); }
                 return;
             }
             try {

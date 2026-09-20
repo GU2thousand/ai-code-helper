@@ -10,7 +10,7 @@ import urllib.request
 out = pathlib.Path('output/playwright')
 base = 'http://127.0.0.1:8082'
 client = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
-env = {**os.environ, 'SERVER_PORT': '8082', 'APP_AUTH_TOKEN_SECRET': secrets.token_hex(32)}
+env = {**os.environ, 'SERVER_PORT': '8082', 'APP_DATA_DIR': '/tmp/audit-stable-data', 'APP_AUTH_TOKEN_SECRET': secrets.token_hex(32)}
 process = None
 def request(path, body=None):
     data = None if body is None else json.dumps(body).encode()

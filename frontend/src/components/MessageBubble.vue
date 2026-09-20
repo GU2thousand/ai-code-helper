@@ -81,6 +81,11 @@ async function handleContentClick(event) {
           已停止生成
         </div>
 
+        <details v-if="message.sources?.length" class="knowledge-sources">
+          <summary>参考知识库（{{ message.sources.length }}）</summary>
+          <ul><li v-for="(source, index) in message.sources" :key="index">{{ source.title }}</li></ul>
+        </details>
+
         <div v-if="message.content && message.status !== 'streaming'" class="message-actions">
           <button type="button" :aria-label="copied ? '回复已复制' : '复制整条回复'" @click="copyReply">
             <Check v-if="copied" :size="15" />
