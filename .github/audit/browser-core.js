@@ -38,7 +38,7 @@ async (page) => {
     await send('Java audit-marker-0920');
     const text = await page.getByRole('log').innerText();
     assert(text.includes('Java audit-marker-0920') && text.includes('本地模拟模式'), text);
-    assert(network.some(r => r.url().includes('/api/ai/chat/streams/') && r.status === 200), network);
+    assert(network.some(r => r.url.includes('/api/ai/chat/streams/') && r.status === 200), network);
     await page.screenshot({path: 'output/playwright/desktop-chat.png', fullPage: true, animations: "disabled"});
     return network;
   });

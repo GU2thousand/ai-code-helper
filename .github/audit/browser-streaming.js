@@ -31,6 +31,10 @@ async (page) => {
       s.source.onmessage(new MessageEvent('message',{data}));
       return data;
     });
+    const received = chunk + await probe.evaluate(() => window.__auditStream.chunks.join(''));
+    const referenceResponse = await context.request.post('http://127.0.0.1:8081/api/ai/chat', {data:{memoryId:'whitespace-probe',message:'Java streaming rendering audit'}});
+    const reference = await referenceResponse.json();
+    results.push({name:'native EventSource preserves whitespace from deterministic model answer',passed:received===reference.answer,detail:{received,expected:reference.answer}});
     let visibleBeforeDone = false;
     try { await probe.locator('.markdown-body').filter({hasText:chunk}).waitFor({timeout:1500}); visibleBeforeDone=true; }
     catch {}
