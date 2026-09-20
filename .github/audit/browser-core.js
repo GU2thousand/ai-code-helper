@@ -19,7 +19,11 @@ async (page) => {
     await page.getByRole('button', {name: '发送消息', exact: true}).click();
     const response = await ticket;
     assert(response.status() === 201, 'Ticket status ' + response.status());
-    await page.getByRole('status').filter({hasText: 'AI 回复已完成'}).waitFor();
+    await page.waitForFunction(() => {
+      const s = JSON.parse(localStorage.getItem('lingma:chat-state:v1'));
+      return s?.conversations.find(c=>c.id===s.activeConversationId)?.messages.at(-1)?.status === 'done'
+        && !document.querySelector('[aria-label="停止生成"]');
+    });
   };
   await page.setViewportSize({width: 1440, height: 1000});
   await page.reload();
@@ -27,7 +31,7 @@ async (page) => {
   console.log('DESKTOP_SNAPSHOT\n' + await page.locator('body').ariaSnapshot());
   await check('desktop startup and backend connection', async () => {
     assert(await textbox().isEnabled(), 'Composer disabled');
-    await page.screenshot({path: 'output/playwright/desktop-home.png', fullPage: true});
+    await page.screenshot({path: 'output/playwright/desktop-home.png', fullPage: true, animations: "disabled"});
     return await page.locator('.service-status').innerText();
   });
   await check('real POST ticket and EventSource conversation', async () => {
@@ -35,7 +39,7 @@ async (page) => {
     const text = await page.getByRole('log').innerText();
     assert(text.includes('Java audit-marker-0920') && text.includes('本地模拟模式'), text);
     assert(network.some(r => r.url().includes('/api/ai/chat/streams/') && r.status === 200), network);
-    await page.screenshot({path: 'output/playwright/desktop-chat.png', fullPage: true});
+    await page.screenshot({path: 'output/playwright/desktop-chat.png', fullPage: true, animations: "disabled"});
     return network;
   });
   await check('follow-up remembers previous turn', async () => {
@@ -44,12 +48,17 @@ async (page) => {
     assert(text.includes('Java audit-marker-0920'), text);
     return text;
   });
+  await check('completion is announced to screen readers', async () => {
+    const text = await page.getByRole('status').textContent();
+    assert(text.includes('AI 回复已完成'), {announcement:text});
+    return text;
+  });
   await check('regenerate preserves turn count', async () => {
     const before = await page.locator('.message-row').count();
     const ticket = page.waitForResponse(r => r.url().endsWith('/api/ai/chat/streams') && r.request().method() === 'POST');
     await page.getByRole('button', {name: '重新生成回复'}).click();
     assert((await ticket).status() === 201, 'regenerate ticket failed');
-    await page.getByRole('status').filter({hasText: 'AI 回复已完成'}).waitFor();
+    await page.waitForFunction(() => !document.querySelector('[aria-label="停止生成"]'));
     assert(await page.locator('.message-row').count() === before, 'Message count changed');
     return {messages: before};
   });
@@ -92,12 +101,12 @@ async (page) => {
     console.log('MOBILE_SNAPSHOT\n' + await page.locator('body').ariaSnapshot());
     const dims = await page.evaluate(() => ({viewport: innerWidth, width: document.documentElement.scrollWidth}));
     assert(dims.width <= dims.viewport, dims);
-    await page.screenshot({path:'output/playwright/mobile-chat.png', fullPage:true});
+    await page.screenshot({path:'output/playwright/mobile-chat.png', fullPage:true, animations:"disabled"});
     await page.getByRole('button', {name:'打开侧边栏'}).click();
     await page.getByRole('button', {name:'关闭侧边栏'}).waitFor();
-    await page.screenshot({path:'output/playwright/mobile-sidebar.png', fullPage:true});
+    await page.screenshot({path:'output/playwright/mobile-sidebar.png', fullPage:true, animations:"disabled"});
     await page.keyboard.press('Escape');
-    assert(await page.getByRole('button', {name:'打开侧边栏'}).evaluate(e=>e===document.activeElement), 'Focus not restored');
+    await page.waitForFunction(() => document.activeElement?.getAttribute('aria-label') === '打开侧边栏');
     return dims;
   });
   await check('production preview connects to backend', async () => {
@@ -109,7 +118,7 @@ async (page) => {
       const e = document.querySelector('textarea');
       return e && (!e.disabled || document.querySelector('[role="alert"]'));
     });
-    await preview.screenshot({path:'output/playwright/production-preview.png', fullPage:true});
+    await preview.screenshot({path:'output/playwright/production-preview.png', fullPage:true, animations:"disabled"});
     const details = {responses, text:await preview.locator('body').innerText(), ready:await preview.getByRole('textbox').isEnabled()};
     await preview.close();
     assert(details.ready, details);

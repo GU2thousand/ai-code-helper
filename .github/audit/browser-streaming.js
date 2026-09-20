@@ -35,16 +35,16 @@ async (page) => {
     try { await probe.locator('.markdown-body').filter({hasText:chunk}).waitFor({timeout:1500}); visibleBeforeDone=true; }
     catch {}
     const before = await probe.locator('.assistant-message').innerText();
-    await probe.screenshot({path:'output/playwright/delayed-sse-before-done.png',fullPage:true});
+    await probe.screenshot({path:'output/playwright/delayed-sse-before-done.png',fullPage:true, animations:"disabled"});
     await probe.evaluate(() => {
       const s=window.__auditStream;
       for(const data of s.chunks) s.source.onmessage(new MessageEvent('message',{data}));
       s.source.dispatchEvent(new MessageEvent('done',{data:'[DONE]'}));
     });
-    await probe.getByRole('status').filter({hasText:'AI 回复已完成'}).waitFor();
+    await probe.waitForFunction(() => !document.querySelector('[aria-label="停止生成"]'));
     const after = await probe.locator('.assistant-message').innerText();
-    await probe.screenshot({path:'output/playwright/delayed-sse-after-done.png',fullPage:true});
-    results.push({name:'incremental rendering of real SSE data before done (event delivery controlled)',passed:visibleBeforeDone,detail:{chunk,beforeDone:before,afterDone:after}});
+    await probe.screenshot({path:'output/playwright/delayed-sse-after-done.png',fullPage:true, animations:"disabled"});
+    results.push({name:'incremental rendering of real SSE data before done (event delivery controlled)',passed:visibleBeforeDone,detail:{chunk,beforeDone:before,afterDone:after,announcement:await probe.getByRole('status').textContent()}});
   } catch(error) {
     results.push({name:'incremental streaming probe harness',passed:false,detail:error.message});
   } finally {

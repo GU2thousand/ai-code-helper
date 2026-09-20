@@ -17,16 +17,20 @@ async (page) => {
     await page.getByRole('button', {name:'发送消息',exact:true}).click();
     await page.getByRole('alert').waitFor();
     const text = await page.getByRole('alert').innerText();
-    await page.screenshot({path:'output/playwright/rejected-prompt.png',fullPage:true});
+    await page.screenshot({path:'output/playwright/rejected-prompt.png',fullPage:true, animations:"disabled"});
     assert(!text.includes('Request failed with status code'), text);
     return text;
   });
   await check('new conversation and clear confirmation', async () => {
+    await page.getByRole('button', {name:'关闭提示'}).click();
     await page.getByRole('button', {name:'新建对话'}).click();
     assert(await page.locator('.message-row').count()===0,'new chat contains old messages');
     await input().fill('Java clearing audit');
     await page.getByRole('button',{name:'发送消息',exact:true}).click();
-    await page.getByRole('status').filter({hasText:'AI 回复已完成'}).waitFor();
+    await page.waitForFunction(() => {
+      const s=JSON.parse(localStorage.getItem('lingma:chat-state:v1'));
+      return s?.conversations.find(c=>c.id===s.activeConversationId)?.messages.at(-1)?.status==='done' && !document.querySelector('[aria-label="停止生成"]');
+    });
     await page.getByRole('button',{name:'清空当前对话记录'}).click();
     await page.getByRole('alertdialog').waitFor();
     await page.getByRole('button',{name:'确认清空',exact:true}).click();
@@ -61,7 +65,10 @@ async (page) => {
     await page.getByRole('button',{name:'新建对话'}).click();
     await input().fill('Java restart evidence 0920');
     await page.getByRole('button',{name:'发送消息',exact:true}).click();
-    await page.getByRole('status').filter({hasText:'AI 回复已完成'}).waitFor();
+    await page.waitForFunction(() => {
+      const s=JSON.parse(localStorage.getItem('lingma:chat-state:v1'));
+      return s?.conversations.find(c=>c.id===s.activeConversationId)?.messages.at(-1)?.status==='done' && !document.querySelector('[aria-label="停止生成"]');
+    });
     const old=await page.locator('.assistant-message').last().innerText();
     let release;
     const gate=new Promise(resolve=>{release=resolve;});

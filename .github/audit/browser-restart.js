@@ -8,6 +8,6 @@ async (page) => {
   });
   console.log('AUDIT_RESULTS ' + JSON.stringify([{name:'default restart preserves visitor identity and browser history',passed:baseline?.owner===after.owner && after.messages===baseline?.messages,detail:{before:baseline,after}}]));
   console.log('AFTER_RESTART_SNAPSHOT\n'+await page.locator('body').ariaSnapshot());
-  await page.screenshot({path:'output/playwright/after-backend-restart.png',fullPage:true});
+  await page.screenshot({path:'output/playwright/after-backend-restart.png',fullPage:true, animations:"disabled"});
   return [{name:'default restart preserves visitor identity and browser history',passed:baseline?.owner===after.owner && after.messages===baseline?.messages,detail:{before:baseline,after}}];
 }
