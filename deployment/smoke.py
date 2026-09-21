@@ -88,11 +88,12 @@ def main():
         ticket = request(args.frontend + '/api/ai/chat/streams', {
             'memoryId': 'compose-sse-' + uuid.uuid4().hex, 'message': 'Explain a Java interface.',
         })
-        stream = request(args.frontend + '/api/ai/chat/streams/' + ticket['streamId'], decode=False)
+        stream = request(args.frontend + '/api/ai/chat/streams/' + ticket['streamId'],
+                         headers={'Accept': 'text/event-stream'}, decode=False)
         assert 'event:done' in stream.replace('event: ', 'event:'), stream[:500]
         passed('Authenticated SSE reaches completion through Nginx', True)
 
-        metrics = request(args.backend + '/actuator/prometheus', decode=False)
+        metrics = request(args.backend + '/actuator/prometheus', headers={'Accept': 'text/plain'}, decode=False)
         for metric in ['ai_requests_total', 'ai_request_duration_seconds_bucket', 'retrieval_duration_seconds_bucket']:
             assert metric in metrics, 'Missing metric: ' + metric
         passed('Actuator exports request and retrieval histogram metrics', True)
