@@ -64,14 +64,17 @@ public final class DeadlineStreamingChatModel implements StreamingChatModel {
 
     private void start(StreamingChatResponseHandler handler, Consumer<StreamingChatResponseHandler> operation) {
         final Guard guard;
-        try { guard = new Guard(handler, executor.acquire()); }
+        try { guard = new Guard(handler, executor.reserve(
+                firstTokenTimeout.compareTo(streamTimeout) < 0 ? firstTokenTimeout : streamTimeout)); }
         catch (RuntimeException error) { handler.onError(error); return; }
         try {
             guard.registerCancellation();
             guard.startTimers();
             guard.setWorker(executor.submit(() -> {
-                if (!guard.providerStarted()) return null;
-                try { operation.accept(guard); }
+                try {
+                    if (!guard.providerStarted(guard.admission.await())) return null;
+                    operation.accept(guard);
+                }
                 catch (Throwable error) { guard.onError(error); }
                 return null;
             }, guard::workerFinished));
@@ -83,9 +86,10 @@ public final class DeadlineStreamingChatModel implements StreamingChatModel {
 
     private final class Guard implements StreamingChatResponseHandler, StreamingHandle {
         private final StreamingChatResponseHandler downstream;
-        private final ProviderCallExecutor.Permit permit;
+        private final ProviderCallExecutor.Admission admission;
+        private ProviderCallExecutor.Permit permit;
         private final AiTelemetry.RequestObservation request = executor.currentRequest();
-        private final AiTelemetry.StageTimer stage = delegate instanceof LocalStreamingChatModel ? executor.llmStage() : null;
+        private AiTelemetry.StageTimer stage;
         private final Runnable cancellationHook = this::cancel;
         private boolean terminal;
         private volatile boolean cancelled;
@@ -98,9 +102,9 @@ public final class DeadlineStreamingChatModel implements StreamingChatModel {
         private ScheduledFuture<?> firstTokenTimer;
         private ScheduledFuture<?> totalTimer;
 
-        private Guard(StreamingChatResponseHandler downstream, ProviderCallExecutor.Permit permit) {
+        private Guard(StreamingChatResponseHandler downstream, ProviderCallExecutor.Admission admission) {
             this.downstream = downstream;
-            this.permit = permit;
+            this.admission = admission;
         }
 
         private void registerCancellation() { executor.registerCancellation(request, cancellationHook); }
@@ -122,19 +126,22 @@ public final class DeadlineStreamingChatModel implements StreamingChatModel {
         }
 
         private synchronized void workerFinished() {
+            admission.cancel();
             workerFinished = true;
             if (!providerStarted) providerFinished = true;
             releaseIfFinished();
         }
 
-        private synchronized boolean providerStarted() {
-            if (terminal) return false;
+        private synchronized boolean providerStarted(ProviderCallExecutor.Permit acquired) {
+            permit = acquired;
+            if (terminal) { acquired.close(); return false; }
             providerStarted = true;
+            stage = delegate instanceof LocalStreamingChatModel ? executor.llmStage() : null;
             return true;
         }
 
         private void releaseIfFinished() {
-            if (workerFinished && providerFinished) permit.close();
+            if (workerFinished && providerFinished && permit != null) permit.close();
         }
 
         private void stopTimers() {
@@ -151,6 +158,7 @@ public final class DeadlineStreamingChatModel implements StreamingChatModel {
         }
 
         private void cancelProvider() {
+            admission.cancel();
             // Best effort only. A successful cancel() call is not proof that HTTP has ended.
             if (providerHandle != null && providerHandle != cancellationRequested) {
                 StreamingHandle handle = providerHandle;

@@ -103,6 +103,7 @@ class DeadlineStreamingChatModelTest {
         RecordingHandler downstream = new RecordingHandler();
         ProviderProperties properties = new ProviderProperties();
         properties.setMaxInFlight(1);
+        properties.setMaxQueued(0);
         try (ProviderCallExecutor executor = new ProviderCallExecutor(properties, telemetry)) {
             DeadlineStreamingChatModel model = new DeadlineStreamingChatModel(provider, executor,
                     Duration.ofSeconds(2), Duration.ofSeconds(3));
@@ -128,6 +129,7 @@ class DeadlineStreamingChatModelTest {
         RecordingHandler cancelledHandler = new RecordingHandler();
         ProviderProperties properties = new ProviderProperties();
         properties.setMaxInFlight(1);
+        properties.setMaxQueued(0);
         try (ProviderCallExecutor executor = new ProviderCallExecutor(properties, telemetry)) {
             DeadlineStreamingChatModel model = new DeadlineStreamingChatModel(provider, executor,
                     Duration.ofSeconds(2), Duration.ofSeconds(3));
@@ -302,6 +304,7 @@ class DeadlineStreamingChatModelTest {
     private static ProviderCallExecutor executor() {
         ProviderProperties properties = new ProviderProperties();
         properties.setMaxInFlight(1);
+        properties.setMaxQueued(0);
         return new ProviderCallExecutor(properties);
     }
 

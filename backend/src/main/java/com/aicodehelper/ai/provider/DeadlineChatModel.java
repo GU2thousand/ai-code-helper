@@ -39,11 +39,14 @@ public final class DeadlineChatModel implements ChatModel {
         return call(() -> delegate.doChat(request));
     }
     private ChatResponse call(Callable<ChatResponse> operation) {
-        // Remote models are measured by their existing listener. Local usage is unknown.
-        try (AiTelemetry.StageTimer stage = delegate instanceof LocalChatModel ? executor.llmStage() : null) {
-            try { return executor.call(timeout, operation); }
-            catch (RuntimeException error) { if (stage != null) stage.failure(error); throw error; }
-        }
+        // Queue time has its own span; only physical local execution belongs in LLM latency.
+        // Remote models retain their existing provider listener and token accounting.
+        return executor.call(timeout, () -> {
+            try (AiTelemetry.StageTimer stage = delegate instanceof LocalChatModel ? executor.llmStage() : null) {
+                try { return operation.call(); }
+                catch (Exception error) { if (stage != null) stage.failure(error); throw error; }
+            }
+        });
     }
     @Override public ChatRequestParameters defaultRequestParameters() { return delegate.defaultRequestParameters(); }
     @Override public List<ChatModelListener> listeners() { return delegate.listeners(); }

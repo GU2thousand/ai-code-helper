@@ -60,6 +60,8 @@ app:
     stream-first-token-timeout: ${AI_PROVIDER_FIRST_TOKEN_TIMEOUT:15s}
     stream-timeout: ${AI_PROVIDER_STREAM_TIMEOUT:90s}
     max-in-flight: ${AI_PROVIDER_MAX_IN_FLIGHT:16}
+    max-queued: ${AI_PROVIDER_MAX_QUEUED:48}
+    queue-timeout: ${AI_PROVIDER_QUEUE_TIMEOUT:2s}
   agent:
     max-steps: ${MAX_AGENT_STEPS:6}
     max-tool-retries: ${MAX_TOOL_RETRIES:2}

@@ -56,6 +56,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         "app.security.token-secret=provider-failure-integration-secret-with-enough-entropy",
         "app.provider.chat-timeout=200ms", "app.provider.stream-first-token-timeout=200ms",
         "app.provider.stream-timeout=450ms", "app.provider.max-in-flight=1",
+        "app.provider.max-queued=0",
         "app.ai.stream-timeout=5s"
 })
 @AutoConfigureMockMvc

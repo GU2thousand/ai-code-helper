@@ -2,6 +2,8 @@ package com.aicodehelper.evaluation;
 
 import com.aicodehelper.agent.AgentRuntimeEvaluation;
 import com.aicodehelper.ai.ModelRuntimeInfo;
+import com.aicodehelper.ai.provider.ProviderProperties;
+import com.aicodehelper.config.AppProperties;
 import com.aicodehelper.error.ApiException;
 import com.aicodehelper.retrieval.RetrievalHit;
 import com.aicodehelper.retrieval.RetrievalResult;
@@ -33,16 +35,20 @@ public class EvaluationController {
     private final AgentRuntimeEvaluation agent;
     private final ModelRuntimeInfo model;
     private final RetrievalProperties config;
+    private final ProviderProperties provider;
+    private final AppProperties app;
     private final Semaphore capacity = new Semaphore(2);
 
     public EvaluationController(EvaluationAccess access, RetrievalService retrieval,
                                 AgentRuntimeEvaluation agent, ModelRuntimeInfo model,
-                                RetrievalProperties config) {
+                                RetrievalProperties config, ProviderProperties provider, AppProperties app) {
         this.access = access;
         this.retrieval = retrieval;
         this.agent = agent;
         this.model = model;
         this.config = config;
+        this.provider = provider;
+        this.app = app;
     }
 
     @GetMapping("/status")
@@ -52,6 +58,18 @@ public class EvaluationController {
                 "embeddingProvider", model.embeddingProvider(), "embeddingModel", model.embeddingModel(),
                 "ingestion", retrieval.ingestionStatus(), "agentScenarios", AgentRuntimeEvaluation.SCENARIOS,
                 "agentEvaluationMode", "controlled_runtime",
+                "admissionConfig", Map.of("maxConcurrentRequests", app.getAi().getMaxConcurrentAiRequests(),
+                        "maxConcurrentRequestsPerOwner", app.getAi().getMaxConcurrentAiRequestsPerOwner(),
+                        "maxStartsPerMinute", app.getAi().getMaxAiStartsPerMinute(),
+                        "maxStartsPerMinutePerOwner", app.getAi().getMaxAiStartsPerMinutePerOwner(),
+                        "maxConversations", app.getAi().getMaxConversations(),
+                        "persistenceEnabled", app.getStorage().isEnabled()),
+                "providerConfig", Map.of("maxInFlight", provider.getMaxInFlight(),
+                        "maxQueued", provider.getMaxQueued(), "queueTimeoutMs", provider.getQueueTimeout().toMillis(),
+                        "chatTimeoutMs", provider.getChatTimeout().toMillis(),
+                        "embeddingTimeoutMs", provider.getEmbeddingTimeout().toMillis(),
+                        "firstTokenTimeoutMs", provider.getStreamFirstTokenTimeout().toMillis(),
+                        "streamTimeoutMs", provider.getStreamTimeout().toMillis()),
                 "retrievalConfig", Map.of("mode", config.getMode(), "backend", config.getBackend(),
                         "candidates", config.getCandidates(), "rrfK", config.getRrfK(),
                         "embeddingVersion", config.getEmbeddingVersion(),

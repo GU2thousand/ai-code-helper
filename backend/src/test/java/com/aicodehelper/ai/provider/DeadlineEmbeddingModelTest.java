@@ -56,6 +56,7 @@ class DeadlineEmbeddingModelTest {
         };
         ProviderProperties properties = new ProviderProperties();
         properties.setMaxInFlight(1);
+        properties.setMaxQueued(0);
         try (ProviderCallExecutor executor = new ProviderCallExecutor(properties)) {
             DeadlineEmbeddingModel model = new DeadlineEmbeddingModel(delegate, executor, Duration.ofMillis(150));
             try {

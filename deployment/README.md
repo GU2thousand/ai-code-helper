@@ -148,3 +148,12 @@ Pinned release references: [pgvector 0.8.6](https://github.com/pgvector/pgvector
 [Grafana 12.4.11](https://github.com/grafana/grafana/releases/tag/v12.4.11),
 [Tempo 2.10.8](https://github.com/grafana/tempo/releases/tag/v2.10.8),
 and [Collector 0.161.0](https://github.com/open-telemetry/opentelemetry-collector-releases/releases/tag/v0.161.0).
+
+
+The dashboard also exposes physical provider occupancy, bounded queue length and
+queue-wait p95. Admission defaults remain 16 physical calls, with up to 48 queued
+calls and a 2-second wait ceiling. Queue time consumes model deadlines; queueing
+does not raise real provider capacity or override application admission limits.
+Use `AI_PROVIDER_MAX_QUEUED=0` on a disposable test backend for the immediate-reject
+control. For Compose overrides, pass these settings in the backend service's
+`environment`; setting a shell variable alone does not add it to the container.

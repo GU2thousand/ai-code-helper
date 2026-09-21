@@ -34,6 +34,22 @@ import uuid
 
 MAX_RESPONSE_BYTES = 1_048_576
 MAX_EVENT_BYTES = 1_048_576
+MAX_ERROR_RESPONSE_BYTES = 16_384
+KNOWN_ERROR_CODES = frozenset({
+    "AI_CAPACITY_REACHED", "STREAM_CAPACITY_REACHED", "AI_MEMORY_CAPACITY_REACHED",
+    "AI_PROVIDER_CAPACITY", "AI_PROVIDER_QUEUE_TIMEOUT", "AI_PROVIDER_TIMEOUT",
+    "AI_PROVIDER_CANCELLED", "AI_UPSTREAM_ERROR", "AI_STREAM_ERROR",
+    "CONVERSATION_BUSY", "STREAM_NOT_FOUND", "INVALID_STREAM_OWNER",
+    "INVALID_GUEST_SESSION", "GUARDRAIL_REJECTED", "VALIDATION_FAILED",
+    "INVALID_JSON", "INVALID_REQUEST", "NOT_FOUND", "METHOD_NOT_ALLOWED",
+    "UNSUPPORTED_MEDIA_TYPE", "INTERNAL_ERROR",
+})
+KNOWN_PROTOCOL_FAILURES = frozenset({
+    "event_too_large", "json_response_too_large", "invalid_json_object",
+    "missing_stream_url", "cross_origin_stream_url", "invalid_stream_url",
+    "missing_guest_id", "invalid_content_type", "invalid_done_payload",
+    "empty_stream", "sse_error", "invalid_content_event", "incomplete_stream",
+})
 
 
 @dataclass(frozen=True)
@@ -79,6 +95,56 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, req, fp, code, msg, headers, newurl):
         # Do not forward this worker's traffic to another origin.
         return None
+
+
+def error_code(payload: object) -> str:
+    """Keep only exact known codes, never messages or arbitrary server labels."""
+    if not isinstance(payload, dict):
+        return "invalid_payload"
+    if "code" not in payload:
+        return "missing"
+    code = payload["code"]
+    return code if isinstance(code, str) and code in KNOWN_ERROR_CODES else "unknown"
+
+
+def sse_error_code(data: str) -> str:
+    # The backend emits a plain code. Also accept a structured JSON error event.
+    if data in KNOWN_ERROR_CODES:
+        return data
+    if len(data.encode("utf-8")) > MAX_ERROR_RESPONSE_BYTES:
+        return "payload_too_large"
+    try:
+        return error_code(json.loads(data))
+    except (json.JSONDecodeError, UnicodeError):
+        return "unknown"
+
+
+def http_error_code(error: urllib.error.HTTPError, deadline: float) -> str:
+    """Bound diagnostics by bytes and the attempt deadline without hiding status."""
+    try:
+        with DeadlineGuard(error.fp, deadline):
+            content = bytearray()
+            while True:
+                remaining(deadline)
+                chunk = error.read1(min(8192, MAX_ERROR_RESPONSE_BYTES + 1 - len(content)))
+                remaining(deadline)
+                if not chunk:
+                    break
+                content.extend(chunk)
+                if len(content) > MAX_ERROR_RESPONSE_BYTES:
+                    return "payload_too_large"
+        try:
+            return error_code(json.loads(content))
+        except (json.JSONDecodeError, UnicodeError):
+            return "invalid_payload"
+    except Exception:
+        return "unreadable_payload"
+    finally:
+        error.close()
+
+
+def http_status(code: int) -> str:
+    return str(code) if isinstance(code, int) and 100 <= code <= 599 else "other"
 
 
 def remaining(deadline: float) -> float:
@@ -229,19 +295,21 @@ def distribution(values: list[float]) -> dict:
 
 
 def classify(error: Exception, deadline: float) -> str:
+    # Once headers report an HTTP failure, preserve it even if reading its
+    # optional diagnostic body reaches the deadline.
+    if isinstance(error, urllib.error.HTTPError):
+        return "http_" + http_status(error.code)
     if time.perf_counter() >= deadline or isinstance(error, (TimeoutError, socket.timeout)):
         return "timeout"
-    if isinstance(error, urllib.error.HTTPError):
-        return f"http_{error.code}"
     if isinstance(error, ProtocolFailure):
-        return str(error)
+        return str(error) if str(error) in KNOWN_PROTOCOL_FAILURES else "protocol_error"
     if isinstance(error, (json.JSONDecodeError, UnicodeError)):
         return "malformed_json_or_utf8"
     if isinstance(error, urllib.error.URLError):
         return "timeout" if isinstance(error.reason, (TimeoutError, socket.timeout)) else "network_error"
     if isinstance(error, OSError):
         return "network_error"
-    return f"unexpected_{type(error).__name__}"
+    return "unexpected_error"
 
 
 def run_load(config: Config) -> dict:
@@ -254,6 +322,7 @@ def run_load(config: Config) -> dict:
     records: list[dict] = []
     setup_errors: Counter = Counter()
     setup_http_statuses: Counter = Counter()
+    setup_error_codes: Counter = Counter()
     workers_registered = 0
     attempted = 0
     active = 0
@@ -275,11 +344,13 @@ def run_load(config: Config) -> dict:
             with lock:
                 workers_registered += 1
         except Exception as error:
+            classification = classify(error, setup_deadline)
+            code = http_error_code(error, setup_deadline) if isinstance(error, urllib.error.HTTPError) else None
             with lock:
-                setup_errors[classify(error, setup_deadline)] += 1
+                setup_errors[classification] += 1
                 if isinstance(error, urllib.error.HTTPError):
-                    setup_http_statuses[str(error.code)] += 1
-                    error.close()
+                    setup_http_statuses[http_status(error.code)] += 1
+                    setup_error_codes[code] += 1
             return
 
         while True:
@@ -320,6 +391,7 @@ def run_load(config: Config) -> dict:
                                 record["success"] = True
                                 break
                             if event == "error":
+                                record["error_code"] = sse_error_code(data)
                                 raise ProtocolFailure("sse_error")
                             payload = json.loads(data)
                             if event == "message":
@@ -340,7 +412,7 @@ def run_load(config: Config) -> dict:
                 record["error"] = classify(error, deadline)
                 if isinstance(error, urllib.error.HTTPError):
                     record["http_status"] = error.code
-                    error.close()
+                    record["error_code"] = http_error_code(error, deadline)
             finally:
                 ended = time.perf_counter()
                 record["request_duration_ms"] = (ended - attempt_start) * 1000
@@ -386,6 +458,7 @@ def run_load(config: Config) -> dict:
             "requested": config.concurrency, "registered": workers_registered,
             "setup_failures": sum(setup_errors.values()), "error_counts": dict(setup_errors),
             "http_status_counts": dict(setup_http_statuses),
+            "error_code_counts": dict(setup_error_codes),
         },
         "requests": {
             "attempted": len(records), "succeeded": succeeded, "failed": failed,
@@ -395,7 +468,8 @@ def run_load(config: Config) -> dict:
             "non_saturated_error_rate": round((failed - saturated) / (len(records) - saturated), 6) if len(records) > saturated else None,
             "http_429_rate": round(saturated / len(records), 6) if records else None,
             "error_counts": dict(Counter(record["error"] for record in records if "error" in record)),
-            "http_status_counts": dict(Counter(str(record["http_status"]) for record in records if "http_status" in record)),
+            "http_status_counts": dict(Counter(http_status(record["http_status"]) for record in records if "http_status" in record)),
+            "error_code_counts": dict(Counter(record["error_code"] for record in records if "error_code" in record)),
             "http_429_by_phase": dict(Counter(record["phase"] for record in records if record.get("http_status") == 429)),
         },
         "streams": {
@@ -419,6 +493,7 @@ def run_load(config: Config) -> dict:
             "Default 3.1-second worker think time avoids the default 20 starts/minute per-owner limiter; use --think-seconds 0 only when intentionally testing that limiter or changing its configuration.",
             "Content events are not model tokens. HTTP 429 is counted as failure and also reported separately as saturation; guest setup errors are separate.",
             "unexpected_error_rate divides non-429 failures by all attempts; non_saturated_error_rate divides them by attempts excluding HTTP 429. HTTP 503 remains an unexpected failure.",
+            "Error-code counts include only allowlisted application codes or fixed fallback buckets, from bounded HTTP bodies and SSE error events; no response text is retained.",
             "This is measured HTTP transport/load behavior, not an evaluation of answer quality or provider correctness.",
         ],
     }

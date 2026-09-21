@@ -81,7 +81,7 @@ The browser submits message bodies to `POST /api/ai/chat/streams`, then consumes
 | `GET /actuator/prometheus` | Operational metrics |
 | `/api/evaluation/{status,retrieval,agent}` | Opt-in authenticated diagnostics |
 
-Provider defaults are 45s chat, 20s embedding, 15s first stream content and 90s total stream time, with 16 shared physical in-flight calls. The servlet stream deadline remains a separate upper bound. Cancellation stops downstream callbacks and restores application state; the upstream SDK may continue an already-sent HTTP request. Such work retains its physical permit until completion.
+Provider defaults are 45s chat, 20s embedding, 15s first stream content and 90s total stream time, with 16 shared physical in-flight calls. A FIFO admission queue can hold 48 additional calls for at most 2 seconds (`AI_PROVIDER_MAX_QUEUED`, `AI_PROVIDER_QUEUE_TIMEOUT`); waiting consumes the existing call deadline. Full queues still return `AI_PROVIDER_CAPACITY`, and expired waits return `AI_PROVIDER_QUEUE_TIMEOUT`. Streaming admission waits off the callback thread, so tool rounds cannot block the previous round from releasing its slot. The servlet stream deadline remains a separate upper bound. Cancellation stops downstream callbacks and restores application state; the upstream SDK may continue an already-sent HTTP request. Such work retains its physical permit until completion.
 
 ## Evaluation methodology and measured results
 
@@ -121,7 +121,7 @@ The 60 agent cases repeat 15 controlled fixtures four times. Contract pass check
 
 ## Observability and load testing
 
-OpenTelemetry spans cover auth/session, retrieval, lexical/vector/reranking when used, model calls, tool steps and streaming. Compose connects the collector to Tempo and provisions a Grafana dashboard with request p50/p95, stage durations, errors, token usage and active streams.
+OpenTelemetry spans cover auth/session, retrieval, lexical/vector/reranking when used, model calls, tool steps and streaming. Compose connects the collector to Tempo and provisions a Grafana dashboard with request p50/p95, stage durations, errors, token usage, active streams, physical provider slots and queue wait.
 
 Prometheus exports `ai_requests_total`, `ai_request_duration_seconds`, `llm_request_duration_seconds`, `retrieval_duration_seconds`, `reranker_duration_seconds`, `tool_calls_total`, `tool_failures_total`, `agent_steps_total`, `input_tokens_total`, `output_tokens_total`, `active_sse_streams`, and `rag_no_hit_total`. Token counts come only from actual reported usage; zero local counters do not mean zero-cost real inference. Price conversion/cost accounting is not implemented.
 
@@ -130,7 +130,7 @@ Structured request logs include request/trace ID, model, mode, duration, tool co
 [`load-tests/`](load-tests/README.md) includes k6 chat 10/50/100-VU, mixed RAG and provider-gated tool scenarios, plus an incremental SSE client with actual first-content timing. HTTP 429 saturation is reported separately from unexpected failures. VUs include think time and do not imply that every user is simultaneously admitted. [`failure-injection.md`](load-tests/failure-injection.md) maps database, reranker, MCP and provider failures to executable checks.
 
 <!-- LOAD_RESULTS_START -->
-[Seven recorded samples](load-tests/results/local-v1/README.md), 2026-09-21 UTC: 10-second launch windows, 3.1s think time, local models, lexical retrieval/pgvector, persistence and tracing enabled. The isolated backend restarted before each sample to reset admission windows; no separate warmup. Limits remained 64 application requests, 16 physical provider calls and 300 starts/minute. Short samples include JVM startup effects.
+[Historical baseline: seven recorded samples](load-tests/results/local-v1/README.md), 2026-09-21 UTC, before bounded queue admission: 10-second launch windows, 3.1s think time, local models, lexical retrieval/pgvector, persistence and tracing enabled. The isolated backend restarted before each sample to reset admission windows; no separate warmup. Limits remained 64 application requests, 16 physical provider calls and 300 starts/minute. Short samples include JVM startup effects.
 
 | Workload / users | Success / attempts | HTTP 429 | Unexpected failures | Success p95 | Success / second |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -237,7 +237,7 @@ The PostgreSQL tests require `TEST_PGVECTOR_URL`, `TEST_PGVECTOR_USERNAME`, and 
 
 签名 HttpOnly Cookie 按用户和会话隔离记忆；同一会话互斥，失败或取消时恢复快照。SSE 票据有效期 30 秒、绑定身份、只能消费一次；消息正文经 POST 提交，流以 `done: [DONE]` 明确结束。常规聊天、RAG、结构化报告等接口见上方完整表格。
 
-模型默认超时为聊天 45 秒、Embedding 20 秒、首内容 15 秒、完整流 90 秒，共享物理调用容量 16。应用取消会隔离迟到回调并回滚状态，但上游 SDK 可能继续执行已经发送的 HTTP 请求；实际工作退出前仍占用物理容量，避免虚假释放导致失控并发。
+模型默认超时为聊天 45 秒、Embedding 20 秒、首内容 15 秒、完整流 90 秒，共享物理调用容量 16。新增 FIFO 队列最多等待 48 个调用、最长 2 秒，排队计入原有模型截止时间；排队满或超时仍返回明确失败。流式请求在独立 worker 上等待，避免下一轮工具调用阻塞上一轮释放容量。应用取消会隔离迟到回调并回滚状态，但上游 SDK 可能继续执行已经发送的 HTTP 请求；实际工作退出前仍占用物理容量，避免虚假释放导致失控并发。
 
 ## 评估方法与实验结果
 
@@ -257,7 +257,7 @@ Grafana 提供请求 p50/p95、检索/模型/工具耗时、错误、token 与�
 
 [`load-tests/`](load-tests/README.md) 提供 k6 聊天 10/50/100 VU、混合 RAG、需真实服务的工具场景，以及逐帧读取 SSE 的首内容延迟测试。429 限流与意外失败分开报告；包含思考间隔的 VU 不等于同等数量的请求同时进入模型。[故障注入说明](load-tests/failure-injection.md) 对应数据库、重排、MCP 和模型超时的可执行验证。
 
-本地短时负载中，Chat 10/50、RAG 10、SSE 10 没有意外失败；Chat 100 为 238/303 成功、36 次 429、29 次 503，SSE 50 为 88/150 成功，SSE 100 为 146/300 成功。后三个样本未通过错误率阈值，全部保留失败记录；默认 provider 并发上限为 16，因此不能宣称已验证 100 用户生产能力。
+首次升级的历史基线中，Chat 10/50、RAG 10、SSE 10 没有意外失败；Chat 100 为 238/303 成功、36 次 429、29 次 503，SSE 50 为 88/150 成功，SSE 100 为 146/300 成功。后三个样本未通过错误率阈值，全部保留失败记录；默认 provider 并发上限为 16，因此不能宣称已验证 100 用户生产能力。
 
 ## 本地部署与验证
 

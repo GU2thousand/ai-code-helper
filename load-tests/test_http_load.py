@@ -20,7 +20,7 @@ SCRIPT = Path(__file__).with_name("http.js")
 
 @unittest.skipUnless(K6, "Install k6 or set K6_BINARY to run real k6 fixture checks")
 class K6ClientTests(unittest.TestCase):
-    def run_workload(self, behavior="success", scenario="chat10"):
+    def run_workload(self, behavior="success", scenario="chat10", error_body=None):
         records = []
         identities = set()
         lock = threading.Lock()
@@ -30,7 +30,7 @@ class K6ClientTests(unittest.TestCase):
                 pass
 
             def reply(self, status, body, cookie=None):
-                payload = json.dumps(body).encode()
+                payload = body if isinstance(body, bytes) else json.dumps(body).encode()
                 self.send_response(status)
                 self.send_header("Content-Type", "application/json")
                 self.send_header("Content-Length", str(len(payload)))
@@ -56,9 +56,9 @@ class K6ClientTests(unittest.TestCase):
                 if f"guest={body['userId']}" not in self.headers.get("Cookie", ""):
                     self.reply(401, {"error": "identity mismatch"})
                 elif behavior == "saturated" or (behavior == "mixed" and number % 2 == 0):
-                    self.reply(429, {"code": "AI_CAPACITY_EXCEEDED"})
+                    self.reply(429, {"code": "AI_CAPACITY_REACHED"})
                 elif behavior == "failed":
-                    self.reply(503, {"code": "UPSTREAM_AI_ERROR"})
+                    self.reply(503, error_body if error_body is not None else {"code": "AI_PROVIDER_CAPACITY"})
                 else:
                     self.reply(200, {"memoryId": body["memoryId"], "answer": "fixture", "sources": []})
 
@@ -97,15 +97,46 @@ class K6ClientTests(unittest.TestCase):
         self.assertIsNotNone(summary)
 
     def test_saturation_is_separate_and_all_rejected_run_fails(self):
-        result, _, records, _ = self.run_workload(behavior="mixed")
+        result, summary, records, _ = self.run_workload(behavior="mixed")
         self.assertGreater(len(records), 0)
         self.assertEqual(result.returncode, 0, result.stderr)
+        rejected = summary["metrics"]["ai_saturation_429"]["values"]["count"]
+        self.assertEqual(summary["failure_classification"], {
+            "http_status_counts": {"429": rejected},
+            "error_code_counts": {"AI_CAPACITY_REACHED": rejected},
+        })
         result, _, _, _ = self.run_workload(behavior="saturated")
         self.assertNotEqual(result.returncode, 0, "An all-429 run must fail success threshold")
 
     def test_server_errors_fail_threshold(self):
-        result, _, _, _ = self.run_workload(behavior="failed")
-        self.assertNotEqual(result.returncode, 0)
+        for code in ("AI_PROVIDER_CAPACITY", "AI_PROVIDER_QUEUE_TIMEOUT"):
+            with self.subTest(code=code):
+                result, summary, records, _ = self.run_workload(behavior="failed", error_body={"code": code})
+                self.assertNotEqual(result.returncode, 0)
+                self.assertEqual(summary["failure_classification"], {
+                    "http_status_counts": {"503": len(records)},
+                    "error_code_counts": {code: len(records)},
+                })
+                self.assertEqual(summary["metrics"]["ai_unexpected_error_rate"]["values"]["rate"], 1)
+                self.assertEqual(summary["metrics"]["ai_saturation_429"]["values"]["count"], 0)
+
+    def test_error_diagnostics_are_bounded_and_never_emit_response_text(self):
+        secret = "private-prompt-answer-cookie-marker"
+        cases = (
+            ({"code": secret, "message": secret}, "unknown"),
+            ({"code": [secret]}, "unknown"),
+            ({"message": secret}, "missing"),
+            (("<html>" + secret).encode(), "invalid_payload"),
+            ({"code": "AI_PROVIDER_CAPACITY", "message": secret * 1000}, "payload_too_large"),
+        )
+        for body, expected_code in cases:
+            with self.subTest(expected_code=expected_code, body_type=type(body).__name__):
+                result, summary, records, _ = self.run_workload(behavior="failed", error_body=body)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertEqual(summary["failure_classification"]["error_code_counts"], {expected_code: len(records)})
+                self.assertEqual(summary["failure_classification"]["http_status_counts"], {"503": len(records)})
+                self.assertNotIn(secret, json.dumps(summary))
+                self.assertNotIn(secret, result.stdout + result.stderr)
 
     def test_tools_refuses_local_mock(self):
         result, _, records, identities = self.run_workload(scenario="tools")

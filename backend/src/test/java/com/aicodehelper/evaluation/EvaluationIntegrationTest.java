@@ -26,6 +26,12 @@ class EvaluationIntegrationTest {
         mvc.perform(get("/api/evaluation/status").header("X-Evaluation-Key", "integration-only"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.agentEvaluationMode").value("controlled_runtime"))
+                .andExpect(jsonPath("$.providerConfig.maxInFlight").value(16))
+                .andExpect(jsonPath("$.providerConfig.maxQueued").value(48))
+                .andExpect(jsonPath("$.providerConfig.queueTimeoutMs").value(2000))
+                .andExpect(jsonPath("$.admissionConfig.maxConcurrentRequests").value(64))
+                .andExpect(jsonPath("$.admissionConfig.maxStartsPerMinute").value(300))
+                .andExpect(jsonPath("$.admissionConfig.persistenceEnabled").value(false))
                 .andExpect(content().string(not(containsString("integration-only"))));
     }
 

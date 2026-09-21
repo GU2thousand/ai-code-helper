@@ -185,6 +185,7 @@ class DeadlineChatModelTest {
     private static ProviderCallExecutor executor() {
         ProviderProperties properties = new ProviderProperties();
         properties.setMaxInFlight(1);
+        properties.setMaxQueued(0);
         return new ProviderCallExecutor(properties);
     }
 

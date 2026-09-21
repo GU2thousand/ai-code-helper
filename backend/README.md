@@ -218,3 +218,10 @@ HTTP Controller
        -> KnowledgeBaseRetriever + InMemoryEmbeddingStore
        -> Jsoup Tool / optional MCP ToolProvider
 ```
+
+
+## 有界模型排队
+
+模型物理调用上限仍为 `AI_PROVIDER_MAX_IN_FLIGHT=16`。`AI_PROVIDER_MAX_QUEUED=48` 允许短时突发进入 FIFO 队列，`AI_PROVIDER_QUEUE_TIMEOUT=2s` 限制排队等待，并计入聊天/Embedding/流的既有截止时间。设队列容量为 `0` 可恢复立即拒绝模式，用于对照实验。队列满为 `AI_PROVIDER_CAPACITY`，排队超时为 `AI_PROVIDER_QUEUE_TIMEOUT`，二者仍按服务不可用处理，不冒充成功。
+
+排队取消会移除等待者；真正启动后仍需等底层工作实际退出才释放物理槽。`ai_provider_in_flight`、`ai_provider_queued` 和 `ai_provider_queue_wait_seconds` 用于区分执行与等待。评估状态接口仅输出明确筛选的容量配置，仍需诊断访问密钥。

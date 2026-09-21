@@ -83,6 +83,13 @@ The JSON summary contains p50/p95/p99 for successful AI response duration,
 and unexpected error rates. `ai_non_saturated_error_rate` excludes 429 from its
 denominator, preventing a mostly rejected run from hiding errors in admitted
 requests. Setup and guest HTTP calls are excluded from these custom AI metrics.
+`failure_classification` adds status and error-code counts for failed AI attempts,
+including 429 rejections. Codes use a fixed application allowlist; malformed,
+missing, oversized, and unknown error payloads use fixed buckets. Known statuses
+are exact; other statuses use bounded `other_Nxx` buckets (`0` means a transport
+failure). `AI_PROVIDER_CAPACITY` and `AI_PROVIDER_QUEUE_TIMEOUT` at HTTP 503
+remain unexpected failures. These diagnostics do not change the acceptance
+thresholds or retain response text.
 HTTP response duration and `http_req_waiting` are **not** first-token latency.
 
 These choices use k6's [constant-VU scenarios](https://grafana.com/docs/k6/latest/using-k6/scenarios/),
@@ -119,7 +126,16 @@ incrementally. It measures:
 - Request and stream duration, plus successful request duration separately.
 - Completed streams/second and received content events/second.
 - Maximum simultaneously open streams, final active streams, HTTP status counts,
-  error classifications, and 429 counts by ticket/stream phase.
+  error classifications, allowlisted error-code counts, and 429 counts by ticket/stream phase.
+
+`requests.error_code_counts` extracts known application codes from bounded HTTP
+error JSON bodies and SSE `error` events (plain code or JSON `code` field).
+`workers.error_code_counts` reports guest setup errors separately. Diagnostic
+HTTP reads share the request deadline and are capped at 16 KiB. Unknown or
+malformed payloads use fixed buckets, and response messages, prompts, answers,
+and cookies are never copied into the report. SSE error events remain failed
+requests even when they contain a capacity code; only an actual HTTP 429 counts
+as saturation.
 
 Only the first nonempty `message` event counts as first content. Headers, `meta`,
 and `sources` do not. Content events are not model tokens. A successful stream
@@ -165,7 +181,9 @@ they are explicitly skipped if absent. They run real k6 against an isolated loca
 HTTP fixture to verify guest-cookie separation, unique conversation IDs, failure
 thresholds, and the local-mock tool guard. The SSE tests use delayed local HTTP
 frames to verify first-content timing independently of stream completion and
-failure handling. Fixture tests validate the runners; they are not backend or
+failure handling. Both suites check provider capacity/queue-timeout codes and
+ensure unknown or malformed payloads cannot inject response text into reports;
+SSE tests also check bounded diagnostic reads. Fixture tests validate the runners; they are not backend or
 provider load-test results.
 
 ## Dependency failures

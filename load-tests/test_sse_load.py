@@ -13,12 +13,13 @@ from contextlib import contextmanager, redirect_stdout
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlsplit
 
-from sse_load import Config, main, run_load
+from sse_load import Config, MAX_ERROR_RESPONSE_BYTES, main, run_load
 
 
 class MockBackend:
-    def __init__(self, scenario="success"):
+    def __init__(self, scenario="success", error_payload=None):
         self.scenario = scenario
+        self.error_payload = error_payload
         self.lock = threading.Lock()
         self.guests = []
         self.tickets = []
@@ -35,7 +36,7 @@ class MockBackend:
                 pass
 
             def json_response(self, status, payload, cookie=None):
-                encoded = json.dumps(payload).encode("utf-8")
+                encoded = payload if isinstance(payload, bytes) else json.dumps(payload).encode("utf-8")
                 self.send_response(status)
                 self.send_header("Content-Type", "application/json")
                 self.send_header("Content-Length", str(len(encoded)))
@@ -48,6 +49,9 @@ class MockBackend:
             def do_POST(self):
                 body = json.loads(self.rfile.read(int(self.headers.get("Content-Length", "0"))))
                 if self.path == "/api/users/guest":
+                    if state.scenario == "guest_error":
+                        self.json_response(503, state.error_payload)
+                        return
                     with state.lock:
                         user_id = "guest-" + str(len(state.guests) + 1)
                         state.guests.append(user_id)
@@ -68,7 +72,10 @@ class MockBackend:
                 if state.scenario == "ticket_429" or (
                     state.scenario == "mixed_429" and ticket["ticketId"] % 2 == 1
                 ):
-                    self.json_response(429, {"code": "AI_CAPACITY_EXCEEDED"})
+                    self.json_response(429, {"code": "AI_CAPACITY_REACHED"})
+                    return
+                if state.scenario == "ticket_error":
+                    self.json_response(503, state.error_payload)
                     return
                 if state.scenario == "delayed_success":
                     time.sleep(0.07)
@@ -103,10 +110,24 @@ class MockBackend:
                     self.json_response(403, {"code": "IDENTITY_MISMATCH"})
                     return
                 if state.scenario == "stream_429":
-                    self.json_response(429, {"code": "AI_CAPACITY_EXCEEDED"})
+                    self.json_response(429, {"code": "STREAM_CAPACITY_REACHED"})
                     return
                 if state.scenario == "stream_503":
-                    self.json_response(503, {"code": "UPSTREAM_UNAVAILABLE"})
+                    self.json_response(503, state.error_payload if state.error_payload is not None
+                                       else {"code": "AI_PROVIDER_CAPACITY"})
+                    return
+                if state.scenario == "http_error_trickle":
+                    self.send_response(503)
+                    self.send_header("Content-Type", "application/json")
+                    self.send_header("Content-Length", "100000")
+                    self.end_headers()
+                    try:
+                        for _ in range(100):
+                            self.wfile.write(b" ")
+                            self.wfile.flush()
+                            time.sleep(0.01)
+                    except (BrokenPipeError, ConnectionResetError):
+                        pass
                     return
                 self.send_response(200)
                 self.send_header("Content-Type", "text/event-stream; charset=utf-8")
@@ -137,7 +158,8 @@ class MockBackend:
                     if state.scenario == "incomplete":
                         return
                     if state.scenario == "error_event":
-                        self.event("error", "UPSTREAM_AI_ERROR")
+                        self.event("error", state.error_payload if state.error_payload is not None
+                                   else "AI_UPSTREAM_ERROR")
                         self.event("done", "[DONE]")
                         return
                     if state.scenario == "delayed_success":
@@ -155,8 +177,8 @@ class MockBackend:
 
 
 @contextmanager
-def backend(scenario="success"):
-    state = MockBackend(scenario)
+def backend(scenario="success", error_payload=None):
+    state = MockBackend(scenario, error_payload)
     server = ThreadingHTTPServer(("127.0.0.1", 0), state.handler())
     server.daemon_threads = True
     thread = threading.Thread(target=server.serve_forever, kwargs={"poll_interval": 0.01}, daemon=True)
@@ -227,6 +249,8 @@ class SseLoadTests(unittest.TestCase):
                 self.assertEqual(requests["failed"], 1)
                 self.assertEqual(requests["http_429"], 1)
                 self.assertEqual(requests["non_saturation_failures"], 0)
+                expected_code = "AI_CAPACITY_REACHED" if scenario == "ticket_429" else "STREAM_CAPACITY_REACHED"
+                self.assertEqual(requests["error_code_counts"], {expected_code: 1})
                 self.assertEqual(report["latency_ms"]["successful_request_duration_ms"]["count"], 0)
                 self.assertEqual(report["latency_ms"]["ttft_ms"]["count"], 0)
                 self.assertEqual(report["streams"]["active"], 0)
@@ -256,6 +280,67 @@ class SseLoadTests(unittest.TestCase):
         self.assertEqual(requests["http_429"], 0)
         self.assertEqual(requests["non_saturation_failures"], 1)
         self.assertEqual(requests["error_counts"].get("http_503"), 1)
+        self.assertEqual(requests["error_code_counts"], {"AI_PROVIDER_CAPACITY": 1})
+
+    def test_known_provider_errors_retain_code_and_failed_disposition(self):
+        for code in ("AI_PROVIDER_CAPACITY", "AI_PROVIDER_QUEUE_TIMEOUT"):
+            for scenario, payload in (("ticket_error", {"code": code}),
+                                      ("stream_503", {"code": code}),
+                                      ("error_event", code),
+                                      ("error_event", json.dumps({"code": code}))):
+                with self.subTest(code=code, scenario=scenario, payload=payload):
+                    with backend(scenario, payload) as (base_url, _state):
+                        report = self.load(base_url)
+                    requests = report["requests"]
+                    self.assertEqual(requests["error_code_counts"], {code: 1})
+                    self.assertEqual(requests["succeeded"], 0)
+                    self.assertEqual(requests["http_429"], 0)
+                    self.assertEqual(requests["non_saturation_failures"], 1)
+                    self.assertEqual(requests["error_counts"], {"sse_error" if scenario == "error_event" else "http_503": 1})
+
+    def test_setup_failure_reports_code_separately(self):
+        with backend("guest_error", {"code": "AI_PROVIDER_CAPACITY"}) as (base_url, _state):
+            report = self.load(base_url)
+        self.assertEqual(report["workers"]["setup_failures"], 1)
+        self.assertEqual(report["workers"]["error_code_counts"], {"AI_PROVIDER_CAPACITY": 1})
+        self.assertEqual(report["workers"]["http_status_counts"], {"503": 1})
+        self.assertEqual(report["requests"]["attempted"], 0)
+
+    def test_unknown_and_malformed_error_diagnostics_never_emit_response_text(self):
+        secret = "private-prompt-answer-cookie-marker"
+        cases = (
+            ({"code": secret, "message": secret}, "unknown"),
+            ({"code": [secret]}, "unknown"),
+            ({"message": secret}, "missing"),
+            ([secret], "invalid_payload"),
+            (("<html>" + secret).encode(), "invalid_payload"),
+            ({"code": "AI_PROVIDER_CAPACITY", "message": secret * 1000}, "payload_too_large"),
+        )
+        for payload, expected_code in cases:
+            with self.subTest(expected_code=expected_code, payload_type=type(payload).__name__):
+                with backend("stream_503", payload) as (base_url, _state):
+                    report = self.load(base_url)
+                self.assertEqual(report["requests"]["error_code_counts"], {expected_code: 1})
+                self.assertEqual(report["requests"]["error_counts"], {"http_503": 1})
+                self.assertNotIn(secret, json.dumps(report))
+        for payload, expected_code in ((secret, "unknown"),
+                                       (json.dumps({"code": secret, "message": secret}), "unknown"),
+                                       (secret * MAX_ERROR_RESPONSE_BYTES, "payload_too_large")):
+            with self.subTest(sse_code=expected_code):
+                with backend("error_event", payload) as (base_url, _state):
+                    report = self.load(base_url)
+                self.assertEqual(report["requests"]["error_code_counts"], {expected_code: 1})
+                self.assertEqual(report["requests"]["error_counts"], {"sse_error": 1})
+                self.assertEqual(report["requests"]["succeeded"], 0)
+                self.assertNotIn(secret, json.dumps(report))
+
+    def test_trickling_http_error_body_keeps_status_and_absolute_deadline(self):
+        with backend("http_error_trickle") as (base_url, _state):
+            report = self.load(base_url, timeout=0.12)
+        self.assertEqual(report["requests"]["error_counts"], {"http_503": 1})
+        self.assertEqual(report["requests"]["error_code_counts"], {"unreadable_payload": 1})
+        self.assertEqual(report["requests"]["non_saturation_failures"], 1)
+        self.assertLess(report["latency_ms"]["request_duration_ms"]["p50"], 700)
 
     def test_absolute_timeout_interrupts_an_unfinished_trickling_frame(self):
         with backend("trickle_timeout") as (base_url, _state):

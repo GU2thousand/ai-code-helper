@@ -31,6 +31,41 @@ const saturationRate = new Rate('ai_saturation_rate');
 const unexpectedErrorRate = new Rate('ai_unexpected_error_rate');
 const admittedErrorRate = new Rate('ai_non_saturated_error_rate');
 const successLatency = new Trend('ai_success_duration_ms', true);
+const failureResponses = new Counter('ai_failure_responses');
+
+// Fixed labels prevent a server-controlled code/body from becoming metric data.
+const knownErrorCodes = [
+  'AI_CAPACITY_REACHED', 'STREAM_CAPACITY_REACHED', 'AI_MEMORY_CAPACITY_REACHED',
+  'AI_PROVIDER_CAPACITY', 'AI_PROVIDER_QUEUE_TIMEOUT', 'AI_PROVIDER_TIMEOUT',
+  'AI_PROVIDER_CANCELLED', 'AI_UPSTREAM_ERROR', 'AI_STREAM_ERROR',
+  'CONVERSATION_BUSY', 'STREAM_NOT_FOUND', 'INVALID_STREAM_OWNER',
+  'INVALID_GUEST_SESSION', 'GUARDRAIL_REJECTED', 'VALIDATION_FAILED',
+  'INVALID_JSON', 'INVALID_REQUEST', 'NOT_FOUND', 'METHOD_NOT_ALLOWED',
+  'UNSUPPORTED_MEDIA_TYPE', 'INTERNAL_ERROR',
+];
+const errorCodeBuckets = [...knownErrorCodes, 'unknown', 'missing', 'invalid_payload', 'payload_too_large'];
+const knownStatuses = [0, 200, 400, 401, 403, 404, 405, 408, 409, 410, 413, 415, 422, 429, 500, 502, 503, 504];
+const statusBuckets = [...knownStatuses.map(String), 'other_1xx', 'other_2xx', 'other_3xx', 'other_4xx', 'other_5xx', 'other'];
+const diagnosticSubmetrics = {};
+for (const code of errorCodeBuckets) diagnosticSubmetrics[`ai_failure_responses{code:${code}}`] = [];
+for (const status of statusBuckets) diagnosticSubmetrics[`ai_failure_responses{status:${status}}`] = [];
+
+function errorCode(response) {
+  if (typeof response.body !== 'string') return 'missing';
+  if (response.body.length > 16384) return 'payload_too_large';
+  try {
+    const body = response.json();
+    if (!body || typeof body !== 'object' || Array.isArray(body)) return 'invalid_payload';
+    if (!Object.prototype.hasOwnProperty.call(body, 'code')) return 'missing';
+    return knownErrorCodes.includes(body.code) ? body.code : 'unknown';
+  } catch (_) { return 'invalid_payload'; }
+}
+
+function recordFailure(response) {
+  const status = knownStatuses.includes(response.status) ? String(response.status)
+    : (response.status >= 100 && response.status < 600 ? `other_${Math.floor(response.status / 100)}xx` : 'other');
+  failureResponses.add(1, { status, code: errorCode(response) });
+}
 
 export const options = {
   noCookiesReset: true, // Each VU keeps its own signed guest cookie across iterations.
@@ -44,6 +79,8 @@ export const options = {
   },
   summaryTrendStats: ['min', 'med', 'p(50)', 'p(95)', 'p(99)', 'max'],
   thresholds: {
+    // Empty arrays expose bounded diagnostic submetrics without new pass/fail gates.
+    ...diagnosticSubmetrics,
     ai_unexpected_error_rate: ['rate<0.01'],
     ai_non_saturated_error_rate: ['rate<0.01'],
     ai_saturation_rate: [`rate<=${saturationLimit}`],
@@ -132,6 +169,7 @@ export default function (data) {
   const rejected = response.status === 429;
   saturationRate.add(rejected);
   if (rejected) {
+    recordFailure(response);
     saturation.add(1);
     unexpectedErrorRate.add(false);
   } else {
@@ -150,6 +188,7 @@ export default function (data) {
       successes.add(1);
       successLatency.add(response.timings.duration);
     } else {
+      recordFailure(response);
       unexpectedErrors.add(1);
     }
   }
@@ -159,14 +198,23 @@ export default function (data) {
 }
 
 export function handleSummary(data) {
+  const counts = (tag, buckets) => Object.fromEntries(buckets.flatMap((bucket) => {
+    const metric = data.metrics[`ai_failure_responses{${tag}:${bucket}}`];
+    return metric && metric.values.count > 0 ? [[bucket, metric.values.count]] : [];
+  }));
   const output = JSON.stringify({
     scenario: preset,
     baseUrl,
     units: { ai_success_duration_ms: 'milliseconds', counter_rate: 'requests/second' },
+    failure_classification: {
+      http_status_counts: counts('status', statusBuckets),
+      error_code_counts: counts('code', errorCodeBuckets),
+    },
     notes: [
       'Only successful AI responses contribute to ai_success_duration_ms.',
       'ai_attempts and ai_successes expose count and throughput; setup HTTP is excluded.',
       '429 is saturation, separately reported from unexpected error rate.',
+      'Failure classifications contain only allowlisted codes/statuses and fixed fallback buckets; HTTP 503 remains unexpected.',
       'This HTTP workload does not measure first-token latency; use sse_load.py.',
     ],
     ...data,

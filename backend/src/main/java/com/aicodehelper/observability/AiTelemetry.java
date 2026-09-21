@@ -41,7 +41,8 @@ public final class AiTelemetry {
             Map.entry("tool", "tool.duration"),
             Map.entry("llm", "llm.request.duration"),
             Map.entry("agent", "agent.duration"),
-            Map.entry("stream", "stream.duration"));
+            Map.entry("stream", "stream.duration"),
+            Map.entry("provider.queue", "ai.provider.queue.stage.duration"));
     private static final AiTelemetry NOOP = new AiTelemetry(null, (Tracer) null);
 
     private final MeterRegistry meters;
@@ -84,6 +85,20 @@ public final class AiTelemetry {
         Span span = tracer == null ? null : tracer.nextSpan().name(boundedStage).start();
         return new StageTimer(boundedStage, span, current.get());
     }
+
+    public void providerCapacity(java.util.function.IntSupplier active, java.util.function.IntSupplier queued) {
+        if (meters == null) return;
+        Gauge.builder("ai.provider.in.flight", active, java.util.function.IntSupplier::getAsInt)
+                .description("Physical provider slots, retained until underlying work exits").strongReference(true).register(meters);
+        Gauge.builder("ai.provider.queued", queued, java.util.function.IntSupplier::getAsInt)
+                .description("Requests waiting for physical provider admission").strongReference(true).register(meters);
+    }
+
+    public void providerQueueWait(Duration duration, String outcome) {
+        recordDuration("ai.provider.queue.wait", outcome, duration.toNanos());
+    }
+
+    public void providerRejected() { increment("ai.provider.admission.rejected"); }
 
     public void noHit() { increment("rag.no.hit"); }
     public void agentStep() { increment("agent.steps"); }

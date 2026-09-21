@@ -17,6 +17,10 @@ public final class ProviderCallException extends ApiException {
         return new ProviderCallException(HttpStatus.SERVICE_UNAVAILABLE, "AI_PROVIDER_CAPACITY", "模型服务繁忙，请稍后重试");
     }
 
+    public static ProviderCallException queueTimeout() {
+        return new ProviderCallException(HttpStatus.SERVICE_UNAVAILABLE, "AI_PROVIDER_QUEUE_TIMEOUT", "模型服务排队超时，请稍后重试");
+    }
+
     public static ProviderCallException cancelled() {
         return new ProviderCallException(HttpStatus.SERVICE_UNAVAILABLE, "AI_PROVIDER_CANCELLED", "模型请求已取消");
     }
