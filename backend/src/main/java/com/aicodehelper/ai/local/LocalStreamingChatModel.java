@@ -10,6 +10,7 @@ import dev.langchain4j.model.chat.response.StreamingHandle;
 import dev.langchain4j.model.chat.response.StreamingChatResponseHandler;
 
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class LocalStreamingChatModel implements StreamingChatModel {
@@ -29,7 +30,12 @@ public final class LocalStreamingChatModel implements StreamingChatModel {
             try {
                 ChatResponse response = delegate.doChat(request);
                 stream(response.aiMessage().text(), handler, handle);
-                if (!handle.isCancelled()) {
+                if (handle.isCancelled()) {
+                    // Cancellation stops generation, but the wrapper still needs a terminal
+                    // acknowledgement to release capacity once generation has actually stopped.
+                    // Its callback gate suppresses this signal after a user cancellation.
+                    handler.onError(new CancellationException("Local stream cancelled"));
+                } else {
                     handler.onCompleteResponse(response);
                 }
             } catch (Throwable error) {

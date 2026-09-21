@@ -1,0 +1,44 @@
+{
+  "embeddingProvider": "local",
+  "chatProvider": "local",
+  "agentScenarios": [
+    "success",
+    "timeout",
+    "http_5xx_recovery",
+    "http_5xx_exhausted",
+    "malformed",
+    "empty",
+    "duplicate",
+    "unauthorized",
+    "provider_unavailable",
+    "mcp_connection_failure",
+    "loop",
+    "user_cancel",
+    "budget_exhausted",
+    "per_tool_limit",
+    "risk_denied"
+  ],
+  "embeddingModel": "local-hash-embedding",
+  "ingestion": {
+    "sourceCount": 11,
+    "chunkCount": 272,
+    "corpusHash": "1c83445c5ca3e407348fb670534cb7df95505dc59cab39e00e7bfac46bc09b43",
+    "embeddingModel": "local-hash-embedding",
+    "embeddingVersion": "v1",
+    "embedded": 0,
+    "reused": 272,
+    "deleted": 0,
+    "duplicates": 0,
+    "embeddingReady": true
+  },
+  "agentEvaluationMode": "controlled_runtime",
+  "retrievalConfig": {
+    "reranker": "deterministic-token-overlap",
+    "mode": "lexical",
+    "rrfK": 60,
+    "embeddingVersion": "v1",
+    "backend": "pgvector",
+    "candidates": 25
+  },
+  "schemaVersion": 1
+}

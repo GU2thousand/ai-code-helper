@@ -1,0 +1,712 @@
+time="2026-09-21T01:55:09-04:00" level=info msg="{\"scenario\":\"chat50\",\"chatModel\":\"local-mock\",\"embeddingModel\":\"local-hash-embedding\",\"mcpConfigured\":false,\"warning\":\"Throughput applies only to the reported runtime and configured limits.\"}" source=console
+{
+  "scenario": "chat50",
+  "baseUrl": "http://127.0.0.1:28082",
+  "units": {
+    "ai_success_duration_ms": "milliseconds",
+    "counter_rate": "requests/second"
+  },
+  "failure_classification": {
+    "http_status_counts": {
+      "503": 5
+    },
+    "error_code_counts": {
+      "AI_PROVIDER_CAPACITY": 5
+    }
+  },
+  "notes": [
+    "Only successful AI responses contribute to ai_success_duration_ms.",
+    "ai_attempts and ai_successes expose count and throughput; setup HTTP is excluded.",
+    "429 is saturation, separately reported from unexpected error rate.",
+    "Failure classifications contain only allowlisted codes/statuses and fixed fallback buckets; HTTP 503 remains unexpected.",
+    "This HTTP workload does not measure first-token latency; use sse_load.py."
+  ],
+  "root_group": {
+    "name": "",
+    "path": "",
+    "id": "d41d8cd98f00b204e9800998ecf8427e",
+    "groups": [],
+    "checks": []
+  },
+  "options": {
+    "summaryTrendStats": [
+      "min",
+      "med",
+      "p(50)",
+      "p(95)",
+      "p(99)",
+      "max"
+    ],
+    "summaryTimeUnit": "",
+    "noColor": true
+  },
+  "state": {
+    "isStdOutTTY": false,
+    "isStdErrTTY": false,
+    "testRunDurationMs": 11182.463
+  },
+  "metrics": {
+    "ai_failure_responses{code:CONVERSATION_BUSY}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{status:413}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{code:VALIDATION_FAILED}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "http_req_duration{expected_response:true}": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "min": 5.821,
+        "med": 130.031,
+        "p(50)": 130.031,
+        "p(95)": 990.8149999999999,
+        "p(99)": 1016.7240999999999,
+        "max": 1024.317
+      }
+    },
+    "vus": {
+      "type": "gauge",
+      "contains": "default",
+      "values": {
+        "value": 21,
+        "min": 21,
+        "max": 50
+      }
+    },
+    "ai_failure_responses{status:504}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{status:401}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_saturation_rate": {
+      "type": "rate",
+      "contains": "default",
+      "values": {
+        "rate": 0,
+        "passes": 0,
+        "fails": 150
+      },
+      "thresholds": {
+        "rate<=1": {
+          "ok": true
+        }
+      }
+    },
+    "http_req_tls_handshaking": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "min": 0,
+        "med": 0,
+        "p(50)": 0,
+        "p(95)": 0,
+        "p(99)": 0,
+        "max": 0
+      }
+    },
+    "ai_failure_responses{code:AI_STREAM_ERROR}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "rate": 0,
+        "count": 0
+      }
+    },
+    "ai_failure_responses": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "rate": 0.447128687123758,
+        "count": 5
+      }
+    },
+    "ai_failure_responses{status:503}": {
+      "values": {
+        "count": 5,
+        "rate": 0.447128687123758
+      },
+      "type": "counter",
+      "contains": "default"
+    },
+    "http_req_duration": {
+      "values": {
+        "p(95)": 988.317,
+        "p(99)": 1016.689,
+        "max": 1024.317,
+        "min": 5.821,
+        "med": 135.327,
+        "p(50)": 135.327
+      },
+      "type": "trend",
+      "contains": "time"
+    },
+    "http_req_receiving": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(99)": 9.471,
+        "max": 15.438,
+        "min": 0.036,
+        "med": 0.5,
+        "p(50)": 0.5,
+        "p(95)": 5.48
+      }
+    },
+    "ai_failure_responses{status:404}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "rate": 0,
+        "count": 0
+      }
+    },
+    "vus_max": {
+      "type": "gauge",
+      "contains": "default",
+      "values": {
+        "value": 50,
+        "min": 50,
+        "max": 50
+      }
+    },
+    "ai_failure_responses{code:NOT_FOUND}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{code:INVALID_JSON}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{code:INVALID_GUEST_SESSION}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "rate": 0,
+        "count": 0
+      }
+    },
+    "ai_failure_responses{status:429}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{code:invalid_payload}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{code:AI_UPSTREAM_ERROR}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{status:other_3xx}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{code:INTERNAL_ERROR}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{status:409}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{status:408}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{code:unknown}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "http_req_waiting": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "min": 4.788,
+        "med": 132.852,
+        "p(50)": 132.852,
+        "p(95)": 988.14,
+        "p(99)": 1016.467,
+        "max": 1024.073
+      }
+    },
+    "ai_failure_responses{code:payload_too_large}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{status:other_2xx}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "iterations": {
+      "contains": "default",
+      "values": {
+        "count": 150,
+        "rate": 13.413860613712739
+      },
+      "type": "counter"
+    },
+    "ai_failure_responses{status:403}": {
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      },
+      "type": "counter"
+    },
+    "ai_failure_responses{code:AI_PROVIDER_CANCELLED}": {
+      "values": {
+        "rate": 0,
+        "count": 0
+      },
+      "type": "counter",
+      "contains": "default"
+    },
+    "ai_attempts": {
+      "values": {
+        "count": 150,
+        "rate": 13.413860613712739
+      },
+      "type": "counter",
+      "contains": "default"
+    },
+    "http_req_failed": {
+      "type": "rate",
+      "contains": "default",
+      "values": {
+        "passes": 5,
+        "fails": 196,
+        "rate": 0.024875621890547265
+      }
+    },
+    "ai_failure_responses{status:410}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "rate": 0,
+        "count": 0
+      }
+    },
+    "data_received": {
+      "type": "counter",
+      "contains": "data",
+      "values": {
+        "count": 206195,
+        "rate": 18439.139928296656
+      }
+    },
+    "http_reqs": {
+      "values": {
+        "count": 201,
+        "rate": 17.97457322237507
+      },
+      "type": "counter",
+      "contains": "default"
+    },
+    "ai_failure_responses{status:other_1xx}": {
+      "values": {
+        "rate": 0,
+        "count": 0
+      },
+      "type": "counter",
+      "contains": "default"
+    },
+    "ai_failure_responses{code:AI_PROVIDER_TIMEOUT}": {
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      },
+      "type": "counter"
+    },
+    "ai_failure_responses{status:other}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{status:422}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{status:405}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_unexpected_errors": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 5,
+        "rate": 0.447128687123758
+      }
+    },
+    "ai_failure_responses{status:other_4xx}": {
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      },
+      "type": "counter"
+    },
+    "http_req_connecting": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(99)": 3.559,
+        "max": 3.584,
+        "min": 0,
+        "med": 0,
+        "p(50)": 0,
+        "p(95)": 3.398
+      }
+    },
+    "ai_failure_responses{code:STREAM_CAPACITY_REACHED}": {
+      "values": {
+        "count": 0,
+        "rate": 0
+      },
+      "type": "counter",
+      "contains": "default"
+    },
+    "ai_failure_responses{status:0}": {
+      "values": {
+        "count": 0,
+        "rate": 0
+      },
+      "type": "counter",
+      "contains": "default"
+    },
+    "data_sent": {
+      "type": "counter",
+      "contains": "data",
+      "values": {
+        "rate": 6837.849586446206,
+        "count": 76464
+      }
+    },
+    "ai_failure_responses{code:UNSUPPORTED_MEDIA_TYPE}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "rate": 0,
+        "count": 0
+      }
+    },
+    "ai_failure_responses{code:missing}": {
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      },
+      "type": "counter"
+    },
+    "ai_unexpected_error_rate": {
+      "type": "rate",
+      "contains": "default",
+      "values": {
+        "fails": 145,
+        "rate": 0.03333333333333333,
+        "passes": 5
+      },
+      "thresholds": {
+        "rate<0.01": {
+          "ok": false
+        }
+      }
+    },
+    "ai_failure_responses{status:200}": {
+      "values": {
+        "count": 0,
+        "rate": 0
+      },
+      "type": "counter",
+      "contains": "default"
+    },
+    "ai_saturation_429": {
+      "values": {
+        "rate": 0,
+        "count": 0
+      },
+      "type": "counter",
+      "contains": "default"
+    },
+    "ai_failure_responses{code:INVALID_STREAM_OWNER}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "rate": 0,
+        "count": 0
+      }
+    },
+    "ai_failure_responses{code:INVALID_REQUEST}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "rate": 0,
+        "count": 0
+      }
+    },
+    "ai_success_duration_ms": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "min": 19.337,
+        "med": 506.157,
+        "p(50)": 506.157,
+        "p(95)": 1002.436,
+        "p(99)": 1017.0821199999999,
+        "max": 1024.317
+      }
+    },
+    "http_req_sending": {
+      "values": {
+        "min": 0.006,
+        "med": 0.02,
+        "p(50)": 0.02,
+        "p(95)": 0.062,
+        "p(99)": 0.111,
+        "max": 0.288
+      },
+      "type": "trend",
+      "contains": "time"
+    },
+    "ai_successes": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "rate": 12.96673192658898,
+        "count": 145
+      },
+      "thresholds": {
+        "count>0": {
+          "ok": true
+        }
+      }
+    },
+    "ai_failure_responses{status:other_5xx}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "iteration_duration": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(95)": 4210.5716228500005,
+        "p(99)": 4220.49445858,
+        "max": 4223.163833,
+        "min": 3120.034208,
+        "med": 3632.167333,
+        "p(50)": 3632.167333
+      }
+    },
+    "ai_failure_responses{status:415}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "rate": 0,
+        "count": 0
+      }
+    },
+    "ai_failure_responses{status:500}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{code:AI_PROVIDER_CAPACITY}": {
+      "contains": "default",
+      "values": {
+        "count": 5,
+        "rate": 0.447128687123758
+      },
+      "type": "counter"
+    },
+    "ai_failure_responses{code:STREAM_NOT_FOUND}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "http_req_blocked": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "min": 0.001,
+        "med": 0.006,
+        "p(50)": 0.006,
+        "p(95)": 3.428,
+        "p(99)": 3.58,
+        "max": 4.113
+      }
+    },
+    "ai_failure_responses{code:GUARDRAIL_REJECTED}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{status:502}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{code:METHOD_NOT_ALLOWED}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "rate": 0,
+        "count": 0
+      }
+    },
+    "ai_failure_responses{status:400}": {
+      "values": {
+        "count": 0,
+        "rate": 0
+      },
+      "type": "counter",
+      "contains": "default"
+    },
+    "ai_failure_responses{code:AI_PROVIDER_QUEUE_TIMEOUT}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "rate": 0,
+        "count": 0
+      }
+    },
+    "ai_failure_responses{code:AI_MEMORY_CAPACITY_REACHED}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "rate": 0,
+        "count": 0
+      }
+    },
+    "ai_non_saturated_error_rate": {
+      "type": "rate",
+      "contains": "default",
+      "values": {
+        "rate": 0.03333333333333333,
+        "passes": 5,
+        "fails": 145
+      },
+      "thresholds": {
+        "rate<0.01": {
+          "ok": false
+        }
+      }
+    },
+    "ai_failure_responses{code:AI_CAPACITY_REACHED}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    }
+  },
+  "setup_data": {
+    "runId": "1789970109948-834066284"
+  }
+}
+time="2026-09-21T01:55:21-04:00" level=error msg="thresholds on metrics 'ai_non_saturated_error_rate, ai_unexpected_error_rate' have been crossed"

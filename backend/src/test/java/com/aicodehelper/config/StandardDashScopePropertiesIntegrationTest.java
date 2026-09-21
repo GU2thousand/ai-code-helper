@@ -1,6 +1,9 @@
 package com.aicodehelper.config;
 
 import com.aicodehelper.ai.ModelRuntimeInfo;
+import com.aicodehelper.ai.provider.DeadlineChatModel;
+import com.aicodehelper.ai.provider.DeadlineEmbeddingModel;
+import com.aicodehelper.ai.provider.DeadlineStreamingChatModel;
 import dev.langchain4j.community.model.dashscope.QwenChatModel;
 import dev.langchain4j.community.model.dashscope.QwenEmbeddingModel;
 import dev.langchain4j.community.model.dashscope.QwenStreamingChatModel;
@@ -40,12 +43,15 @@ class StandardDashScopePropertiesIntegrationTest {
 
     @Test
     void starterPropertyNamesConfigureTheManuallyObservedModels() {
-        assertThat(chatModel).isInstanceOf(QwenChatModel.class);
-        assertThat(streamingChatModel).isInstanceOf(QwenStreamingChatModel.class);
-        QwenStreamingChatModel streaming = (QwenStreamingChatModel) streamingChatModel;
+        assertThat(chatModel).isInstanceOf(DeadlineChatModel.class);
+        assertThat(((DeadlineChatModel) chatModel).delegate()).isInstanceOf(QwenChatModel.class);
+        assertThat(streamingChatModel).isInstanceOf(DeadlineStreamingChatModel.class);
+        assertThat(((DeadlineStreamingChatModel) streamingChatModel).delegate()).isInstanceOf(QwenStreamingChatModel.class);
+        QwenStreamingChatModel streaming = (QwenStreamingChatModel) ((DeadlineStreamingChatModel) streamingChatModel).delegate();
         assertThat(ReflectionTestUtils.getField(streaming, "apiKey")).isEqualTo("starter-stream-key");
         assertThat(streaming.defaultRequestParameters().modelName()).isEqualTo("qwen-turbo");
-        assertThat(embeddingModel).isInstanceOf(QwenEmbeddingModel.class);
+        assertThat(embeddingModel).isInstanceOf(DeadlineEmbeddingModel.class);
+        assertThat(((DeadlineEmbeddingModel) embeddingModel).delegate()).isInstanceOf(QwenEmbeddingModel.class);
         assertThat(runtimeInfo.chatProvider()).isEqualTo("dashscope");
         assertThat(runtimeInfo.chatModel()).isEqualTo("qwen-plus");
         assertThat(runtimeInfo.embeddingProvider()).isEqualTo("dashscope");

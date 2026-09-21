@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "started_at": "2026-09-21T05:58:11.884007+00:00",
+  "base_url": "http://127.0.0.1:28082",
+  "configuration": {
+    "concurrency": 50,
+    "launch_duration_seconds": 10.0,
+    "request_timeout_seconds": 30.0,
+    "max_requests": null,
+    "think_seconds": 3.1,
+    "max_saturation_rate": 1.0
+  },
+  "duration_seconds": 10.014038,
+  "workers": {
+    "requested": 50,
+    "registered": 50,
+    "setup_failures": 0,
+    "error_counts": {},
+    "http_status_counts": {},
+    "error_code_counts": {}
+  },
+  "requests": {
+    "attempted": 150,
+    "succeeded": 150,
+    "failed": 0,
+    "http_429": 0,
+    "non_saturation_failures": 0,
+    "error_rate": 0.0,
+    "unexpected_error_rate": 0.0,
+    "non_saturated_error_rate": 0.0,
+    "http_429_rate": 0.0,
+    "error_counts": {},
+    "http_status_counts": {},
+    "error_code_counts": {},
+    "http_429_by_phase": {}
+  },
+  "streams": {
+    "active": 0,
+    "max_active": 50,
+    "completed": 150,
+    "content_events": 2250,
+    "content_characters": 22200
+  },
+  "throughput": {
+    "attempts_per_second": 14.978973,
+    "completed_streams_per_second": 14.978973,
+    "content_events_per_second": 224.684599
+  },
+  "latency_ms": {
+    "ttft_ms": {
+      "count": 150,
+      "p50": 313.488,
+      "p95": 1491.354,
+      "p99": 1517.458,
+      "min": 10.591,
+      "max": 1544.265
+    },
+    "ticket_to_first_content_ms": {
+      "count": 150,
+      "p50": 334.663,
+      "p95": 1574.141,
+      "p99": 1609.259,
+      "min": 13.675,
+      "max": 1622.152
+    },
+    "request_duration_ms": {
+      "count": 150,
+      "p50": 469.99,
+      "p95": 1636.498,
+      "p99": 1752.215,
+      "min": 44.019,
+      "max": 1793.572
+    },
+    "stream_duration_ms": {
+      "count": 150,
+      "p50": 456.152,
+      "p95": 1535.863,
+      "p99": 1664.943,
+      "min": 40.533,
+      "max": 1714.758
+    },
+    "successful_request_duration_ms": {
+      "count": 150,
+      "p50": 469.99,
+      "p95": 1636.498,
+      "p99": 1752.215,
+      "min": 44.019,
+      "max": 1793.572
+    }
+  },
+  "measurement_notes": [
+    "TTFT starts before the SSE GET and ends at the first nonempty message content event; headers, meta and sources do not count.",
+    "Ticket-to-first-content starts before the ticket POST; guest setup is excluded from request latency.",
+    "Milestone distributions include failed attempts that reached that milestone; successful request duration is also reported separately.",
+    "Percentiles use linear interpolation. Empty distributions are null, never fabricated zero latency.",
+    "Active streams counts open HTTP SSE responses; throughput uses total wall time including guest setup and final request drain.",
+    "Duration limits launching new requests; in-flight requests drain for up to the request timeout. Each worker has its own guest cookies and each request a unique memory ID.",
+    "Default 3.1-second worker think time avoids the default 20 starts/minute per-owner limiter; use --think-seconds 0 only when intentionally testing that limiter or changing its configuration.",
+    "Content events are not model tokens. HTTP 429 is counted as failure and also reported separately as saturation; guest setup errors are separate.",
+    "unexpected_error_rate divides non-429 failures by all attempts; non_saturated_error_rate divides them by attempts excluding HTTP 429. HTTP 503 remains an unexpected failure.",
+    "Error-code counts include only allowlisted application codes or fixed fallback buckets, from bounded HTTP bodies and SSE error events; no response text is retained.",
+    "This is measured HTTP transport/load behavior, not an evaluation of answer quality or provider correctness."
+  ]
+}

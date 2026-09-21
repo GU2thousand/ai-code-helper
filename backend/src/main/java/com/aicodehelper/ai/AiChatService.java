@@ -174,8 +174,9 @@ public class AiChatService {
                 metadata.getString("title"),
                 metadata.getString("source"),
                 metadata.getString("location"),
-                abbreviate(content.textSegment().text(), 260),
-                score
+                abbreviate(content.textSegment().text().replaceFirst("^\\[chunk:[^\\]]+\\]\\s*", ""), 260),
+                score,
+                metadata.getString("chunk_id")
         );
     }
 

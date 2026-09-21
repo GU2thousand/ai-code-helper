@@ -1,0 +1,4198 @@
+{
+  "schemaVersion": 1,
+  "kind": "agent",
+  "scope": "controlled_runtime",
+  "provenance": {
+    "createdAt": "2026-09-21T02:37:22.047628+00:00",
+    "gitCommit": "d4520ab96d00701c5386d7999fbaa1dc90a6c039",
+    "gitDirty": false,
+    "workingDiffHash": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+    "dataset": "agent_eval.jsonl",
+    "datasetHash": "279615bfb3791949a04e76e55fd1898536baa9511e060fe9832343c95e10d492",
+    "selectedIdsHash": "79366afd2c414e635aba8921f95ecff0f23388d15699f26b0e397bdb19aabcc6",
+    "selectedCount": 60,
+    "corpusFiles": {
+      "algorithm-foundations.md": "fc21029afcddb8f24ed9edc4105e87211e7d65ab6d60a7fa8b315659f4e25cb7",
+      "api-foundations.md": "514e4de9b1eae207a5c4888586c736f78b5bbc17e47a9ab9ec989efcbb8e0a49",
+      "concurrency-foundations.md": "5a3cc343f92d1af88b9ebb599503d53e06204369ef0333598a050a3f7d3e88f3",
+      "database-foundations.md": "8db1ee83e8cf6262fca5d4f79ae7e4e6766f45d71b48572c1c1e2c768ab82fd8",
+      "interview-guide.md": "bbb14324c4fa70382056fc64eacd937cc5a8ec425898d8495198b95e2f3cb66d",
+      "java-foundations.md": "95c16cc067644d263405c994b39aff248c62372bfe5c32020e669b204e8f3c89",
+      "java-spring.md": "e72d136333c0392024fb1ed040112cf419d8ac5699d4d14900a7f157733307ff",
+      "project-operations.md": "0040ffe0caaa0d7e380de493f9dc0c4adb58c5ab77f91c57f085cb10540800f5",
+      "spring-foundations.md": "1dfdcb96659932b9c11cde86304e200e22a212762f419e8b9206b3588acbc515",
+      "system-design-foundations.md": "daa577653ba2b92562c3dda48407bda942d6516045b28ad3eff7d6de416b54b0",
+      "vue-sse.md": "4fabf102483d6c45258ce86bdfb90411c768b718a97cacf4d6194bf336ad0256"
+    },
+    "corpusFilesHash": "12b29328e4e83ded9143cf5f581cb4aa58d85ac11029ededfcdc23bf43b3459a",
+    "evaluationScripts": {
+      "compare_runs.py": "88c33ebfd2640ca9ccd5b9b652132ff93217fdd77a924b01740f84302352079a",
+      "eval_common.py": "438dd89d3f09ceca04ce156128071bc48f76555dded5ac1b4c86fc324ecd4d93",
+      "run_agent_eval.py": "f2170998e70acadc1c142a3b211fe1bc8d62e55f84ba627defb215ae0eec5f99",
+      "run_answer_eval.py": "64881241150ae45f94fd7a3cc51173264d4ff5b8aa9a512713a41c3e431dc577",
+      "run_benchmark.py": "8881930754ecfcb0e4c34136d9b788cf8f41a5a63ff416749b853c0680c4a71c",
+      "run_retrieval_eval.py": "754fea0122fc02357f9a4de2cfbcda5629e19c3f076c0c8c9e6f4363cff67002",
+      "validate_datasets.py": "261f399a2f7041d7e6c33eb1e52437b22e03ac6cafa1fac1370db8cb8714efa8"
+    },
+    "corpusHashMethod": "SHA256 of sorted filename-to-file-SHA256 JSON; server index hash is recorded separately",
+    "config": {
+      "split": "all",
+      "limit": null,
+      "scope": "controlled_runtime",
+      "baseUrl": "http://127.0.0.1:28081"
+    },
+    "serverStatus": {
+      "agentScenarios": [
+        "success",
+        "timeout",
+        "http_5xx_recovery",
+        "http_5xx_exhausted",
+        "malformed",
+        "empty",
+        "duplicate",
+        "unauthorized",
+        "provider_unavailable",
+        "mcp_connection_failure",
+        "loop",
+        "user_cancel",
+        "budget_exhausted",
+        "per_tool_limit",
+        "risk_denied"
+      ],
+      "embeddingModel": "local-hash-embedding",
+      "ingestion": {
+        "sourceCount": 11,
+        "chunkCount": 272,
+        "corpusHash": "1c83445c5ca3e407348fb670534cb7df95505dc59cab39e00e7bfac46bc09b43",
+        "embeddingModel": "local-hash-embedding",
+        "embeddingVersion": "v1",
+        "embedded": 0,
+        "reused": 272,
+        "deleted": 0,
+        "duplicates": 0,
+        "embeddingReady": true
+      },
+      "agentEvaluationMode": "controlled_runtime",
+      "retrievalConfig": {
+        "embeddingVersion": "v1",
+        "backend": "pgvector",
+        "candidates": 25,
+        "reranker": "deterministic-token-overlap",
+        "mode": "lexical",
+        "rrfK": 60
+      },
+      "schemaVersion": 1,
+      "embeddingProvider": "local",
+      "chatProvider": "local"
+    }
+  },
+  "rows": [
+    {
+      "id": "agent_interview_java",
+      "fixture": "success",
+      "category": "success",
+      "language": "zh",
+      "split": "dev",
+      "error": null,
+      "contractPass": true,
+      "terminalError": null,
+      "toolResults": 1,
+      "successfulToolResults": 1,
+      "toolCalls": 1,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": true,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 29.645874979905784,
+      "raw": {
+        "scenario": "success",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.087827709Z",
+              "endedAt": "2026-09-21T02:37:22.102292501Z",
+              "latencyMs": 14,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": true,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_interview_spring",
+      "fixture": "success",
+      "category": "success",
+      "language": "en",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": null,
+      "toolResults": 1,
+      "successfulToolResults": 1,
+      "toolCalls": 1,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": true,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 2.2832920076325536,
+      "raw": {
+        "scenario": "success",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.109673251Z",
+              "endedAt": "2026-09-21T02:37:22.109946417Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": true,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_current_vue_docs",
+      "fixture": "success",
+      "category": "success",
+      "language": "zh",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": null,
+      "toolResults": 1,
+      "successfulToolResults": 1,
+      "toolCalls": 1,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": true,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 1.6547499690204859,
+      "raw": {
+        "scenario": "success",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.111730542Z",
+              "endedAt": "2026-09-21T02:37:22.111894542Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": true,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_current_postgresql_docs",
+      "fixture": "success",
+      "category": "success",
+      "language": "en",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": null,
+      "toolResults": 1,
+      "successfulToolResults": 1,
+      "toolCalls": 1,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": true,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 1.7567920149303973,
+      "raw": {
+        "scenario": "success",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.113398667Z",
+              "endedAt": "2026-09-21T02:37:22.113546417Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": true,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_interview_python_timeout",
+      "fixture": "timeout",
+      "category": "timeout",
+      "language": "zh",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "TOOL_TIMEOUT",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 1,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 1,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 45.75954098254442,
+      "raw": {
+        "scenario": "timeout",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "TOOL_TIMEOUT",
+              "message": "The tool exceeded its execution timeout.",
+              "retryable": true
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.115715417Z",
+              "endedAt": "2026-09-21T02:37:22.157497959Z",
+              "latencyMs": 41,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_web_pg_index_timeout",
+      "fixture": "timeout",
+      "category": "timeout",
+      "language": "en",
+      "split": "dev",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "TOOL_TIMEOUT",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 1,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 1,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 46.37695796554908,
+      "raw": {
+        "scenario": "timeout",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "TOOL_TIMEOUT",
+              "message": "The tool exceeded its execution timeout.",
+              "retryable": true
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.163100251Z",
+              "endedAt": "2026-09-21T02:37:22.204766792Z",
+              "latencyMs": 41,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_web_spring_timeout",
+      "fixture": "timeout",
+      "category": "timeout",
+      "language": "zh",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "TOOL_TIMEOUT",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 1,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 1,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 46.38445796445012,
+      "raw": {
+        "scenario": "timeout",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "TOOL_TIMEOUT",
+              "message": "The tool exceeded its execution timeout.",
+              "retryable": true
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.208579542Z",
+              "endedAt": "2026-09-21T02:37:22.251082709Z",
+              "latencyMs": 42,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_interview_vue_timeout",
+      "fixture": "timeout",
+      "category": "timeout",
+      "language": "en",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "TOOL_TIMEOUT",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 1,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 1,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 48.33399999188259,
+      "raw": {
+        "scenario": "timeout",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "TOOL_TIMEOUT",
+              "message": "The tool exceeded its execution timeout.",
+              "retryable": true
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.255437042Z",
+              "endedAt": "2026-09-21T02:37:22.299017959Z",
+              "latencyMs": 43,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_interview_jvm_retry",
+      "fixture": "http_5xx_recovery",
+      "category": "http_5xx_recovery",
+      "language": "zh",
+      "split": "dev",
+      "error": null,
+      "contractPass": true,
+      "terminalError": null,
+      "toolResults": 1,
+      "successfulToolResults": 1,
+      "toolCalls": 3,
+      "agentSteps": 1,
+      "retries": 2,
+      "completion": true,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 4.280041961465031,
+      "raw": {
+        "scenario": "http_5xx_recovery",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "recovered"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.303711126Z",
+              "endedAt": "2026-09-21T02:37:22.304712709Z",
+              "latencyMs": 1,
+              "retryCount": 2,
+              "payloadBytes": 24
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 3,
+        "retries": 2,
+        "completion": true,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_web_kotlin_retry",
+      "fixture": "http_5xx_recovery",
+      "category": "http_5xx_recovery",
+      "language": "en",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": null,
+      "toolResults": 1,
+      "successfulToolResults": 1,
+      "toolCalls": 3,
+      "agentSteps": 1,
+      "retries": 2,
+      "completion": true,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 3.1821670127101243,
+      "raw": {
+        "scenario": "http_5xx_recovery",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "recovered"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.307698293Z",
+              "endedAt": "2026-09-21T02:37:22.308298918Z",
+              "latencyMs": 0,
+              "retryCount": 2,
+              "payloadBytes": 24
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 3,
+        "retries": 2,
+        "completion": true,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_web_junit_retry",
+      "fixture": "http_5xx_recovery",
+      "category": "http_5xx_recovery",
+      "language": "zh",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": null,
+      "toolResults": 1,
+      "successfulToolResults": 1,
+      "toolCalls": 3,
+      "agentSteps": 1,
+      "retries": 2,
+      "completion": true,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 3.5462499945424497,
+      "raw": {
+        "scenario": "http_5xx_recovery",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "recovered"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.311143668Z",
+              "endedAt": "2026-09-21T02:37:22.311730584Z",
+              "latencyMs": 0,
+              "retryCount": 2,
+              "payloadBytes": 24
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 3,
+        "retries": 2,
+        "completion": true,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_interview_sql_retry",
+      "fixture": "http_5xx_recovery",
+      "category": "http_5xx_recovery",
+      "language": "en",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": null,
+      "toolResults": 1,
+      "successfulToolResults": 1,
+      "toolCalls": 3,
+      "agentSteps": 1,
+      "retries": 2,
+      "completion": true,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 3.8742500473745167,
+      "raw": {
+        "scenario": "http_5xx_recovery",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "recovered"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.315066668Z",
+              "endedAt": "2026-09-21T02:37:22.315582501Z",
+              "latencyMs": 0,
+              "retryCount": 2,
+              "payloadBytes": 24
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 3,
+        "retries": 2,
+        "completion": true,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_interview_redis_failed",
+      "fixture": "http_5xx_exhausted",
+      "category": "http_5xx_exhausted",
+      "language": "zh",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "HTTP_5XX",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 3,
+      "agentSteps": 1,
+      "retries": 2,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 2.7723339735530317,
+      "raw": {
+        "scenario": "http_5xx_exhausted",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "HTTP_5XX",
+              "message": "The tool service returned a server error.",
+              "retryable": true
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.318257626Z",
+              "endedAt": "2026-09-21T02:37:22.318655959Z",
+              "latencyMs": 0,
+              "retryCount": 2,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 3,
+        "retries": 2,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_web_node_failed",
+      "fixture": "http_5xx_exhausted",
+      "category": "http_5xx_exhausted",
+      "language": "en",
+      "split": "dev",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "HTTP_5XX",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 3,
+      "agentSteps": 1,
+      "retries": 2,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 2.545999945141375,
+      "raw": {
+        "scenario": "http_5xx_exhausted",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "HTTP_5XX",
+              "message": "The tool service returned a server error.",
+              "retryable": true
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.320820793Z",
+              "endedAt": "2026-09-21T02:37:22.321270459Z",
+              "latencyMs": 0,
+              "retryCount": 2,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 3,
+        "retries": 2,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_web_gradle_failed",
+      "fixture": "http_5xx_exhausted",
+      "category": "http_5xx_exhausted",
+      "language": "zh",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "HTTP_5XX",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 3,
+      "agentSteps": 1,
+      "retries": 2,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 2.1317919599823654,
+      "raw": {
+        "scenario": "http_5xx_exhausted",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "HTTP_5XX",
+              "message": "The tool service returned a server error.",
+              "retryable": true
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.323179793Z",
+              "endedAt": "2026-09-21T02:37:22.323555918Z",
+              "latencyMs": 0,
+              "retryCount": 2,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 3,
+        "retries": 2,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_interview_docker_failed",
+      "fixture": "http_5xx_exhausted",
+      "category": "http_5xx_exhausted",
+      "language": "en",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "HTTP_5XX",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 3,
+      "agentSteps": 1,
+      "retries": 2,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 3.3328330027870834,
+      "raw": {
+        "scenario": "http_5xx_exhausted",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "HTTP_5XX",
+              "message": "The tool service returned a server error.",
+              "retryable": true
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.326304084Z",
+              "endedAt": "2026-09-21T02:37:22.326721793Z",
+              "latencyMs": 0,
+              "retryCount": 2,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 3,
+        "retries": 2,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_interview_jvm_malformed",
+      "fixture": "malformed",
+      "category": "malformed",
+      "language": "zh",
+      "split": "dev",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "MALFORMED_RESPONSE",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 1,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 2.4077919661067426,
+      "raw": {
+        "scenario": "malformed",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "MALFORMED_RESPONSE",
+              "message": "The tool returned an invalid or oversized response.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.329011293Z",
+              "endedAt": "2026-09-21T02:37:22.329518209Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_web_typescript_malformed",
+      "fixture": "malformed",
+      "category": "malformed",
+      "language": "en",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "MALFORMED_RESPONSE",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 1,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 3.012541972566396,
+      "raw": {
+        "scenario": "malformed",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "MALFORMED_RESPONSE",
+              "message": "The tool returned an invalid or oversized response.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.332186209Z",
+              "endedAt": "2026-09-21T02:37:22.332413418Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_web_react_malformed",
+      "fixture": "malformed",
+      "category": "malformed",
+      "language": "zh",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "MALFORMED_RESPONSE",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 1,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 2.0128749893046916,
+      "raw": {
+        "scenario": "malformed",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "MALFORMED_RESPONSE",
+              "message": "The tool returned an invalid or oversized response.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.334308584Z",
+              "endedAt": "2026-09-21T02:37:22.334610668Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_interview_network_malformed",
+      "fixture": "malformed",
+      "category": "malformed",
+      "language": "en",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "MALFORMED_RESPONSE",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 1,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 1.974457991309464,
+      "raw": {
+        "scenario": "malformed",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "MALFORMED_RESPONSE",
+              "message": "The tool returned an invalid or oversized response.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.336407418Z",
+              "endedAt": "2026-09-21T02:37:22.336621584Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_interview_obscure_empty",
+      "fixture": "empty",
+      "category": "empty",
+      "language": "zh",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "EMPTY_RESPONSE",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 1,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 2.1475839894264936,
+      "raw": {
+        "scenario": "empty",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "EMPTY_RESPONSE",
+              "message": "The tool returned no usable results.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.338351543Z",
+              "endedAt": "2026-09-21T02:37:22.338897418Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_web_removed_api_empty",
+      "fixture": "empty",
+      "category": "empty",
+      "language": "en",
+      "split": "dev",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "EMPTY_RESPONSE",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 1,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 1.9833749975077808,
+      "raw": {
+        "scenario": "empty",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "EMPTY_RESPONSE",
+              "message": "The tool returned no usable results.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.340611126Z",
+              "endedAt": "2026-09-21T02:37:22.340792668Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_web_unknown_feature_empty",
+      "fixture": "empty",
+      "category": "empty",
+      "language": "zh",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "EMPTY_RESPONSE",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 1,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 2.2363329771906137,
+      "raw": {
+        "scenario": "empty",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "EMPTY_RESPONSE",
+              "message": "The tool returned no usable results.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.342955334Z",
+              "endedAt": "2026-09-21T02:37:22.343137084Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_interview_niche_empty",
+      "fixture": "empty",
+      "category": "empty",
+      "language": "en",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "EMPTY_RESPONSE",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 1,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 2.033207972999662,
+      "raw": {
+        "scenario": "empty",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "EMPTY_RESPONSE",
+              "message": "The tool returned no usable results.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.345092001Z",
+              "endedAt": "2026-09-21T02:37:22.345304668Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_interview_repeat_java",
+      "fixture": "duplicate",
+      "category": "duplicate",
+      "language": "zh",
+      "split": "dev",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "REPEATED_TOOL_CALL",
+      "toolResults": 2,
+      "successfulToolResults": 1,
+      "toolCalls": 1,
+      "agentSteps": 2,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 1,
+      "toolSelectionCorrect": null,
+      "latencyMs": 2.233375038485974,
+      "raw": {
+        "scenario": "duplicate",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.347265834Z",
+              "endedAt": "2026-09-21T02:37:22.347482709Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "REPEATED_TOOL_CALL",
+              "message": "An identical tool call was already attempted; use existing evidence or finish.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.347489584Z",
+              "endedAt": "2026-09-21T02:37:22.347551334Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 2,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_web_repeat_spring",
+      "fixture": "duplicate",
+      "category": "duplicate",
+      "language": "en",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "REPEATED_TOOL_CALL",
+      "toolResults": 2,
+      "successfulToolResults": 1,
+      "toolCalls": 1,
+      "agentSteps": 2,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 1,
+      "toolSelectionCorrect": null,
+      "latencyMs": 2.430749998893589,
+      "raw": {
+        "scenario": "duplicate",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.349680334Z",
+              "endedAt": "2026-09-21T02:37:22.349872501Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "REPEATED_TOOL_CALL",
+              "message": "An identical tool call was already attempted; use existing evidence or finish.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.349878251Z",
+              "endedAt": "2026-09-21T02:37:22.349923501Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 2,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_web_repeat_git",
+      "fixture": "duplicate",
+      "category": "duplicate",
+      "language": "zh",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "REPEATED_TOOL_CALL",
+      "toolResults": 2,
+      "successfulToolResults": 1,
+      "toolCalls": 1,
+      "agentSteps": 2,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 1,
+      "toolSelectionCorrect": null,
+      "latencyMs": 2.3874579928815365,
+      "raw": {
+        "scenario": "duplicate",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.352326709Z",
+              "endedAt": "2026-09-21T02:37:22.352508168Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "REPEATED_TOOL_CALL",
+              "message": "An identical tool call was already attempted; use existing evidence or finish.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.352513793Z",
+              "endedAt": "2026-09-21T02:37:22.352550043Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 2,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_interview_repeat_python",
+      "fixture": "duplicate",
+      "category": "duplicate",
+      "language": "en",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "REPEATED_TOOL_CALL",
+      "toolResults": 2,
+      "successfulToolResults": 1,
+      "toolCalls": 1,
+      "agentSteps": 2,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 1,
+      "toolSelectionCorrect": null,
+      "latencyMs": 3.198041988071054,
+      "raw": {
+        "scenario": "duplicate",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.355530334Z",
+              "endedAt": "2026-09-21T02:37:22.355750751Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "REPEATED_TOOL_CALL",
+              "message": "An identical tool call was already attempted; use existing evidence or finish.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.355756376Z",
+              "endedAt": "2026-09-21T02:37:22.355804626Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 2,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_private_credential_read",
+      "fixture": "unauthorized",
+      "category": "unauthorized",
+      "language": "zh",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "UNAUTHORIZED_TOOL",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 0,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 1.706667011603713,
+      "raw": {
+        "scenario": "unauthorized",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "forbidden_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "UNAUTHORIZED_TOOL",
+              "message": "The requested tool is not allowed.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.357577334Z",
+              "endedAt": "2026-09-21T02:37:22.357583168Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 0,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_filesystem_write_denied",
+      "fixture": "unauthorized",
+      "category": "unauthorized",
+      "language": "en",
+      "split": "dev",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "UNAUTHORIZED_TOOL",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 0,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 2.462000004015863,
+      "raw": {
+        "scenario": "unauthorized",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "forbidden_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "UNAUTHORIZED_TOOL",
+              "message": "The requested tool is not allowed.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.360146293Z",
+              "endedAt": "2026-09-21T02:37:22.360148543Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 0,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_private_database_denied",
+      "fixture": "unauthorized",
+      "category": "unauthorized",
+      "language": "zh",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "UNAUTHORIZED_TOOL",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 0,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 1.6466249944642186,
+      "raw": {
+        "scenario": "unauthorized",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "forbidden_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "UNAUTHORIZED_TOOL",
+              "message": "The requested tool is not allowed.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.361797959Z",
+              "endedAt": "2026-09-21T02:37:22.361800084Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 0,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_private_repo_delete_denied",
+      "fixture": "unauthorized",
+      "category": "unauthorized",
+      "language": "en",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "UNAUTHORIZED_TOOL",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 0,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 1.5214160084724426,
+      "raw": {
+        "scenario": "unauthorized",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "forbidden_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "UNAUTHORIZED_TOOL",
+              "message": "The requested tool is not allowed.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.363544418Z",
+              "endedAt": "2026-09-21T02:37:22.363546376Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 0,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_offline_java_explanation",
+      "fixture": "provider_unavailable",
+      "category": "provider_unavailable",
+      "language": "zh",
+      "split": "dev",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "PROVIDER_UNAVAILABLE",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 3,
+      "agentSteps": 1,
+      "retries": 2,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 1.9414169946685433,
+      "raw": {
+        "scenario": "provider_unavailable",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "PROVIDER_UNAVAILABLE",
+              "message": "The tool provider is unavailable.",
+              "retryable": true
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.365012376Z",
+              "endedAt": "2026-09-21T02:37:22.365383334Z",
+              "latencyMs": 0,
+              "retryCount": 2,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 3,
+        "retries": 2,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_offline_python_explanation",
+      "fixture": "provider_unavailable",
+      "category": "provider_unavailable",
+      "language": "en",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "PROVIDER_UNAVAILABLE",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 3,
+      "agentSteps": 1,
+      "retries": 2,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 1.8285000114701688,
+      "raw": {
+        "scenario": "provider_unavailable",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "PROVIDER_UNAVAILABLE",
+              "message": "The tool provider is unavailable.",
+              "retryable": true
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.367032709Z",
+              "endedAt": "2026-09-21T02:37:22.367342376Z",
+              "latencyMs": 0,
+              "retryCount": 2,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 3,
+        "retries": 2,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_project_session_reasoning",
+      "fixture": "provider_unavailable",
+      "category": "provider_unavailable",
+      "language": "zh",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "PROVIDER_UNAVAILABLE",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 3,
+      "agentSteps": 1,
+      "retries": 2,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 1.8291669548489153,
+      "raw": {
+        "scenario": "provider_unavailable",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "PROVIDER_UNAVAILABLE",
+              "message": "The tool provider is unavailable.",
+              "retryable": true
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.368968668Z",
+              "endedAt": "2026-09-21T02:37:22.369278918Z",
+              "latencyMs": 0,
+              "retryCount": 2,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 3,
+        "retries": 2,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_offline_sql_explanation",
+      "fixture": "provider_unavailable",
+      "category": "provider_unavailable",
+      "language": "en",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "PROVIDER_UNAVAILABLE",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 3,
+      "agentSteps": 1,
+      "retries": 2,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 2.9023749521002173,
+      "raw": {
+        "scenario": "provider_unavailable",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "PROVIDER_UNAVAILABLE",
+              "message": "The tool provider is unavailable.",
+              "retryable": true
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.371893501Z",
+              "endedAt": "2026-09-21T02:37:22.372130584Z",
+              "latencyMs": 0,
+              "retryCount": 2,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 3,
+        "retries": 2,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_web_vue_mcp_failure",
+      "fixture": "mcp_connection_failure",
+      "category": "mcp_connection_failure",
+      "language": "zh",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "MCP_CONNECTION_FAILED",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 3,
+      "agentSteps": 1,
+      "retries": 2,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 2.8544170199893415,
+      "raw": {
+        "scenario": "mcp_connection_failure",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "MCP_CONNECTION_FAILED",
+              "message": "The MCP connection is unavailable.",
+              "retryable": true
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.374885543Z",
+              "endedAt": "2026-09-21T02:37:22.375118084Z",
+              "latencyMs": 0,
+              "retryCount": 2,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 3,
+        "retries": 2,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_web_spring_mcp_failure",
+      "fixture": "mcp_connection_failure",
+      "category": "mcp_connection_failure",
+      "language": "en",
+      "split": "dev",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "MCP_CONNECTION_FAILED",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 3,
+      "agentSteps": 1,
+      "retries": 2,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 1.5617500175721943,
+      "raw": {
+        "scenario": "mcp_connection_failure",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "MCP_CONNECTION_FAILED",
+              "message": "The MCP connection is unavailable.",
+              "retryable": true
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.376646959Z",
+              "endedAt": "2026-09-21T02:37:22.376870334Z",
+              "latencyMs": 0,
+              "retryCount": 2,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 3,
+        "retries": 2,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_web_pgvector_mcp_failure",
+      "fixture": "mcp_connection_failure",
+      "category": "mcp_connection_failure",
+      "language": "zh",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "MCP_CONNECTION_FAILED",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 3,
+      "agentSteps": 1,
+      "retries": 2,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 2.099375007674098,
+      "raw": {
+        "scenario": "mcp_connection_failure",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "MCP_CONNECTION_FAILED",
+              "message": "The MCP connection is unavailable.",
+              "retryable": true
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.378654959Z",
+              "endedAt": "2026-09-21T02:37:22.378832043Z",
+              "latencyMs": 0,
+              "retryCount": 2,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 3,
+        "retries": 2,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_web_maven_mcp_failure",
+      "fixture": "mcp_connection_failure",
+      "category": "mcp_connection_failure",
+      "language": "en",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "MCP_CONNECTION_FAILED",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 3,
+      "agentSteps": 1,
+      "retries": 2,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 1.8386250012554228,
+      "raw": {
+        "scenario": "mcp_connection_failure",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "MCP_CONNECTION_FAILED",
+              "message": "The MCP connection is unavailable.",
+              "retryable": true
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.380590293Z",
+              "endedAt": "2026-09-21T02:37:22.380804251Z",
+              "latencyMs": 0,
+              "retryCount": 2,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 3,
+        "retries": 2,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_web_endless_frameworks",
+      "fixture": "loop",
+      "category": "loop",
+      "language": "zh",
+      "split": "dev",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "AGENT_STEP_LIMIT",
+      "toolResults": 7,
+      "successfulToolResults": 6,
+      "toolCalls": 6,
+      "agentSteps": 6,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 1,
+      "toolSelectionCorrect": null,
+      "latencyMs": 3.9821250247769058,
+      "raw": {
+        "scenario": "loop",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.383140584Z",
+              "endedAt": "2026-09-21T02:37:22.383312084Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-1\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.383317126Z",
+              "endedAt": "2026-09-21T02:37:22.383433668Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-2\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.383441043Z",
+              "endedAt": "2026-09-21T02:37:22.383546751Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-3\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.383550793Z",
+              "endedAt": "2026-09-21T02:37:22.383647959Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-4\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.383651584Z",
+              "endedAt": "2026-09-21T02:37:22.383760168Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-5\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.383763751Z",
+              "endedAt": "2026-09-21T02:37:22.383861793Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-6\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "AGENT_STEP_LIMIT",
+              "message": "The agent step limit was reached; finish with available evidence.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.383865043Z",
+              "endedAt": "2026-09-21T02:37:22.383875084Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 6,
+        "underlyingCalls": 6,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_web_endless_sources",
+      "fixture": "loop",
+      "category": "loop",
+      "language": "en",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "AGENT_STEP_LIMIT",
+      "toolResults": 7,
+      "successfulToolResults": 6,
+      "toolCalls": 6,
+      "agentSteps": 6,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 1,
+      "toolSelectionCorrect": null,
+      "latencyMs": 3.4565830137580633,
+      "raw": {
+        "scenario": "loop",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.387431209Z",
+              "endedAt": "2026-09-21T02:37:22.387671918Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-1\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.387677668Z",
+              "endedAt": "2026-09-21T02:37:22.387795084Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-2\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.387799376Z",
+              "endedAt": "2026-09-21T02:37:22.387907001Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-3\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.387910293Z",
+              "endedAt": "2026-09-21T02:37:22.388003293Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-4\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.388006543Z",
+              "endedAt": "2026-09-21T02:37:22.388100001Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-5\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.388103084Z",
+              "endedAt": "2026-09-21T02:37:22.388212168Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-6\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "AGENT_STEP_LIMIT",
+              "message": "The agent step limit was reached; finish with available evidence.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.388216043Z",
+              "endedAt": "2026-09-21T02:37:22.388217543Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 6,
+        "underlyingCalls": 6,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_interview_endless_topics",
+      "fixture": "loop",
+      "category": "loop",
+      "language": "zh",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "AGENT_STEP_LIMIT",
+      "toolResults": 7,
+      "successfulToolResults": 6,
+      "toolCalls": 6,
+      "agentSteps": 6,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 1,
+      "toolSelectionCorrect": null,
+      "latencyMs": 3.028750012163073,
+      "raw": {
+        "scenario": "loop",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.390316751Z",
+              "endedAt": "2026-09-21T02:37:22.390487418Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-1\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.390492543Z",
+              "endedAt": "2026-09-21T02:37:22.390635501Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-2\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.390639293Z",
+              "endedAt": "2026-09-21T02:37:22.390734376Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-3\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.390737876Z",
+              "endedAt": "2026-09-21T02:37:22.390849459Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-4\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.390853793Z",
+              "endedAt": "2026-09-21T02:37:22.390962876Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-5\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.390967459Z",
+              "endedAt": "2026-09-21T02:37:22.391071251Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-6\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "AGENT_STEP_LIMIT",
+              "message": "The agent step limit was reached; finish with available evidence.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.391074543Z",
+              "endedAt": "2026-09-21T02:37:22.391075876Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 6,
+        "underlyingCalls": 6,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_interview_endless_followups",
+      "fixture": "loop",
+      "category": "loop",
+      "language": "en",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "AGENT_STEP_LIMIT",
+      "toolResults": 7,
+      "successfulToolResults": 6,
+      "toolCalls": 6,
+      "agentSteps": 6,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 1,
+      "toolSelectionCorrect": null,
+      "latencyMs": 5.955791973974556,
+      "raw": {
+        "scenario": "loop",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.394267626Z",
+              "endedAt": "2026-09-21T02:37:22.394640793Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-1\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.394653834Z",
+              "endedAt": "2026-09-21T02:37:22.395166668Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-2\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.395176751Z",
+              "endedAt": "2026-09-21T02:37:22.395446334Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-3\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.395456501Z",
+              "endedAt": "2026-09-21T02:37:22.395848293Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-4\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.395855168Z",
+              "endedAt": "2026-09-21T02:37:22.396034126Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-5\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.396040334Z",
+              "endedAt": "2026-09-21T02:37:22.396334626Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-6\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "AGENT_STEP_LIMIT",
+              "message": "The agent step limit was reached; finish with available evidence.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.396340418Z",
+              "endedAt": "2026-09-21T02:37:22.396343459Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 6,
+        "underlyingCalls": 6,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_interview_cancel_java",
+      "fixture": "user_cancel",
+      "category": "user_cancel",
+      "language": "zh",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "USER_CANCELLED",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 0,
+      "agentSteps": 0,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 3.499208018183708,
+      "raw": {
+        "scenario": "user_cancel",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "USER_CANCELLED",
+              "message": "The user cancelled this request.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.400577293Z",
+              "endedAt": "2026-09-21T02:37:22.400590001Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 0,
+        "underlyingCalls": 0,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_web_cancel_postgres",
+      "fixture": "user_cancel",
+      "category": "user_cancel",
+      "language": "en",
+      "split": "dev",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "USER_CANCELLED",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 0,
+      "agentSteps": 0,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 3.3765420084819198,
+      "raw": {
+        "scenario": "user_cancel",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "USER_CANCELLED",
+              "message": "The user cancelled this request.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.404405001Z",
+              "endedAt": "2026-09-21T02:37:22.404407918Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 0,
+        "underlyingCalls": 0,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_web_cancel_sse",
+      "fixture": "user_cancel",
+      "category": "user_cancel",
+      "language": "zh",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "USER_CANCELLED",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 0,
+      "agentSteps": 0,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 3.5502499667927623,
+      "raw": {
+        "scenario": "user_cancel",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "USER_CANCELLED",
+              "message": "The user cancelled this request.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.408065668Z",
+              "endedAt": "2026-09-21T02:37:22.408067418Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 0,
+        "underlyingCalls": 0,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_interview_cancel_network",
+      "fixture": "user_cancel",
+      "category": "user_cancel",
+      "language": "en",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "USER_CANCELLED",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 0,
+      "agentSteps": 0,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 2.1088329958729446,
+      "raw": {
+        "scenario": "user_cancel",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "USER_CANCELLED",
+              "message": "The user cancelled this request.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.410301001Z",
+              "endedAt": "2026-09-21T02:37:22.410303168Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 0,
+        "underlyingCalls": 0,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_web_compare_retrieval",
+      "fixture": "budget_exhausted",
+      "category": "budget_exhausted",
+      "language": "zh",
+      "split": "dev",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "TOTAL_TOOL_BUDGET_EXCEEDED",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 1,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 28.251124953385442,
+      "raw": {
+        "scenario": "budget_exhausted",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "TOTAL_TOOL_BUDGET_EXCEEDED",
+              "message": "The request tool time budget was exhausted; finish with available evidence.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.412032293Z",
+              "endedAt": "2026-09-21T02:37:22.438572376Z",
+              "latencyMs": 26,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_web_compare_frameworks",
+      "fixture": "budget_exhausted",
+      "category": "budget_exhausted",
+      "language": "en",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "TOTAL_TOOL_BUDGET_EXCEEDED",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 1,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 28.948916995432228,
+      "raw": {
+        "scenario": "budget_exhausted",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "TOTAL_TOOL_BUDGET_EXCEEDED",
+              "message": "The request tool time budget was exhausted; finish with available evidence.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.440386584Z",
+              "endedAt": "2026-09-21T02:37:22.467562918Z",
+              "latencyMs": 27,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_interview_multi_domain_budget",
+      "fixture": "budget_exhausted",
+      "category": "budget_exhausted",
+      "language": "zh",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "TOTAL_TOOL_BUDGET_EXCEEDED",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 1,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 28.860124992206693,
+      "raw": {
+        "scenario": "budget_exhausted",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "TOTAL_TOOL_BUDGET_EXCEEDED",
+              "message": "The request tool time budget was exhausted; finish with available evidence.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.469385959Z",
+              "endedAt": "2026-09-21T02:37:22.496548584Z",
+              "latencyMs": 27,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_interview_curriculum_budget",
+      "fixture": "budget_exhausted",
+      "category": "budget_exhausted",
+      "language": "en",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "TOTAL_TOOL_BUDGET_EXCEEDED",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 1,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 31.209959008265287,
+      "raw": {
+        "scenario": "budget_exhausted",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "TOTAL_TOOL_BUDGET_EXCEEDED",
+              "message": "The request tool time budget was exhausted; finish with available evidence.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.498278501Z",
+              "endedAt": "2026-09-21T02:37:22.526864376Z",
+              "latencyMs": 28,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_interview_many_topics",
+      "fixture": "per_tool_limit",
+      "category": "per_tool_limit",
+      "language": "zh",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "TOOL_CALL_LIMIT",
+      "toolResults": 2,
+      "successfulToolResults": 1,
+      "toolCalls": 1,
+      "agentSteps": 2,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 4.778083995915949,
+      "raw": {
+        "scenario": "per_tool_limit",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.531367668Z",
+              "endedAt": "2026-09-21T02:37:22.532079668Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-1\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "TOOL_CALL_LIMIT",
+              "message": "The per-tool call limit was reached.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.532099251Z",
+              "endedAt": "2026-09-21T02:37:22.532235168Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 2,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_web_many_references",
+      "fixture": "per_tool_limit",
+      "category": "per_tool_limit",
+      "language": "en",
+      "split": "dev",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "TOOL_CALL_LIMIT",
+      "toolResults": 2,
+      "successfulToolResults": 1,
+      "toolCalls": 1,
+      "agentSteps": 2,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 4.543458053376526,
+      "raw": {
+        "scenario": "per_tool_limit",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.535834751Z",
+              "endedAt": "2026-09-21T02:37:22.536603418Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-1\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "TOOL_CALL_LIMIT",
+              "message": "The per-tool call limit was reached.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.536621459Z",
+              "endedAt": "2026-09-21T02:37:22.536739709Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 2,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_web_many_database_refs",
+      "fixture": "per_tool_limit",
+      "category": "per_tool_limit",
+      "language": "zh",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "TOOL_CALL_LIMIT",
+      "toolResults": 2,
+      "successfulToolResults": 1,
+      "toolCalls": 1,
+      "agentSteps": 2,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 6.826458033174276,
+      "raw": {
+        "scenario": "per_tool_limit",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.543158126Z",
+              "endedAt": "2026-09-21T02:37:22.543604334Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-1\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "TOOL_CALL_LIMIT",
+              "message": "The per-tool call limit was reached.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.543625501Z",
+              "endedAt": "2026-09-21T02:37:22.543697584Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 2,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_interview_many_languages",
+      "fixture": "per_tool_limit",
+      "category": "per_tool_limit",
+      "language": "en",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "TOOL_CALL_LIMIT",
+      "toolResults": 2,
+      "successfulToolResults": 1,
+      "toolCalls": 1,
+      "agentSteps": 2,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 2.4157079751603305,
+      "raw": {
+        "scenario": "per_tool_limit",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": true,
+            "payload": {
+              "evidence": "fixed offline fixture"
+            },
+            "error": null,
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.546523584Z",
+              "endedAt": "2026-09-21T02:37:22.546704584Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 36
+            }
+          },
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-1\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "TOOL_CALL_LIMIT",
+              "message": "The per-tool call limit was reached.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.546710043Z",
+              "endedAt": "2026-09-21T02:37:22.546745084Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 2,
+        "underlyingCalls": 1,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_destructive_database",
+      "fixture": "risk_denied",
+      "category": "risk_denied",
+      "language": "zh",
+      "split": "dev",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "RISK_DENIED",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 0,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 1.9539999775588512,
+      "raw": {
+        "scenario": "risk_denied",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "RISK_DENIED",
+              "message": "This runtime allows read-only tools only.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.548966959Z",
+              "endedAt": "2026-09-21T02:37:22.548976334Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 0,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_destructive_shell",
+      "fixture": "risk_denied",
+      "category": "risk_denied",
+      "language": "en",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "RISK_DENIED",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 0,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 1.911875035148114,
+      "raw": {
+        "scenario": "risk_denied",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "RISK_DENIED",
+              "message": "This runtime allows read-only tools only.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.550759251Z",
+              "endedAt": "2026-09-21T02:37:22.550763126Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 0,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_secret_upload",
+      "fixture": "risk_denied",
+      "category": "risk_denied",
+      "language": "zh",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "RISK_DENIED",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 0,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 3.1941250199452043,
+      "raw": {
+        "scenario": "risk_denied",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "RISK_DENIED",
+              "message": "This runtime allows read-only tools only.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.553752043Z",
+              "endedAt": "2026-09-21T02:37:22.553759126Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 0,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    },
+    {
+      "id": "agent_disable_authentication",
+      "fixture": "risk_denied",
+      "category": "risk_denied",
+      "language": "en",
+      "split": "test",
+      "error": null,
+      "contractPass": true,
+      "terminalError": "RISK_DENIED",
+      "toolResults": 1,
+      "successfulToolResults": 0,
+      "toolCalls": 0,
+      "agentSteps": 1,
+      "retries": 0,
+      "completion": false,
+      "timeoutCount": 0,
+      "loopPreventionCount": 0,
+      "toolSelectionCorrect": null,
+      "latencyMs": 3.7905420176684856,
+      "raw": {
+        "scenario": "risk_denied",
+        "mode": "controlled_runtime",
+        "results": [
+          {
+            "request": {
+              "toolName": "fixture_tool",
+              "arguments": "{\"query\":\"fixture-0\"}"
+            },
+            "success": false,
+            "payload": null,
+            "error": {
+              "code": "RISK_DENIED",
+              "message": "This runtime allows read-only tools only.",
+              "retryable": false
+            },
+            "metadata": {
+              "startedAt": "2026-09-21T02:37:22.557426959Z",
+              "endedAt": "2026-09-21T02:37:22.557431043Z",
+              "latencyMs": 0,
+              "retryCount": 0,
+              "payloadBytes": 0
+            }
+          }
+        ],
+        "steps": 1,
+        "underlyingCalls": 0,
+        "retries": 0,
+        "completion": false,
+        "limitations": "Fixed injected tool outcomes only; does not measure live model tool selection, Qwen quality, or real MCP reliability."
+      }
+    }
+  ],
+  "method": "Controlled runtime fixtures execute fixed callables. They do not send dataset questions to a planner or measure model tool choice. Live trajectory imports are scored separately.",
+  "summary": {
+    "count": 60,
+    "uniqueFixtures": 15,
+    "scope": "controlled_runtime",
+    "requestErrorRate": 0.0,
+    "runtimeContractPassRate": 1.0,
+    "toolSelectionAccuracy": null,
+    "toolSelectionUnmeasuredReason": "No live model planner was invoked",
+    "toolExecutionSuccessRate": 0.43478260869565216,
+    "averageToolCalls": 1.6666666666666667,
+    "averageAgentSteps": 1.4,
+    "completionRate": 0.13333333333333333,
+    "timeoutRate": 0.043478260869565216,
+    "loopPreventionCount": 8,
+    "retries": 32,
+    "latency": {
+      "meanMs": 7.929231978293198,
+      "p50Ms": 2.7723339735530317,
+      "p95Ms": 45.75954098254442,
+      "p99Ms": 48.33399999188259,
+      "count": 60
+    },
+    "interpretation": "Injected failures intentionally lower tool success/completion rates; these are not production reliability estimates.",
+    "bySplit": {
+      "dev": {
+        "count": 15,
+        "uniqueFixtures": 15,
+        "scope": "controlled_runtime",
+        "requestErrorRate": 0.0,
+        "runtimeContractPassRate": 1.0,
+        "toolSelectionAccuracy": null,
+        "toolSelectionUnmeasuredReason": "No live model planner was invoked",
+        "toolExecutionSuccessRate": 0.43478260869565216,
+        "averageToolCalls": 1.6666666666666667,
+        "averageAgentSteps": 1.4,
+        "completionRate": 0.13333333333333333,
+        "timeoutRate": 0.043478260869565216,
+        "loopPreventionCount": 2,
+        "retries": 8,
+        "latency": {
+          "meanMs": 9.169722259199867,
+          "p50Ms": 2.545999945141375,
+          "p95Ms": 46.37695796554908,
+          "p99Ms": 46.37695796554908,
+          "count": 15
+        },
+        "interpretation": "Injected failures intentionally lower tool success/completion rates; these are not production reliability estimates."
+      },
+      "test": {
+        "count": 45,
+        "uniqueFixtures": 15,
+        "scope": "controlled_runtime",
+        "requestErrorRate": 0.0,
+        "runtimeContractPassRate": 1.0,
+        "toolSelectionAccuracy": null,
+        "toolSelectionUnmeasuredReason": "No live model planner was invoked",
+        "toolExecutionSuccessRate": 0.43478260869565216,
+        "averageToolCalls": 1.6666666666666667,
+        "averageAgentSteps": 1.4,
+        "completionRate": 0.13333333333333333,
+        "timeoutRate": 0.043478260869565216,
+        "loopPreventionCount": 6,
+        "retries": 24,
+        "latency": {
+          "meanMs": 7.515735217990975,
+          "p50Ms": 2.8544170199893415,
+          "p95Ms": 45.75954098254442,
+          "p99Ms": 48.33399999188259,
+          "count": 45
+        },
+        "interpretation": "Injected failures intentionally lower tool success/completion rates; these are not production reliability estimates."
+      }
+    },
+    "byLanguage": {
+      "en": {
+        "count": 30,
+        "uniqueFixtures": 15,
+        "scope": "controlled_runtime",
+        "requestErrorRate": 0.0,
+        "runtimeContractPassRate": 1.0,
+        "toolSelectionAccuracy": null,
+        "toolSelectionUnmeasuredReason": "No live model planner was invoked",
+        "toolExecutionSuccessRate": 0.43478260869565216,
+        "averageToolCalls": 1.6666666666666667,
+        "averageAgentSteps": 1.4,
+        "completionRate": 0.13333333333333333,
+        "timeoutRate": 0.043478260869565216,
+        "loopPreventionCount": 4,
+        "retries": 16,
+        "latency": {
+          "meanMs": 7.538384732712681,
+          "p50Ms": 2.545999945141375,
+          "p95Ms": 46.37695796554908,
+          "p99Ms": 48.33399999188259,
+          "count": 30
+        },
+        "interpretation": "Injected failures intentionally lower tool success/completion rates; these are not production reliability estimates."
+      },
+      "zh": {
+        "count": 30,
+        "uniqueFixtures": 15,
+        "scope": "controlled_runtime",
+        "requestErrorRate": 0.0,
+        "runtimeContractPassRate": 1.0,
+        "toolSelectionAccuracy": null,
+        "toolSelectionUnmeasuredReason": "No live model planner was invoked",
+        "toolExecutionSuccessRate": 0.43478260869565216,
+        "averageToolCalls": 1.6666666666666667,
+        "averageAgentSteps": 1.4,
+        "completionRate": 0.13333333333333333,
+        "timeoutRate": 0.043478260869565216,
+        "loopPreventionCount": 4,
+        "retries": 16,
+        "latency": {
+          "meanMs": 8.320079223873714,
+          "p50Ms": 2.7723339735530317,
+          "p95Ms": 45.75954098254442,
+          "p99Ms": 46.38445796445012,
+          "count": 30
+        },
+        "interpretation": "Injected failures intentionally lower tool success/completion rates; these are not production reliability estimates."
+      }
+    },
+    "byCategory": {
+      "budget_exhausted": {
+        "count": 4,
+        "uniqueFixtures": 1,
+        "scope": "controlled_runtime",
+        "requestErrorRate": 0.0,
+        "runtimeContractPassRate": 1.0,
+        "toolSelectionAccuracy": null,
+        "toolSelectionUnmeasuredReason": "No live model planner was invoked",
+        "toolExecutionSuccessRate": 0.0,
+        "averageToolCalls": 1.0,
+        "averageAgentSteps": 1.0,
+        "completionRate": 0.0,
+        "timeoutRate": 0.0,
+        "loopPreventionCount": 0,
+        "retries": 0,
+        "latency": {
+          "meanMs": 29.317531487322412,
+          "p50Ms": 28.860124992206693,
+          "p95Ms": 31.209959008265287,
+          "p99Ms": 31.209959008265287,
+          "count": 4
+        },
+        "interpretation": "Injected failures intentionally lower tool success/completion rates; these are not production reliability estimates."
+      },
+      "duplicate": {
+        "count": 4,
+        "uniqueFixtures": 1,
+        "scope": "controlled_runtime",
+        "requestErrorRate": 0.0,
+        "runtimeContractPassRate": 1.0,
+        "toolSelectionAccuracy": null,
+        "toolSelectionUnmeasuredReason": "No live model planner was invoked",
+        "toolExecutionSuccessRate": 0.5,
+        "averageToolCalls": 1.0,
+        "averageAgentSteps": 2.0,
+        "completionRate": 0.0,
+        "timeoutRate": 0.0,
+        "loopPreventionCount": 4,
+        "retries": 0,
+        "latency": {
+          "meanMs": 2.5624062545830384,
+          "p50Ms": 2.3874579928815365,
+          "p95Ms": 3.198041988071054,
+          "p99Ms": 3.198041988071054,
+          "count": 4
+        },
+        "interpretation": "Injected failures intentionally lower tool success/completion rates; these are not production reliability estimates."
+      },
+      "empty": {
+        "count": 4,
+        "uniqueFixtures": 1,
+        "scope": "controlled_runtime",
+        "requestErrorRate": 0.0,
+        "runtimeContractPassRate": 1.0,
+        "toolSelectionAccuracy": null,
+        "toolSelectionUnmeasuredReason": "No live model planner was invoked",
+        "toolExecutionSuccessRate": 0.0,
+        "averageToolCalls": 1.0,
+        "averageAgentSteps": 1.0,
+        "completionRate": 0.0,
+        "timeoutRate": 0.0,
+        "loopPreventionCount": 0,
+        "retries": 0,
+        "latency": {
+          "meanMs": 2.1001249842811376,
+          "p50Ms": 2.033207972999662,
+          "p95Ms": 2.2363329771906137,
+          "p99Ms": 2.2363329771906137,
+          "count": 4
+        },
+        "interpretation": "Injected failures intentionally lower tool success/completion rates; these are not production reliability estimates."
+      },
+      "http_5xx_exhausted": {
+        "count": 4,
+        "uniqueFixtures": 1,
+        "scope": "controlled_runtime",
+        "requestErrorRate": 0.0,
+        "runtimeContractPassRate": 1.0,
+        "toolSelectionAccuracy": null,
+        "toolSelectionUnmeasuredReason": "No live model planner was invoked",
+        "toolExecutionSuccessRate": 0.0,
+        "averageToolCalls": 3.0,
+        "averageAgentSteps": 1.0,
+        "completionRate": 0.0,
+        "timeoutRate": 0.0,
+        "loopPreventionCount": 0,
+        "retries": 8,
+        "latency": {
+          "meanMs": 2.695739720365964,
+          "p50Ms": 2.545999945141375,
+          "p95Ms": 3.3328330027870834,
+          "p99Ms": 3.3328330027870834,
+          "count": 4
+        },
+        "interpretation": "Injected failures intentionally lower tool success/completion rates; these are not production reliability estimates."
+      },
+      "http_5xx_recovery": {
+        "count": 4,
+        "uniqueFixtures": 1,
+        "scope": "controlled_runtime",
+        "requestErrorRate": 0.0,
+        "runtimeContractPassRate": 1.0,
+        "toolSelectionAccuracy": null,
+        "toolSelectionUnmeasuredReason": "No live model planner was invoked",
+        "toolExecutionSuccessRate": 1.0,
+        "averageToolCalls": 3.0,
+        "averageAgentSteps": 1.0,
+        "completionRate": 1.0,
+        "timeoutRate": 0.0,
+        "loopPreventionCount": 0,
+        "retries": 8,
+        "latency": {
+          "meanMs": 3.7206772540230304,
+          "p50Ms": 3.5462499945424497,
+          "p95Ms": 4.280041961465031,
+          "p99Ms": 4.280041961465031,
+          "count": 4
+        },
+        "interpretation": "Injected failures intentionally lower tool success/completion rates; these are not production reliability estimates."
+      },
+      "loop": {
+        "count": 4,
+        "uniqueFixtures": 1,
+        "scope": "controlled_runtime",
+        "requestErrorRate": 0.0,
+        "runtimeContractPassRate": 1.0,
+        "toolSelectionAccuracy": null,
+        "toolSelectionUnmeasuredReason": "No live model planner was invoked",
+        "toolExecutionSuccessRate": 0.8571428571428571,
+        "averageToolCalls": 6.0,
+        "averageAgentSteps": 6.0,
+        "completionRate": 0.0,
+        "timeoutRate": 0.0,
+        "loopPreventionCount": 4,
+        "retries": 0,
+        "latency": {
+          "meanMs": 4.105812506168149,
+          "p50Ms": 3.4565830137580633,
+          "p95Ms": 5.955791973974556,
+          "p99Ms": 5.955791973974556,
+          "count": 4
+        },
+        "interpretation": "Injected failures intentionally lower tool success/completion rates; these are not production reliability estimates."
+      },
+      "malformed": {
+        "count": 4,
+        "uniqueFixtures": 1,
+        "scope": "controlled_runtime",
+        "requestErrorRate": 0.0,
+        "runtimeContractPassRate": 1.0,
+        "toolSelectionAccuracy": null,
+        "toolSelectionUnmeasuredReason": "No live model planner was invoked",
+        "toolExecutionSuccessRate": 0.0,
+        "averageToolCalls": 1.0,
+        "averageAgentSteps": 1.0,
+        "completionRate": 0.0,
+        "timeoutRate": 0.0,
+        "loopPreventionCount": 0,
+        "retries": 0,
+        "latency": {
+          "meanMs": 2.3519167298218235,
+          "p50Ms": 2.0128749893046916,
+          "p95Ms": 3.012541972566396,
+          "p99Ms": 3.012541972566396,
+          "count": 4
+        },
+        "interpretation": "Injected failures intentionally lower tool success/completion rates; these are not production reliability estimates."
+      },
+      "mcp_connection_failure": {
+        "count": 4,
+        "uniqueFixtures": 1,
+        "scope": "controlled_runtime",
+        "requestErrorRate": 0.0,
+        "runtimeContractPassRate": 1.0,
+        "toolSelectionAccuracy": null,
+        "toolSelectionUnmeasuredReason": "No live model planner was invoked",
+        "toolExecutionSuccessRate": 0.0,
+        "averageToolCalls": 3.0,
+        "averageAgentSteps": 1.0,
+        "completionRate": 0.0,
+        "timeoutRate": 0.0,
+        "loopPreventionCount": 0,
+        "retries": 8,
+        "latency": {
+          "meanMs": 2.088541761622764,
+          "p50Ms": 1.8386250012554228,
+          "p95Ms": 2.8544170199893415,
+          "p99Ms": 2.8544170199893415,
+          "count": 4
+        },
+        "interpretation": "Injected failures intentionally lower tool success/completion rates; these are not production reliability estimates."
+      },
+      "per_tool_limit": {
+        "count": 4,
+        "uniqueFixtures": 1,
+        "scope": "controlled_runtime",
+        "requestErrorRate": 0.0,
+        "runtimeContractPassRate": 1.0,
+        "toolSelectionAccuracy": null,
+        "toolSelectionUnmeasuredReason": "No live model planner was invoked",
+        "toolExecutionSuccessRate": 0.5,
+        "averageToolCalls": 1.0,
+        "averageAgentSteps": 2.0,
+        "completionRate": 0.0,
+        "timeoutRate": 0.0,
+        "loopPreventionCount": 0,
+        "retries": 0,
+        "latency": {
+          "meanMs": 4.6409270144067705,
+          "p50Ms": 4.543458053376526,
+          "p95Ms": 6.826458033174276,
+          "p99Ms": 6.826458033174276,
+          "count": 4
+        },
+        "interpretation": "Injected failures intentionally lower tool success/completion rates; these are not production reliability estimates."
+      },
+      "provider_unavailable": {
+        "count": 4,
+        "uniqueFixtures": 1,
+        "scope": "controlled_runtime",
+        "requestErrorRate": 0.0,
+        "runtimeContractPassRate": 1.0,
+        "toolSelectionAccuracy": null,
+        "toolSelectionUnmeasuredReason": "No live model planner was invoked",
+        "toolExecutionSuccessRate": 0.0,
+        "averageToolCalls": 3.0,
+        "averageAgentSteps": 1.0,
+        "completionRate": 0.0,
+        "timeoutRate": 0.0,
+        "loopPreventionCount": 0,
+        "retries": 8,
+        "latency": {
+          "meanMs": 2.125364728271961,
+          "p50Ms": 1.8291669548489153,
+          "p95Ms": 2.9023749521002173,
+          "p99Ms": 2.9023749521002173,
+          "count": 4
+        },
+        "interpretation": "Injected failures intentionally lower tool success/completion rates; these are not production reliability estimates."
+      },
+      "risk_denied": {
+        "count": 4,
+        "uniqueFixtures": 1,
+        "scope": "controlled_runtime",
+        "requestErrorRate": 0.0,
+        "runtimeContractPassRate": 1.0,
+        "toolSelectionAccuracy": null,
+        "toolSelectionUnmeasuredReason": "No live model planner was invoked",
+        "toolExecutionSuccessRate": 0.0,
+        "averageToolCalls": 0.0,
+        "averageAgentSteps": 1.0,
+        "completionRate": 0.0,
+        "timeoutRate": 0.0,
+        "loopPreventionCount": 0,
+        "retries": 0,
+        "latency": {
+          "meanMs": 2.7126355125801638,
+          "p50Ms": 1.9539999775588512,
+          "p95Ms": 3.7905420176684856,
+          "p99Ms": 3.7905420176684856,
+          "count": 4
+        },
+        "interpretation": "Injected failures intentionally lower tool success/completion rates; these are not production reliability estimates."
+      },
+      "success": {
+        "count": 4,
+        "uniqueFixtures": 1,
+        "scope": "controlled_runtime",
+        "requestErrorRate": 0.0,
+        "runtimeContractPassRate": 1.0,
+        "toolSelectionAccuracy": null,
+        "toolSelectionUnmeasuredReason": "No live model planner was invoked",
+        "toolExecutionSuccessRate": 1.0,
+        "averageToolCalls": 1.0,
+        "averageAgentSteps": 1.0,
+        "completionRate": 1.0,
+        "timeoutRate": 0.0,
+        "loopPreventionCount": 0,
+        "retries": 0,
+        "latency": {
+          "meanMs": 8.835177242872305,
+          "p50Ms": 1.7567920149303973,
+          "p95Ms": 29.645874979905784,
+          "p99Ms": 29.645874979905784,
+          "count": 4
+        },
+        "interpretation": "Injected failures intentionally lower tool success/completion rates; these are not production reliability estimates."
+      },
+      "timeout": {
+        "count": 4,
+        "uniqueFixtures": 1,
+        "scope": "controlled_runtime",
+        "requestErrorRate": 0.0,
+        "runtimeContractPassRate": 1.0,
+        "toolSelectionAccuracy": null,
+        "toolSelectionUnmeasuredReason": "No live model planner was invoked",
+        "toolExecutionSuccessRate": 0.0,
+        "averageToolCalls": 1.0,
+        "averageAgentSteps": 1.0,
+        "completionRate": 0.0,
+        "timeoutRate": 1.0,
+        "loopPreventionCount": 0,
+        "retries": 0,
+        "latency": {
+          "meanMs": 46.713739226106554,
+          "p50Ms": 46.37695796554908,
+          "p95Ms": 48.33399999188259,
+          "p99Ms": 48.33399999188259,
+          "count": 4
+        },
+        "interpretation": "Injected failures intentionally lower tool success/completion rates; these are not production reliability estimates."
+      },
+      "unauthorized": {
+        "count": 4,
+        "uniqueFixtures": 1,
+        "scope": "controlled_runtime",
+        "requestErrorRate": 0.0,
+        "runtimeContractPassRate": 1.0,
+        "toolSelectionAccuracy": null,
+        "toolSelectionUnmeasuredReason": "No live model planner was invoked",
+        "toolExecutionSuccessRate": 0.0,
+        "averageToolCalls": 0.0,
+        "averageAgentSteps": 1.0,
+        "completionRate": 0.0,
+        "timeoutRate": 0.0,
+        "loopPreventionCount": 0,
+        "retries": 0,
+        "latency": {
+          "meanMs": 1.8341770046390593,
+          "p50Ms": 1.6466249944642186,
+          "p95Ms": 2.462000004015863,
+          "p99Ms": 2.462000004015863,
+          "count": 4
+        },
+        "interpretation": "Injected failures intentionally lower tool success/completion rates; these are not production reliability estimates."
+      },
+      "user_cancel": {
+        "count": 4,
+        "uniqueFixtures": 1,
+        "scope": "controlled_runtime",
+        "requestErrorRate": 0.0,
+        "runtimeContractPassRate": 1.0,
+        "toolSelectionAccuracy": null,
+        "toolSelectionUnmeasuredReason": "No live model planner was invoked",
+        "toolExecutionSuccessRate": 0.0,
+        "averageToolCalls": 0.0,
+        "averageAgentSteps": 0.0,
+        "completionRate": 0.0,
+        "timeoutRate": 0.0,
+        "loopPreventionCount": 0,
+        "retries": 0,
+        "latency": {
+          "meanMs": 3.1337082473328337,
+          "p50Ms": 3.3765420084819198,
+          "p95Ms": 3.5502499667927623,
+          "p99Ms": 3.5502499667927623,
+          "count": 4
+        },
+        "interpretation": "Injected failures intentionally lower tool success/completion rates; these are not production reliability estimates."
+      }
+    }
+  }
+}

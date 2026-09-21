@@ -1,0 +1,1006 @@
+# HELP active_sse_streams Currently open AI SSE responses
+# TYPE active_sse_streams gauge
+active_sse_streams 0.0
+# HELP agent_steps_total  
+# TYPE agent_steps_total counter
+agent_steps_total 0.0
+# HELP ai_provider_in_flight Physical provider slots, retained until underlying work exits
+# TYPE ai_provider_in_flight gauge
+ai_provider_in_flight 0.0
+# HELP ai_provider_queue_stage_duration_seconds  
+# TYPE ai_provider_queue_stage_duration_seconds histogram
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.001"} 0
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.001048576"} 0
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.001398101"} 0
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.001747626"} 0
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.002097151"} 0
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.002446676"} 0
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.002796201"} 0
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.003145726"} 0
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.003495251"} 0
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.003844776"} 0
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.004194304"} 0
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.005592405"} 0
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.006990506"} 0
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.008388607"} 0
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.009786708"} 0
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.011184809"} 0
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.01258291"} 0
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.013981011"} 0
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.015379112"} 0
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.016777216"} 1
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.022369621"} 1
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.027962026"} 6
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.033554431"} 7
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.039146836"} 7
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.044739241"} 7
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.050331646"} 7
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.055924051"} 7
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.061516456"} 7
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.067108864"} 8
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.089478485"} 11
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.111848106"} 11
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.134217727"} 11
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.156587348"} 16
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.178956969"} 19
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.20132659"} 26
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.223696211"} 32
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.246065832"} 35
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.268435456"} 38
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.357913941"} 50
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.447392426"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.536870911"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.626349396"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.715827881"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.805306366"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.894784851"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="0.984263336"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="1.073741824"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="1.431655765"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="1.789569706"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="2.147483647"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="2.505397588"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="2.863311529"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="3.22122547"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="3.579139411"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="3.937053352"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="4.294967296"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="5.726623061"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="7.158278826"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="8.589934591"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="10.021590356"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="11.453246121"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="12.884901886"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="14.316557651"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="15.748213416"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="17.179869184"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="22.906492245"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="28.633115306"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="34.359738367"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="40.086361428"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="45.812984489"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="51.53960755"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="57.266230611"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="62.992853672"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="68.719476736"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="91.625968981"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="114.532461226"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="137.438953471"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="160.345445716"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="183.251937961"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="206.158430206"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="229.064922451"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="251.971414696"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="274.877906944"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="300.0"} 52
+ai_provider_queue_stage_duration_seconds_bucket{status="success",le="+Inf"} 52
+ai_provider_queue_stage_duration_seconds_count{status="success"} 52
+ai_provider_queue_stage_duration_seconds_sum{status="success"} 10.331016337
+# HELP ai_provider_queue_stage_duration_seconds_max  
+# TYPE ai_provider_queue_stage_duration_seconds_max gauge
+ai_provider_queue_stage_duration_seconds_max{status="success"} 0.3736495
+# HELP ai_provider_queue_wait_seconds  
+# TYPE ai_provider_queue_wait_seconds histogram
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.001"} 0
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.001048576"} 0
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.001398101"} 0
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.001747626"} 0
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.002097151"} 0
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.002446676"} 0
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.002796201"} 0
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.003145726"} 0
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.003495251"} 0
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.003844776"} 0
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.004194304"} 0
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.005592405"} 0
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.006990506"} 0
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.008388607"} 0
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.009786708"} 0
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.011184809"} 0
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.01258291"} 0
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.013981011"} 0
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.015379112"} 0
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.016777216"} 1
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.022369621"} 1
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.027962026"} 6
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.033554431"} 7
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.039146836"} 7
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.044739241"} 7
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.050331646"} 7
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.055924051"} 7
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.061516456"} 7
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.067108864"} 8
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.089478485"} 11
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.111848106"} 11
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.134217727"} 11
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.156587348"} 16
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.178956969"} 19
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.20132659"} 26
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.223696211"} 32
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.246065832"} 35
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.268435456"} 38
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.357913941"} 50
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.447392426"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.536870911"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.626349396"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.715827881"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.805306366"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.894784851"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="0.984263336"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="1.073741824"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="1.431655765"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="1.789569706"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="2.147483647"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="2.505397588"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="2.863311529"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="3.22122547"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="3.579139411"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="3.937053352"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="4.294967296"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="5.726623061"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="7.158278826"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="8.589934591"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="10.021590356"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="11.453246121"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="12.884901886"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="14.316557651"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="15.748213416"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="17.179869184"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="22.906492245"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="28.633115306"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="34.359738367"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="40.086361428"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="45.812984489"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="51.53960755"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="57.266230611"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="62.992853672"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="68.719476736"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="91.625968981"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="114.532461226"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="137.438953471"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="160.345445716"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="183.251937961"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="206.158430206"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="229.064922451"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="251.971414696"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="274.877906944"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="300.0"} 52
+ai_provider_queue_wait_seconds_bucket{status="admitted",le="+Inf"} 52
+ai_provider_queue_wait_seconds_count{status="admitted"} 52
+ai_provider_queue_wait_seconds_sum{status="admitted"} 10.329897836
+# HELP ai_provider_queue_wait_seconds_max  
+# TYPE ai_provider_queue_wait_seconds_max gauge
+ai_provider_queue_wait_seconds_max{status="admitted"} 0.373641208
+# HELP ai_provider_queued Requests waiting for physical provider admission
+# TYPE ai_provider_queued gauge
+ai_provider_queued 0.0
+# HELP ai_request_duration_seconds  
+# TYPE ai_request_duration_seconds histogram
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.001"} 0
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.001048576"} 0
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.001398101"} 0
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.001747626"} 0
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.002097151"} 0
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.002446676"} 0
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.002796201"} 0
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.003145726"} 0
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.003495251"} 0
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.003844776"} 0
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.004194304"} 0
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.005592405"} 0
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.006990506"} 0
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.008388607"} 0
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.009786708"} 0
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.011184809"} 0
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.01258291"} 0
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.013981011"} 0
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.015379112"} 0
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.016777216"} 0
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.022369621"} 0
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.027962026"} 0
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.033554431"} 0
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.039146836"} 1
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.044739241"} 1
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.050331646"} 2
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.055924051"} 3
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.061516456"} 4
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.067108864"} 4
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.089478485"} 11
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.111848106"} 14
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.134217727"} 20
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.156587348"} 29
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.178956969"} 36
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.20132659"} 39
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.223696211"} 46
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.246065832"} 49
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.268435456"} 51
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.357913941"} 64
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.447392426"} 77
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.536870911"} 92
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.626349396"} 97
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.715827881"} 99
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.805306366"} 100
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.894784851"} 100
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="0.984263336"} 100
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="1.073741824"} 100
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="1.431655765"} 129
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="1.789569706"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="2.147483647"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="2.505397588"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="2.863311529"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="3.22122547"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="3.579139411"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="3.937053352"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="4.294967296"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="5.726623061"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="7.158278826"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="8.589934591"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="10.021590356"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="11.453246121"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="12.884901886"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="14.316557651"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="15.748213416"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="17.179869184"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="22.906492245"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="28.633115306"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="34.359738367"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="40.086361428"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="45.812984489"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="51.53960755"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="57.266230611"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="62.992853672"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="68.719476736"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="91.625968981"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="114.532461226"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="137.438953471"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="160.345445716"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="183.251937961"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="206.158430206"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="229.064922451"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="251.971414696"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="274.877906944"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="300.0"} 150
+ai_request_duration_seconds_bucket{mode="sse",status="success",le="+Inf"} 150
+ai_request_duration_seconds_count{mode="sse",status="success"} 150
+ai_request_duration_seconds_sum{mode="sse",status="success"} 99.043416226
+# HELP ai_request_duration_seconds_max  
+# TYPE ai_request_duration_seconds_max gauge
+ai_request_duration_seconds_max{mode="sse",status="success"} 1.689522042
+# HELP ai_requests_total  
+# TYPE ai_requests_total counter
+ai_requests_total{mode="sse",status="success"} 150.0
+# HELP application_ready_time_seconds Time taken for the application to be ready to service requests
+# TYPE application_ready_time_seconds gauge
+application_ready_time_seconds{main_application_class="com.aicodehelper.AiCodeHelperApplication"} 1.464
+# HELP application_started_time_seconds Time taken to start the application
+# TYPE application_started_time_seconds gauge
+application_started_time_seconds{main_application_class="com.aicodehelper.AiCodeHelperApplication"} 1.422
+# HELP auth_session_duration_seconds  
+# TYPE auth_session_duration_seconds histogram
+auth_session_duration_seconds_bucket{status="success",le="0.001"} 149
+auth_session_duration_seconds_bucket{status="success",le="0.001048576"} 149
+auth_session_duration_seconds_bucket{status="success",le="0.001398101"} 149
+auth_session_duration_seconds_bucket{status="success",le="0.001747626"} 149
+auth_session_duration_seconds_bucket{status="success",le="0.002097151"} 149
+auth_session_duration_seconds_bucket{status="success",le="0.002446676"} 149
+auth_session_duration_seconds_bucket{status="success",le="0.002796201"} 149
+auth_session_duration_seconds_bucket{status="success",le="0.003145726"} 149
+auth_session_duration_seconds_bucket{status="success",le="0.003495251"} 149
+auth_session_duration_seconds_bucket{status="success",le="0.003844776"} 149
+auth_session_duration_seconds_bucket{status="success",le="0.004194304"} 149
+auth_session_duration_seconds_bucket{status="success",le="0.005592405"} 149
+auth_session_duration_seconds_bucket{status="success",le="0.006990506"} 149
+auth_session_duration_seconds_bucket{status="success",le="0.008388607"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.009786708"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.011184809"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.01258291"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.013981011"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.015379112"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.016777216"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.022369621"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.027962026"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.033554431"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.039146836"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.044739241"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.050331646"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.055924051"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.061516456"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.067108864"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.089478485"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.111848106"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.134217727"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.156587348"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.178956969"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.20132659"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.223696211"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.246065832"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.268435456"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.357913941"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.447392426"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.536870911"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.626349396"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.715827881"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.805306366"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.894784851"} 150
+auth_session_duration_seconds_bucket{status="success",le="0.984263336"} 150
+auth_session_duration_seconds_bucket{status="success",le="1.073741824"} 150
+auth_session_duration_seconds_bucket{status="success",le="1.431655765"} 150
+auth_session_duration_seconds_bucket{status="success",le="1.789569706"} 150
+auth_session_duration_seconds_bucket{status="success",le="2.147483647"} 150
+auth_session_duration_seconds_bucket{status="success",le="2.505397588"} 150
+auth_session_duration_seconds_bucket{status="success",le="2.863311529"} 150
+auth_session_duration_seconds_bucket{status="success",le="3.22122547"} 150
+auth_session_duration_seconds_bucket{status="success",le="3.579139411"} 150
+auth_session_duration_seconds_bucket{status="success",le="3.937053352"} 150
+auth_session_duration_seconds_bucket{status="success",le="4.294967296"} 150
+auth_session_duration_seconds_bucket{status="success",le="5.726623061"} 150
+auth_session_duration_seconds_bucket{status="success",le="7.158278826"} 150
+auth_session_duration_seconds_bucket{status="success",le="8.589934591"} 150
+auth_session_duration_seconds_bucket{status="success",le="10.021590356"} 150
+auth_session_duration_seconds_bucket{status="success",le="11.453246121"} 150
+auth_session_duration_seconds_bucket{status="success",le="12.884901886"} 150
+auth_session_duration_seconds_bucket{status="success",le="14.316557651"} 150
+auth_session_duration_seconds_bucket{status="success",le="15.748213416"} 150
+auth_session_duration_seconds_bucket{status="success",le="17.179869184"} 150
+auth_session_duration_seconds_bucket{status="success",le="22.906492245"} 150
+auth_session_duration_seconds_bucket{status="success",le="28.633115306"} 150
+auth_session_duration_seconds_bucket{status="success",le="34.359738367"} 150
+auth_session_duration_seconds_bucket{status="success",le="40.086361428"} 150
+auth_session_duration_seconds_bucket{status="success",le="45.812984489"} 150
+auth_session_duration_seconds_bucket{status="success",le="51.53960755"} 150
+auth_session_duration_seconds_bucket{status="success",le="57.266230611"} 150
+auth_session_duration_seconds_bucket{status="success",le="62.992853672"} 150
+auth_session_duration_seconds_bucket{status="success",le="68.719476736"} 150
+auth_session_duration_seconds_bucket{status="success",le="91.625968981"} 150
+auth_session_duration_seconds_bucket{status="success",le="114.532461226"} 150
+auth_session_duration_seconds_bucket{status="success",le="137.438953471"} 150
+auth_session_duration_seconds_bucket{status="success",le="160.345445716"} 150
+auth_session_duration_seconds_bucket{status="success",le="183.251937961"} 150
+auth_session_duration_seconds_bucket{status="success",le="206.158430206"} 150
+auth_session_duration_seconds_bucket{status="success",le="229.064922451"} 150
+auth_session_duration_seconds_bucket{status="success",le="251.971414696"} 150
+auth_session_duration_seconds_bucket{status="success",le="274.877906944"} 150
+auth_session_duration_seconds_bucket{status="success",le="300.0"} 150
+auth_session_duration_seconds_bucket{status="success",le="+Inf"} 150
+auth_session_duration_seconds_count{status="success"} 150
+auth_session_duration_seconds_sum{status="success"} 0.03004596
+# HELP auth_session_duration_seconds_max  
+# TYPE auth_session_duration_seconds_max gauge
+auth_session_duration_seconds_max{status="success"} 0.007480375
+# HELP disk_free_bytes Usable space for path
+# TYPE disk_free_bytes gauge
+disk_free_bytes{path="/app/."} 1.7299480576E10
+# HELP disk_total_bytes Total space for path
+# TYPE disk_total_bytes gauge
+disk_total_bytes{path="/app/."} 6.2671097856E10
+# HELP executor_active_threads The approximate number of threads that are actively executing tasks
+# TYPE executor_active_threads gauge
+executor_active_threads{name="taskScheduler"} 0.0
+# HELP executor_completed_tasks_total The approximate total number of tasks that have completed execution
+# TYPE executor_completed_tasks_total counter
+executor_completed_tasks_total{name="taskScheduler"} 1.0
+# HELP executor_pool_core_threads The core number of threads for the pool
+# TYPE executor_pool_core_threads gauge
+executor_pool_core_threads{name="taskScheduler"} 1.0
+# HELP executor_pool_max_threads The maximum allowed number of threads in the pool
+# TYPE executor_pool_max_threads gauge
+executor_pool_max_threads{name="taskScheduler"} 2.147483647E9
+# HELP executor_pool_size_threads The current number of threads in the pool
+# TYPE executor_pool_size_threads gauge
+executor_pool_size_threads{name="taskScheduler"} 1.0
+# HELP executor_queue_remaining_tasks The number of additional elements that this queue can ideally accept without blocking
+# TYPE executor_queue_remaining_tasks gauge
+executor_queue_remaining_tasks{name="taskScheduler"} 2.147483647E9
+# HELP executor_queued_tasks The approximate number of tasks that are queued for execution
+# TYPE executor_queued_tasks gauge
+executor_queued_tasks{name="taskScheduler"} 1.0
+# HELP http_server_requests_active_seconds  
+# TYPE http_server_requests_active_seconds summary
+http_server_requests_active_seconds_count{exception="none",method="GET",outcome="SUCCESS",status="200",uri="UNKNOWN"} 1
+http_server_requests_active_seconds_sum{exception="none",method="GET",outcome="SUCCESS",status="200",uri="UNKNOWN"} 0.001882875
+http_server_requests_active_seconds_count{exception="none",method="POST",outcome="SUCCESS",status="200",uri="UNKNOWN"} 0
+http_server_requests_active_seconds_sum{exception="none",method="POST",outcome="SUCCESS",status="200",uri="UNKNOWN"} 0.0
+# HELP http_server_requests_active_seconds_max  
+# TYPE http_server_requests_active_seconds_max gauge
+http_server_requests_active_seconds_max{exception="none",method="GET",outcome="SUCCESS",status="200",uri="UNKNOWN"} 0.001890291
+http_server_requests_active_seconds_max{exception="none",method="POST",outcome="SUCCESS",status="200",uri="UNKNOWN"} 0.0
+# HELP http_server_requests_seconds  
+# TYPE http_server_requests_seconds summary
+http_server_requests_seconds_count{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/actuator/health"} 2
+http_server_requests_seconds_sum{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/actuator/health"} 0.019535542
+http_server_requests_seconds_count{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/actuator/prometheus"} 106
+http_server_requests_seconds_sum{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/actuator/prometheus"} 1.253854169
+http_server_requests_seconds_count{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/api/ai/chat/streams/{streamId}"} 150
+http_server_requests_seconds_sum{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/api/ai/chat/streams/{streamId}"} 99.663429183
+http_server_requests_seconds_count{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/api/evaluation/status"} 1
+http_server_requests_seconds_sum{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/api/evaluation/status"} 0.214304416
+http_server_requests_seconds_count{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/api/health"} 2
+http_server_requests_seconds_sum{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/api/health"} 0.040322375
+http_server_requests_seconds_count{error="none",exception="none",method="POST",outcome="SUCCESS",status="201",uri="/api/ai/chat/streams"} 150
+http_server_requests_seconds_sum{error="none",exception="none",method="POST",outcome="SUCCESS",status="201",uri="/api/ai/chat/streams"} 3.912681124
+http_server_requests_seconds_count{error="none",exception="none",method="POST",outcome="SUCCESS",status="201",uri="/api/users/guest"} 50
+http_server_requests_seconds_sum{error="none",exception="none",method="POST",outcome="SUCCESS",status="201",uri="/api/users/guest"} 4.609902335
+# HELP http_server_requests_seconds_max  
+# TYPE http_server_requests_seconds_max gauge
+http_server_requests_seconds_max{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/actuator/health"} 0.013113875
+http_server_requests_seconds_max{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/actuator/prometheus"} 0.143581375
+http_server_requests_seconds_max{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/api/ai/chat/streams/{streamId}"} 1.691267751
+http_server_requests_seconds_max{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/api/evaluation/status"} 0.214304416
+http_server_requests_seconds_max{error="none",exception="none",method="GET",outcome="SUCCESS",status="200",uri="/api/health"} 0.039352167
+http_server_requests_seconds_max{error="none",exception="none",method="POST",outcome="SUCCESS",status="201",uri="/api/ai/chat/streams"} 0.1195495
+http_server_requests_seconds_max{error="none",exception="none",method="POST",outcome="SUCCESS",status="201",uri="/api/users/guest"} 0.118144083
+# HELP input_tokens_total  
+# TYPE input_tokens_total counter
+input_tokens_total{mode="other"} 0.0
+# HELP jvm_info JVM version info
+# TYPE jvm_info gauge
+jvm_info{runtime="OpenJDK Runtime Environment",vendor="Eclipse Adoptium",version="21.0.12+8-LTS"} 1
+# HELP jvm_buffer_count_buffers An estimate of the number of buffers in the pool
+# TYPE jvm_buffer_count_buffers gauge
+jvm_buffer_count_buffers{id="direct"} 61.0
+jvm_buffer_count_buffers{id="mapped"} 0.0
+jvm_buffer_count_buffers{id="mapped - 'non-volatile memory'"} 0.0
+# HELP jvm_buffer_memory_used_bytes An estimate of the memory that the Java virtual machine is using for this buffer pool
+# TYPE jvm_buffer_memory_used_bytes gauge
+jvm_buffer_memory_used_bytes{id="direct"} 450160.0
+jvm_buffer_memory_used_bytes{id="mapped"} 0.0
+jvm_buffer_memory_used_bytes{id="mapped - 'non-volatile memory'"} 0.0
+# HELP jvm_buffer_total_capacity_bytes An estimate of the total capacity of the buffers in this pool
+# TYPE jvm_buffer_total_capacity_bytes gauge
+jvm_buffer_total_capacity_bytes{id="direct"} 450160.0
+jvm_buffer_total_capacity_bytes{id="mapped"} 0.0
+jvm_buffer_total_capacity_bytes{id="mapped - 'non-volatile memory'"} 0.0
+# HELP jvm_classes_loaded_classes The number of classes that are currently loaded in the Java virtual machine
+# TYPE jvm_classes_loaded_classes gauge
+jvm_classes_loaded_classes 13076.0
+# HELP jvm_classes_unloaded_classes_total The number of classes unloaded in the Java virtual machine
+# TYPE jvm_classes_unloaded_classes_total counter
+jvm_classes_unloaded_classes_total 32.0
+# HELP jvm_compilation_time_ms_total The approximate accumulated elapsed time spent in compilation
+# TYPE jvm_compilation_time_ms_total counter
+jvm_compilation_time_ms_total{compiler="HotSpot 64-Bit Tiered Compilers"} 10486.0
+# HELP jvm_gc_concurrent_phase_time_seconds Time spent in concurrent phase
+# TYPE jvm_gc_concurrent_phase_time_seconds summary
+jvm_gc_concurrent_phase_time_seconds_count{action="end of concurrent GC pause",cause="No GC",gc="G1 Concurrent GC"} 6
+jvm_gc_concurrent_phase_time_seconds_sum{action="end of concurrent GC pause",cause="No GC",gc="G1 Concurrent GC"} 0.052
+# HELP jvm_gc_concurrent_phase_time_seconds_max Time spent in concurrent phase
+# TYPE jvm_gc_concurrent_phase_time_seconds_max gauge
+jvm_gc_concurrent_phase_time_seconds_max{action="end of concurrent GC pause",cause="No GC",gc="G1 Concurrent GC"} 0.038
+# HELP jvm_gc_live_data_size_bytes Size of long-lived heap memory pool after reclamation
+# TYPE jvm_gc_live_data_size_bytes gauge
+jvm_gc_live_data_size_bytes 5.46022E7
+# HELP jvm_gc_max_data_size_bytes Max size of long-lived heap memory pool
+# TYPE jvm_gc_max_data_size_bytes gauge
+jvm_gc_max_data_size_bytes 1.02760448E9
+# HELP jvm_gc_memory_allocated_bytes_total Incremented for an increase in the size of the (young) heap memory pool after one GC to before the next
+# TYPE jvm_gc_memory_allocated_bytes_total counter
+jvm_gc_memory_allocated_bytes_total 1.873805288E9
+# HELP jvm_gc_memory_promoted_bytes_total Count of positive increases in the size of the old generation memory pool before GC to after GC
+# TYPE jvm_gc_memory_promoted_bytes_total counter
+jvm_gc_memory_promoted_bytes_total 1.94913872E8
+# HELP jvm_gc_overhead An approximation of the percent of CPU time used by GC activities over the last lookback period or since monitoring began, whichever is shorter, in the range [0..1]
+# TYPE jvm_gc_overhead gauge
+jvm_gc_overhead 0.01798051662724431
+# HELP jvm_gc_pause_seconds Time spent in GC pause
+# TYPE jvm_gc_pause_seconds summary
+jvm_gc_pause_seconds_count{action="end of minor GC",cause="G1 Evacuation Pause",gc="G1 Young Generation"} 25
+jvm_gc_pause_seconds_sum{action="end of minor GC",cause="G1 Evacuation Pause",gc="G1 Young Generation"} 0.191
+jvm_gc_pause_seconds_count{action="end of minor GC",cause="GCLocker Initiated GC",gc="G1 Young Generation"} 1
+jvm_gc_pause_seconds_sum{action="end of minor GC",cause="GCLocker Initiated GC",gc="G1 Young Generation"} 0.008
+# HELP jvm_gc_pause_seconds_max Time spent in GC pause
+# TYPE jvm_gc_pause_seconds_max gauge
+jvm_gc_pause_seconds_max{action="end of minor GC",cause="G1 Evacuation Pause",gc="G1 Young Generation"} 0.045
+jvm_gc_pause_seconds_max{action="end of minor GC",cause="GCLocker Initiated GC",gc="G1 Young Generation"} 0.008
+# HELP jvm_memory_committed_bytes The amount of memory in bytes that is committed for the Java virtual machine to use
+# TYPE jvm_memory_committed_bytes gauge
+jvm_memory_committed_bytes{area="heap",id="G1 Eden Space"} 2.50609664E8
+jvm_memory_committed_bytes{area="heap",id="G1 Old Gen"} 1.48897792E8
+jvm_memory_committed_bytes{area="heap",id="G1 Survivor Space"} 3145728.0
+jvm_memory_committed_bytes{area="nonheap",id="CodeHeap 'non-nmethods'"} 2555904.0
+jvm_memory_committed_bytes{area="nonheap",id="CodeHeap 'non-profiled nmethods'"} 6422528.0
+jvm_memory_committed_bytes{area="nonheap",id="CodeHeap 'profiled nmethods'"} 2.2740992E7
+jvm_memory_committed_bytes{area="nonheap",id="Compressed Class Space"} 8257536.0
+jvm_memory_committed_bytes{area="nonheap",id="Metaspace"} 6.3111168E7
+# HELP jvm_memory_max_bytes The maximum amount of memory in bytes that can be used for memory management
+# TYPE jvm_memory_max_bytes gauge
+jvm_memory_max_bytes{area="heap",id="G1 Eden Space"} -1.0
+jvm_memory_max_bytes{area="heap",id="G1 Old Gen"} 1.02760448E9
+jvm_memory_max_bytes{area="heap",id="G1 Survivor Space"} -1.0
+jvm_memory_max_bytes{area="nonheap",id="CodeHeap 'non-nmethods'"} 5840896.0
+jvm_memory_max_bytes{area="nonheap",id="CodeHeap 'non-profiled nmethods'"} 1.22908672E8
+jvm_memory_max_bytes{area="nonheap",id="CodeHeap 'profiled nmethods'"} 1.22908672E8
+jvm_memory_max_bytes{area="nonheap",id="Compressed Class Space"} 1.073741824E9
+jvm_memory_max_bytes{area="nonheap",id="Metaspace"} -1.0
+# HELP jvm_memory_usage_after_gc The percentage of long-lived heap pool used after the last GC event, in the range [0..1]
+# TYPE jvm_memory_usage_after_gc gauge
+jvm_memory_usage_after_gc{area="heap",pool="long-lived"} 0.05313542424416055
+# HELP jvm_memory_used_bytes The amount of used memory
+# TYPE jvm_memory_used_bytes gauge
+jvm_memory_used_bytes{area="heap",id="G1 Eden Space"} 9.3323264E7
+jvm_memory_used_bytes{area="heap",id="G1 Old Gen"} 5.46022E7
+jvm_memory_used_bytes{area="heap",id="G1 Survivor Space"} 3034544.0
+jvm_memory_used_bytes{area="nonheap",id="CodeHeap 'non-nmethods'"} 1588864.0
+jvm_memory_used_bytes{area="nonheap",id="CodeHeap 'non-profiled nmethods'"} 6405120.0
+jvm_memory_used_bytes{area="nonheap",id="CodeHeap 'profiled nmethods'"} 2.2704256E7
+jvm_memory_used_bytes{area="nonheap",id="Compressed Class Space"} 7814712.0
+jvm_memory_used_bytes{area="nonheap",id="Metaspace"} 6.2124544E7
+# HELP jvm_threads_daemon_threads The current number of live daemon threads
+# TYPE jvm_threads_daemon_threads gauge
+jvm_threads_daemon_threads 77.0
+# HELP jvm_threads_live_threads The current number of live threads including both daemon and non-daemon threads
+# TYPE jvm_threads_live_threads gauge
+jvm_threads_live_threads 82.0
+# HELP jvm_threads_peak_threads The peak live thread count since the Java virtual machine started or peak was reset
+# TYPE jvm_threads_peak_threads gauge
+jvm_threads_peak_threads 82.0
+# HELP jvm_threads_started_threads_total The total number of application threads started in the JVM
+# TYPE jvm_threads_started_threads_total counter
+jvm_threads_started_threads_total 87.0
+# HELP jvm_threads_states_threads The current number of threads
+# TYPE jvm_threads_states_threads gauge
+jvm_threads_states_threads{state="blocked"} 0.0
+jvm_threads_states_threads{state="new"} 0.0
+jvm_threads_states_threads{state="runnable"} 7.0
+jvm_threads_states_threads{state="terminated"} 0.0
+jvm_threads_states_threads{state="timed-waiting"} 65.0
+jvm_threads_states_threads{state="waiting"} 10.0
+# HELP lexical_duration_seconds  
+# TYPE lexical_duration_seconds histogram
+lexical_duration_seconds_bucket{status="success",le="0.001"} 0
+lexical_duration_seconds_bucket{status="success",le="0.001048576"} 0
+lexical_duration_seconds_bucket{status="success",le="0.001398101"} 0
+lexical_duration_seconds_bucket{status="success",le="0.001747626"} 0
+lexical_duration_seconds_bucket{status="success",le="0.002097151"} 0
+lexical_duration_seconds_bucket{status="success",le="0.002446676"} 0
+lexical_duration_seconds_bucket{status="success",le="0.002796201"} 0
+lexical_duration_seconds_bucket{status="success",le="0.003145726"} 0
+lexical_duration_seconds_bucket{status="success",le="0.003495251"} 0
+lexical_duration_seconds_bucket{status="success",le="0.003844776"} 0
+lexical_duration_seconds_bucket{status="success",le="0.004194304"} 0
+lexical_duration_seconds_bucket{status="success",le="0.005592405"} 0
+lexical_duration_seconds_bucket{status="success",le="0.006990506"} 4
+lexical_duration_seconds_bucket{status="success",le="0.008388607"} 7
+lexical_duration_seconds_bucket{status="success",le="0.009786708"} 11
+lexical_duration_seconds_bucket{status="success",le="0.011184809"} 16
+lexical_duration_seconds_bucket{status="success",le="0.01258291"} 22
+lexical_duration_seconds_bucket{status="success",le="0.013981011"} 28
+lexical_duration_seconds_bucket{status="success",le="0.015379112"} 34
+lexical_duration_seconds_bucket{status="success",le="0.016777216"} 36
+lexical_duration_seconds_bucket{status="success",le="0.022369621"} 44
+lexical_duration_seconds_bucket{status="success",le="0.027962026"} 58
+lexical_duration_seconds_bucket{status="success",le="0.033554431"} 67
+lexical_duration_seconds_bucket{status="success",le="0.039146836"} 71
+lexical_duration_seconds_bucket{status="success",le="0.044739241"} 76
+lexical_duration_seconds_bucket{status="success",le="0.050331646"} 78
+lexical_duration_seconds_bucket{status="success",le="0.055924051"} 84
+lexical_duration_seconds_bucket{status="success",le="0.061516456"} 88
+lexical_duration_seconds_bucket{status="success",le="0.067108864"} 89
+lexical_duration_seconds_bucket{status="success",le="0.089478485"} 97
+lexical_duration_seconds_bucket{status="success",le="0.111848106"} 100
+lexical_duration_seconds_bucket{status="success",le="0.134217727"} 100
+lexical_duration_seconds_bucket{status="success",le="0.156587348"} 100
+lexical_duration_seconds_bucket{status="success",le="0.178956969"} 100
+lexical_duration_seconds_bucket{status="success",le="0.20132659"} 100
+lexical_duration_seconds_bucket{status="success",le="0.223696211"} 100
+lexical_duration_seconds_bucket{status="success",le="0.246065832"} 100
+lexical_duration_seconds_bucket{status="success",le="0.268435456"} 100
+lexical_duration_seconds_bucket{status="success",le="0.357913941"} 100
+lexical_duration_seconds_bucket{status="success",le="0.447392426"} 100
+lexical_duration_seconds_bucket{status="success",le="0.536870911"} 100
+lexical_duration_seconds_bucket{status="success",le="0.626349396"} 103
+lexical_duration_seconds_bucket{status="success",le="0.715827881"} 109
+lexical_duration_seconds_bucket{status="success",le="0.805306366"} 122
+lexical_duration_seconds_bucket{status="success",le="0.894784851"} 144
+lexical_duration_seconds_bucket{status="success",le="0.984263336"} 150
+lexical_duration_seconds_bucket{status="success",le="1.073741824"} 150
+lexical_duration_seconds_bucket{status="success",le="1.431655765"} 150
+lexical_duration_seconds_bucket{status="success",le="1.789569706"} 150
+lexical_duration_seconds_bucket{status="success",le="2.147483647"} 150
+lexical_duration_seconds_bucket{status="success",le="2.505397588"} 150
+lexical_duration_seconds_bucket{status="success",le="2.863311529"} 150
+lexical_duration_seconds_bucket{status="success",le="3.22122547"} 150
+lexical_duration_seconds_bucket{status="success",le="3.579139411"} 150
+lexical_duration_seconds_bucket{status="success",le="3.937053352"} 150
+lexical_duration_seconds_bucket{status="success",le="4.294967296"} 150
+lexical_duration_seconds_bucket{status="success",le="5.726623061"} 150
+lexical_duration_seconds_bucket{status="success",le="7.158278826"} 150
+lexical_duration_seconds_bucket{status="success",le="8.589934591"} 150
+lexical_duration_seconds_bucket{status="success",le="10.021590356"} 150
+lexical_duration_seconds_bucket{status="success",le="11.453246121"} 150
+lexical_duration_seconds_bucket{status="success",le="12.884901886"} 150
+lexical_duration_seconds_bucket{status="success",le="14.316557651"} 150
+lexical_duration_seconds_bucket{status="success",le="15.748213416"} 150
+lexical_duration_seconds_bucket{status="success",le="17.179869184"} 150
+lexical_duration_seconds_bucket{status="success",le="22.906492245"} 150
+lexical_duration_seconds_bucket{status="success",le="28.633115306"} 150
+lexical_duration_seconds_bucket{status="success",le="34.359738367"} 150
+lexical_duration_seconds_bucket{status="success",le="40.086361428"} 150
+lexical_duration_seconds_bucket{status="success",le="45.812984489"} 150
+lexical_duration_seconds_bucket{status="success",le="51.53960755"} 150
+lexical_duration_seconds_bucket{status="success",le="57.266230611"} 150
+lexical_duration_seconds_bucket{status="success",le="62.992853672"} 150
+lexical_duration_seconds_bucket{status="success",le="68.719476736"} 150
+lexical_duration_seconds_bucket{status="success",le="91.625968981"} 150
+lexical_duration_seconds_bucket{status="success",le="114.532461226"} 150
+lexical_duration_seconds_bucket{status="success",le="137.438953471"} 150
+lexical_duration_seconds_bucket{status="success",le="160.345445716"} 150
+lexical_duration_seconds_bucket{status="success",le="183.251937961"} 150
+lexical_duration_seconds_bucket{status="success",le="206.158430206"} 150
+lexical_duration_seconds_bucket{status="success",le="229.064922451"} 150
+lexical_duration_seconds_bucket{status="success",le="251.971414696"} 150
+lexical_duration_seconds_bucket{status="success",le="274.877906944"} 150
+lexical_duration_seconds_bucket{status="success",le="300.0"} 150
+lexical_duration_seconds_bucket{status="success",le="+Inf"} 150
+lexical_duration_seconds_count{status="success"} 150
+lexical_duration_seconds_sum{status="success"} 42.83437836
+# HELP lexical_duration_seconds_max  
+# TYPE lexical_duration_seconds_max gauge
+lexical_duration_seconds_max{status="success"} 0.909098542
+# HELP llm_request_duration_seconds  
+# TYPE llm_request_duration_seconds histogram
+llm_request_duration_seconds_bucket{status="success",le="0.001"} 13
+llm_request_duration_seconds_bucket{status="success",le="0.001048576"} 13
+llm_request_duration_seconds_bucket{status="success",le="0.001398101"} 21
+llm_request_duration_seconds_bucket{status="success",le="0.001747626"} 27
+llm_request_duration_seconds_bucket{status="success",le="0.002097151"} 27
+llm_request_duration_seconds_bucket{status="success",le="0.002446676"} 32
+llm_request_duration_seconds_bucket{status="success",le="0.002796201"} 34
+llm_request_duration_seconds_bucket{status="success",le="0.003145726"} 37
+llm_request_duration_seconds_bucket{status="success",le="0.003495251"} 38
+llm_request_duration_seconds_bucket{status="success",le="0.003844776"} 39
+llm_request_duration_seconds_bucket{status="success",le="0.004194304"} 39
+llm_request_duration_seconds_bucket{status="success",le="0.005592405"} 41
+llm_request_duration_seconds_bucket{status="success",le="0.006990506"} 43
+llm_request_duration_seconds_bucket{status="success",le="0.008388607"} 47
+llm_request_duration_seconds_bucket{status="success",le="0.009786708"} 55
+llm_request_duration_seconds_bucket{status="success",le="0.011184809"} 58
+llm_request_duration_seconds_bucket{status="success",le="0.01258291"} 60
+llm_request_duration_seconds_bucket{status="success",le="0.013981011"} 63
+llm_request_duration_seconds_bucket{status="success",le="0.015379112"} 67
+llm_request_duration_seconds_bucket{status="success",le="0.016777216"} 69
+llm_request_duration_seconds_bucket{status="success",le="0.022369621"} 73
+llm_request_duration_seconds_bucket{status="success",le="0.027962026"} 79
+llm_request_duration_seconds_bucket{status="success",le="0.033554431"} 89
+llm_request_duration_seconds_bucket{status="success",le="0.039146836"} 93
+llm_request_duration_seconds_bucket{status="success",le="0.044739241"} 95
+llm_request_duration_seconds_bucket{status="success",le="0.050331646"} 99
+llm_request_duration_seconds_bucket{status="success",le="0.055924051"} 104
+llm_request_duration_seconds_bucket{status="success",le="0.061516456"} 108
+llm_request_duration_seconds_bucket{status="success",le="0.067108864"} 110
+llm_request_duration_seconds_bucket{status="success",le="0.089478485"} 121
+llm_request_duration_seconds_bucket{status="success",le="0.111848106"} 123
+llm_request_duration_seconds_bucket{status="success",le="0.134217727"} 131
+llm_request_duration_seconds_bucket{status="success",le="0.156587348"} 134
+llm_request_duration_seconds_bucket{status="success",le="0.178956969"} 136
+llm_request_duration_seconds_bucket{status="success",le="0.20132659"} 139
+llm_request_duration_seconds_bucket{status="success",le="0.223696211"} 140
+llm_request_duration_seconds_bucket{status="success",le="0.246065832"} 145
+llm_request_duration_seconds_bucket{status="success",le="0.268435456"} 145
+llm_request_duration_seconds_bucket{status="success",le="0.357913941"} 148
+llm_request_duration_seconds_bucket{status="success",le="0.447392426"} 150
+llm_request_duration_seconds_bucket{status="success",le="0.536870911"} 150
+llm_request_duration_seconds_bucket{status="success",le="0.626349396"} 150
+llm_request_duration_seconds_bucket{status="success",le="0.715827881"} 150
+llm_request_duration_seconds_bucket{status="success",le="0.805306366"} 150
+llm_request_duration_seconds_bucket{status="success",le="0.894784851"} 150
+llm_request_duration_seconds_bucket{status="success",le="0.984263336"} 150
+llm_request_duration_seconds_bucket{status="success",le="1.073741824"} 150
+llm_request_duration_seconds_bucket{status="success",le="1.431655765"} 150
+llm_request_duration_seconds_bucket{status="success",le="1.789569706"} 150
+llm_request_duration_seconds_bucket{status="success",le="2.147483647"} 150
+llm_request_duration_seconds_bucket{status="success",le="2.505397588"} 150
+llm_request_duration_seconds_bucket{status="success",le="2.863311529"} 150
+llm_request_duration_seconds_bucket{status="success",le="3.22122547"} 150
+llm_request_duration_seconds_bucket{status="success",le="3.579139411"} 150
+llm_request_duration_seconds_bucket{status="success",le="3.937053352"} 150
+llm_request_duration_seconds_bucket{status="success",le="4.294967296"} 150
+llm_request_duration_seconds_bucket{status="success",le="5.726623061"} 150
+llm_request_duration_seconds_bucket{status="success",le="7.158278826"} 150
+llm_request_duration_seconds_bucket{status="success",le="8.589934591"} 150
+llm_request_duration_seconds_bucket{status="success",le="10.021590356"} 150
+llm_request_duration_seconds_bucket{status="success",le="11.453246121"} 150
+llm_request_duration_seconds_bucket{status="success",le="12.884901886"} 150
+llm_request_duration_seconds_bucket{status="success",le="14.316557651"} 150
+llm_request_duration_seconds_bucket{status="success",le="15.748213416"} 150
+llm_request_duration_seconds_bucket{status="success",le="17.179869184"} 150
+llm_request_duration_seconds_bucket{status="success",le="22.906492245"} 150
+llm_request_duration_seconds_bucket{status="success",le="28.633115306"} 150
+llm_request_duration_seconds_bucket{status="success",le="34.359738367"} 150
+llm_request_duration_seconds_bucket{status="success",le="40.086361428"} 150
+llm_request_duration_seconds_bucket{status="success",le="45.812984489"} 150
+llm_request_duration_seconds_bucket{status="success",le="51.53960755"} 150
+llm_request_duration_seconds_bucket{status="success",le="57.266230611"} 150
+llm_request_duration_seconds_bucket{status="success",le="62.992853672"} 150
+llm_request_duration_seconds_bucket{status="success",le="68.719476736"} 150
+llm_request_duration_seconds_bucket{status="success",le="91.625968981"} 150
+llm_request_duration_seconds_bucket{status="success",le="114.532461226"} 150
+llm_request_duration_seconds_bucket{status="success",le="137.438953471"} 150
+llm_request_duration_seconds_bucket{status="success",le="160.345445716"} 150
+llm_request_duration_seconds_bucket{status="success",le="183.251937961"} 150
+llm_request_duration_seconds_bucket{status="success",le="206.158430206"} 150
+llm_request_duration_seconds_bucket{status="success",le="229.064922451"} 150
+llm_request_duration_seconds_bucket{status="success",le="251.971414696"} 150
+llm_request_duration_seconds_bucket{status="success",le="274.877906944"} 150
+llm_request_duration_seconds_bucket{status="success",le="300.0"} 150
+llm_request_duration_seconds_bucket{status="success",le="+Inf"} 150
+llm_request_duration_seconds_count{status="success"} 150
+llm_request_duration_seconds_sum{status="success"} 8.492562219
+# HELP llm_request_duration_seconds_max  
+# TYPE llm_request_duration_seconds_max gauge
+llm_request_duration_seconds_max{status="success"} 0.434354459
+# HELP logback_events_total Number of log events that were enabled by the effective log level
+# TYPE logback_events_total counter
+logback_events_total{level="debug"} 0.0
+logback_events_total{level="error"} 0.0
+logback_events_total{level="info"} 767.0
+logback_events_total{level="trace"} 0.0
+logback_events_total{level="warn"} 0.0
+# HELP output_tokens_total  
+# TYPE output_tokens_total counter
+output_tokens_total{mode="other"} 0.0
+# HELP process_cpu_time_ns_total The "cpu time" used by the Java Virtual Machine process
+# TYPE process_cpu_time_ns_total counter
+process_cpu_time_ns_total 2.794E10
+# HELP process_cpu_usage The "recent cpu usage" for the Java Virtual Machine process
+# TYPE process_cpu_usage gauge
+process_cpu_usage 0.015625
+# HELP process_files_max_files The maximum file descriptor count
+# TYPE process_files_max_files gauge
+process_files_max_files 1048576.0
+# HELP process_files_open_files The open file descriptor count
+# TYPE process_files_open_files gauge
+process_files_open_files 15.0
+# HELP process_start_time_seconds Start time of the process since unix epoch.
+# TYPE process_start_time_seconds gauge
+process_start_time_seconds 1.789970289417E9
+# HELP process_uptime_seconds The uptime of the Java virtual machine
+# TYPE process_uptime_seconds gauge
+process_uptime_seconds 12.951
+# HELP rag_no_hit_total  
+# TYPE rag_no_hit_total counter
+rag_no_hit_total 0.0
+# HELP retrieval_duration_seconds  
+# TYPE retrieval_duration_seconds histogram
+retrieval_duration_seconds_bucket{status="success",le="0.001"} 0
+retrieval_duration_seconds_bucket{status="success",le="0.001048576"} 0
+retrieval_duration_seconds_bucket{status="success",le="0.001398101"} 0
+retrieval_duration_seconds_bucket{status="success",le="0.001747626"} 0
+retrieval_duration_seconds_bucket{status="success",le="0.002097151"} 0
+retrieval_duration_seconds_bucket{status="success",le="0.002446676"} 0
+retrieval_duration_seconds_bucket{status="success",le="0.002796201"} 0
+retrieval_duration_seconds_bucket{status="success",le="0.003145726"} 0
+retrieval_duration_seconds_bucket{status="success",le="0.003495251"} 0
+retrieval_duration_seconds_bucket{status="success",le="0.003844776"} 0
+retrieval_duration_seconds_bucket{status="success",le="0.004194304"} 0
+retrieval_duration_seconds_bucket{status="success",le="0.005592405"} 0
+retrieval_duration_seconds_bucket{status="success",le="0.006990506"} 4
+retrieval_duration_seconds_bucket{status="success",le="0.008388607"} 5
+retrieval_duration_seconds_bucket{status="success",le="0.009786708"} 11
+retrieval_duration_seconds_bucket{status="success",le="0.011184809"} 15
+retrieval_duration_seconds_bucket{status="success",le="0.01258291"} 20
+retrieval_duration_seconds_bucket{status="success",le="0.013981011"} 25
+retrieval_duration_seconds_bucket{status="success",le="0.015379112"} 33
+retrieval_duration_seconds_bucket{status="success",le="0.016777216"} 34
+retrieval_duration_seconds_bucket{status="success",le="0.022369621"} 42
+retrieval_duration_seconds_bucket{status="success",le="0.027962026"} 57
+retrieval_duration_seconds_bucket{status="success",le="0.033554431"} 66
+retrieval_duration_seconds_bucket{status="success",le="0.039146836"} 70
+retrieval_duration_seconds_bucket{status="success",le="0.044739241"} 74
+retrieval_duration_seconds_bucket{status="success",le="0.050331646"} 77
+retrieval_duration_seconds_bucket{status="success",le="0.055924051"} 83
+retrieval_duration_seconds_bucket{status="success",le="0.061516456"} 87
+retrieval_duration_seconds_bucket{status="success",le="0.067108864"} 89
+retrieval_duration_seconds_bucket{status="success",le="0.089478485"} 97
+retrieval_duration_seconds_bucket{status="success",le="0.111848106"} 100
+retrieval_duration_seconds_bucket{status="success",le="0.134217727"} 100
+retrieval_duration_seconds_bucket{status="success",le="0.156587348"} 100
+retrieval_duration_seconds_bucket{status="success",le="0.178956969"} 100
+retrieval_duration_seconds_bucket{status="success",le="0.20132659"} 100
+retrieval_duration_seconds_bucket{status="success",le="0.223696211"} 100
+retrieval_duration_seconds_bucket{status="success",le="0.246065832"} 100
+retrieval_duration_seconds_bucket{status="success",le="0.268435456"} 100
+retrieval_duration_seconds_bucket{status="success",le="0.357913941"} 100
+retrieval_duration_seconds_bucket{status="success",le="0.447392426"} 100
+retrieval_duration_seconds_bucket{status="success",le="0.536870911"} 100
+retrieval_duration_seconds_bucket{status="success",le="0.626349396"} 102
+retrieval_duration_seconds_bucket{status="success",le="0.715827881"} 109
+retrieval_duration_seconds_bucket{status="success",le="0.805306366"} 122
+retrieval_duration_seconds_bucket{status="success",le="0.894784851"} 144
+retrieval_duration_seconds_bucket{status="success",le="0.984263336"} 150
+retrieval_duration_seconds_bucket{status="success",le="1.073741824"} 150
+retrieval_duration_seconds_bucket{status="success",le="1.431655765"} 150
+retrieval_duration_seconds_bucket{status="success",le="1.789569706"} 150
+retrieval_duration_seconds_bucket{status="success",le="2.147483647"} 150
+retrieval_duration_seconds_bucket{status="success",le="2.505397588"} 150
+retrieval_duration_seconds_bucket{status="success",le="2.863311529"} 150
+retrieval_duration_seconds_bucket{status="success",le="3.22122547"} 150
+retrieval_duration_seconds_bucket{status="success",le="3.579139411"} 150
+retrieval_duration_seconds_bucket{status="success",le="3.937053352"} 150
+retrieval_duration_seconds_bucket{status="success",le="4.294967296"} 150
+retrieval_duration_seconds_bucket{status="success",le="5.726623061"} 150
+retrieval_duration_seconds_bucket{status="success",le="7.158278826"} 150
+retrieval_duration_seconds_bucket{status="success",le="8.589934591"} 150
+retrieval_duration_seconds_bucket{status="success",le="10.021590356"} 150
+retrieval_duration_seconds_bucket{status="success",le="11.453246121"} 150
+retrieval_duration_seconds_bucket{status="success",le="12.884901886"} 150
+retrieval_duration_seconds_bucket{status="success",le="14.316557651"} 150
+retrieval_duration_seconds_bucket{status="success",le="15.748213416"} 150
+retrieval_duration_seconds_bucket{status="success",le="17.179869184"} 150
+retrieval_duration_seconds_bucket{status="success",le="22.906492245"} 150
+retrieval_duration_seconds_bucket{status="success",le="28.633115306"} 150
+retrieval_duration_seconds_bucket{status="success",le="34.359738367"} 150
+retrieval_duration_seconds_bucket{status="success",le="40.086361428"} 150
+retrieval_duration_seconds_bucket{status="success",le="45.812984489"} 150
+retrieval_duration_seconds_bucket{status="success",le="51.53960755"} 150
+retrieval_duration_seconds_bucket{status="success",le="57.266230611"} 150
+retrieval_duration_seconds_bucket{status="success",le="62.992853672"} 150
+retrieval_duration_seconds_bucket{status="success",le="68.719476736"} 150
+retrieval_duration_seconds_bucket{status="success",le="91.625968981"} 150
+retrieval_duration_seconds_bucket{status="success",le="114.532461226"} 150
+retrieval_duration_seconds_bucket{status="success",le="137.438953471"} 150
+retrieval_duration_seconds_bucket{status="success",le="160.345445716"} 150
+retrieval_duration_seconds_bucket{status="success",le="183.251937961"} 150
+retrieval_duration_seconds_bucket{status="success",le="206.158430206"} 150
+retrieval_duration_seconds_bucket{status="success",le="229.064922451"} 150
+retrieval_duration_seconds_bucket{status="success",le="251.971414696"} 150
+retrieval_duration_seconds_bucket{status="success",le="274.877906944"} 150
+retrieval_duration_seconds_bucket{status="success",le="300.0"} 150
+retrieval_duration_seconds_bucket{status="success",le="+Inf"} 150
+retrieval_duration_seconds_count{status="success"} 150
+retrieval_duration_seconds_sum{status="success"} 43.097899161
+# HELP retrieval_duration_seconds_max  
+# TYPE retrieval_duration_seconds_max gauge
+retrieval_duration_seconds_max{status="success"} 0.909339376
+# HELP stream_duration_seconds  
+# TYPE stream_duration_seconds histogram
+stream_duration_seconds_bucket{status="success",le="0.001"} 0
+stream_duration_seconds_bucket{status="success",le="0.001048576"} 0
+stream_duration_seconds_bucket{status="success",le="0.001398101"} 0
+stream_duration_seconds_bucket{status="success",le="0.001747626"} 0
+stream_duration_seconds_bucket{status="success",le="0.002097151"} 0
+stream_duration_seconds_bucket{status="success",le="0.002446676"} 0
+stream_duration_seconds_bucket{status="success",le="0.002796201"} 0
+stream_duration_seconds_bucket{status="success",le="0.003145726"} 0
+stream_duration_seconds_bucket{status="success",le="0.003495251"} 0
+stream_duration_seconds_bucket{status="success",le="0.003844776"} 0
+stream_duration_seconds_bucket{status="success",le="0.004194304"} 0
+stream_duration_seconds_bucket{status="success",le="0.005592405"} 0
+stream_duration_seconds_bucket{status="success",le="0.006990506"} 0
+stream_duration_seconds_bucket{status="success",le="0.008388607"} 0
+stream_duration_seconds_bucket{status="success",le="0.009786708"} 0
+stream_duration_seconds_bucket{status="success",le="0.011184809"} 0
+stream_duration_seconds_bucket{status="success",le="0.01258291"} 0
+stream_duration_seconds_bucket{status="success",le="0.013981011"} 0
+stream_duration_seconds_bucket{status="success",le="0.015379112"} 0
+stream_duration_seconds_bucket{status="success",le="0.016777216"} 0
+stream_duration_seconds_bucket{status="success",le="0.022369621"} 0
+stream_duration_seconds_bucket{status="success",le="0.027962026"} 0
+stream_duration_seconds_bucket{status="success",le="0.033554431"} 0
+stream_duration_seconds_bucket{status="success",le="0.039146836"} 1
+stream_duration_seconds_bucket{status="success",le="0.044739241"} 1
+stream_duration_seconds_bucket{status="success",le="0.050331646"} 3
+stream_duration_seconds_bucket{status="success",le="0.055924051"} 3
+stream_duration_seconds_bucket{status="success",le="0.061516456"} 4
+stream_duration_seconds_bucket{status="success",le="0.067108864"} 4
+stream_duration_seconds_bucket{status="success",le="0.089478485"} 11
+stream_duration_seconds_bucket{status="success",le="0.111848106"} 15
+stream_duration_seconds_bucket{status="success",le="0.134217727"} 21
+stream_duration_seconds_bucket{status="success",le="0.156587348"} 30
+stream_duration_seconds_bucket{status="success",le="0.178956969"} 36
+stream_duration_seconds_bucket{status="success",le="0.20132659"} 39
+stream_duration_seconds_bucket{status="success",le="0.223696211"} 46
+stream_duration_seconds_bucket{status="success",le="0.246065832"} 49
+stream_duration_seconds_bucket{status="success",le="0.268435456"} 51
+stream_duration_seconds_bucket{status="success",le="0.357913941"} 64
+stream_duration_seconds_bucket{status="success",le="0.447392426"} 77
+stream_duration_seconds_bucket{status="success",le="0.536870911"} 92
+stream_duration_seconds_bucket{status="success",le="0.626349396"} 97
+stream_duration_seconds_bucket{status="success",le="0.715827881"} 99
+stream_duration_seconds_bucket{status="success",le="0.805306366"} 100
+stream_duration_seconds_bucket{status="success",le="0.894784851"} 100
+stream_duration_seconds_bucket{status="success",le="0.984263336"} 100
+stream_duration_seconds_bucket{status="success",le="1.073741824"} 100
+stream_duration_seconds_bucket{status="success",le="1.431655765"} 131
+stream_duration_seconds_bucket{status="success",le="1.789569706"} 150
+stream_duration_seconds_bucket{status="success",le="2.147483647"} 150
+stream_duration_seconds_bucket{status="success",le="2.505397588"} 150
+stream_duration_seconds_bucket{status="success",le="2.863311529"} 150
+stream_duration_seconds_bucket{status="success",le="3.22122547"} 150
+stream_duration_seconds_bucket{status="success",le="3.579139411"} 150
+stream_duration_seconds_bucket{status="success",le="3.937053352"} 150
+stream_duration_seconds_bucket{status="success",le="4.294967296"} 150
+stream_duration_seconds_bucket{status="success",le="5.726623061"} 150
+stream_duration_seconds_bucket{status="success",le="7.158278826"} 150
+stream_duration_seconds_bucket{status="success",le="8.589934591"} 150
+stream_duration_seconds_bucket{status="success",le="10.021590356"} 150
+stream_duration_seconds_bucket{status="success",le="11.453246121"} 150
+stream_duration_seconds_bucket{status="success",le="12.884901886"} 150
+stream_duration_seconds_bucket{status="success",le="14.316557651"} 150
+stream_duration_seconds_bucket{status="success",le="15.748213416"} 150
+stream_duration_seconds_bucket{status="success",le="17.179869184"} 150
+stream_duration_seconds_bucket{status="success",le="22.906492245"} 150
+stream_duration_seconds_bucket{status="success",le="28.633115306"} 150
+stream_duration_seconds_bucket{status="success",le="34.359738367"} 150
+stream_duration_seconds_bucket{status="success",le="40.086361428"} 150
+stream_duration_seconds_bucket{status="success",le="45.812984489"} 150
+stream_duration_seconds_bucket{status="success",le="51.53960755"} 150
+stream_duration_seconds_bucket{status="success",le="57.266230611"} 150
+stream_duration_seconds_bucket{status="success",le="62.992853672"} 150
+stream_duration_seconds_bucket{status="success",le="68.719476736"} 150
+stream_duration_seconds_bucket{status="success",le="91.625968981"} 150
+stream_duration_seconds_bucket{status="success",le="114.532461226"} 150
+stream_duration_seconds_bucket{status="success",le="137.438953471"} 150
+stream_duration_seconds_bucket{status="success",le="160.345445716"} 150
+stream_duration_seconds_bucket{status="success",le="183.251937961"} 150
+stream_duration_seconds_bucket{status="success",le="206.158430206"} 150
+stream_duration_seconds_bucket{status="success",le="229.064922451"} 150
+stream_duration_seconds_bucket{status="success",le="251.971414696"} 150
+stream_duration_seconds_bucket{status="success",le="274.877906944"} 150
+stream_duration_seconds_bucket{status="success",le="300.0"} 150
+stream_duration_seconds_bucket{status="success",le="+Inf"} 150
+stream_duration_seconds_count{status="success"} 150
+stream_duration_seconds_sum{status="success"} 98.267557391
+# HELP stream_duration_seconds_max  
+# TYPE stream_duration_seconds_max gauge
+stream_duration_seconds_max{status="success"} 1.688919585
+# HELP system_cpu_count The number of processors available to the Java virtual machine
+# TYPE system_cpu_count gauge
+system_cpu_count 8.0
+# HELP system_cpu_usage The "recent cpu usage" of the system the application is running in
+# TYPE system_cpu_usage gauge
+system_cpu_usage 0.0
+# HELP system_load_average_1m The sum of the number of runnable entities queued to available processors and the number of runnable entities running on the available processors averaged over a period of time
+# TYPE system_load_average_1m gauge
+system_load_average_1m 8.78173828125
+# HELP tasks_scheduled_execution_active_seconds  
+# TYPE tasks_scheduled_execution_active_seconds summary
+tasks_scheduled_execution_active_seconds_count{code_function="removeExpiredOnSchedule",code_namespace="com.aicodehelper.ai.ChatStreamTicketService",exception="none",outcome="UNKNOWN"} 0
+tasks_scheduled_execution_active_seconds_sum{code_function="removeExpiredOnSchedule",code_namespace="com.aicodehelper.ai.ChatStreamTicketService",exception="none",outcome="UNKNOWN"} 0.0
+# HELP tasks_scheduled_execution_active_seconds_max  
+# TYPE tasks_scheduled_execution_active_seconds_max gauge
+tasks_scheduled_execution_active_seconds_max{code_function="removeExpiredOnSchedule",code_namespace="com.aicodehelper.ai.ChatStreamTicketService",exception="none",outcome="UNKNOWN"} 0.0
+# HELP tasks_scheduled_execution_seconds  
+# TYPE tasks_scheduled_execution_seconds summary
+tasks_scheduled_execution_seconds_count{code_function="removeExpiredOnSchedule",code_namespace="com.aicodehelper.ai.ChatStreamTicketService",error="none",exception="none",outcome="SUCCESS"} 1
+tasks_scheduled_execution_seconds_sum{code_function="removeExpiredOnSchedule",code_namespace="com.aicodehelper.ai.ChatStreamTicketService",error="none",exception="none",outcome="SUCCESS"} 0.005022625
+# HELP tasks_scheduled_execution_seconds_max  
+# TYPE tasks_scheduled_execution_seconds_max gauge
+tasks_scheduled_execution_seconds_max{code_function="removeExpiredOnSchedule",code_namespace="com.aicodehelper.ai.ChatStreamTicketService",error="none",exception="none",outcome="SUCCESS"} 0.005022625
+# HELP tomcat_sessions_active_current_sessions  
+# TYPE tomcat_sessions_active_current_sessions gauge
+tomcat_sessions_active_current_sessions 0.0
+# HELP tomcat_sessions_active_max_sessions  
+# TYPE tomcat_sessions_active_max_sessions gauge
+tomcat_sessions_active_max_sessions 0.0
+# HELP tomcat_sessions_alive_max_seconds  
+# TYPE tomcat_sessions_alive_max_seconds gauge
+tomcat_sessions_alive_max_seconds 0.0
+# HELP tomcat_sessions_created_sessions_total  
+# TYPE tomcat_sessions_created_sessions_total counter
+tomcat_sessions_created_sessions_total 0.0
+# HELP tomcat_sessions_expired_sessions_total  
+# TYPE tomcat_sessions_expired_sessions_total counter
+tomcat_sessions_expired_sessions_total 0.0
+# HELP tomcat_sessions_rejected_sessions_total  
+# TYPE tomcat_sessions_rejected_sessions_total counter
+tomcat_sessions_rejected_sessions_total 0.0

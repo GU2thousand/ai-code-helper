@@ -5,6 +5,7 @@ import com.aicodehelper.error.GuardrailViolationException;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.guardrail.InputGuardrail;
 import dev.langchain4j.guardrail.InputGuardrailResult;
+import dev.langchain4j.guardrail.InputGuardrailRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,13 +17,33 @@ public final class SafeInputGuardrail implements InputGuardrail {
     private static final List<Pattern> PROMPT_ATTACK_PATTERNS = List.of(
             Pattern.compile("(?is)(忽略|无视|绕过).{0,24}(之前|上面|系统|开发者).{0,24}(指令|提示词|规则)"),
             Pattern.compile("(?is)(reveal|show|print|leak|expose).{0,32}(system prompt|developer message|hidden instruction|api[ -]?key|secret)"),
-            Pattern.compile("(?is)\\b(jailbreak|developer mode|DAN mode)\\b")
+            Pattern.compile("(?is)\\b(jailbreak|developer mode|DAN mode)\\b"),
+            Pattern.compile("(?is)(写|编写|制作|生成|开发)\\s*(?:一个|一款|一段|个|款)?\\s*(木马|恶意软件|勒索软件|病毒)(?!(?:检测|防御|查杀|清除|移除|分析|扫描))"),
+            Pattern.compile("(?is)\\b(write|build|create|develop)\\s+(?:(?:me|a|an|some|new|custom|simple)\\s+){0,3}(malware|trojan|ransomware|virus)\\b(?![ -]+(?:detector|detection|scanner|remover|removal|analysis|analyzer|defen[cs]e|protection|prevention)\\b)")
     );
 
     private final int maxCharacters;
 
     public SafeInputGuardrail(AppProperties properties) {
         this.maxCharacters = properties.getAi().getMaxInputCharacters();
+    }
+
+    @Override
+    public InputGuardrailResult validate(InputGuardrailRequest request) {
+        // LangChain4j invokes this guardrail after RAG augmentation. Validate the
+        // actual method argument, not the independently bounded retrieved documents.
+        // Never split a user-controlled string on a supposed augmentation marker.
+        var params = request.requestParams();
+        var invocation = params == null ? null : params.invocationContext();
+        if (invocation != null && ("com.aicodehelper.ai.CoreAssistant".equals(invocation.interfaceName())
+                || "com.aicodehelper.ai.RagAssistant".equals(invocation.interfaceName()))) {
+            var arguments = invocation.methodArguments();
+            if (arguments != null && arguments.size() == 2 && arguments.get(1) instanceof String original) {
+                String failure = violation(original);
+                return failure == null ? success() : failure(failure);
+            }
+        }
+        return validate(request.userMessage());
     }
 
     @Override
@@ -52,7 +73,7 @@ public final class SafeInputGuardrail implements InputGuardrail {
         }
         for (Pattern pattern : PROMPT_ATTACK_PATTERNS) {
             if (pattern.matcher(input).find()) {
-                return "消息疑似试图绕过系统安全规则";
+                return "消息包含不安全内容或疑似试图绕过系统规则";
             }
         }
         return null;

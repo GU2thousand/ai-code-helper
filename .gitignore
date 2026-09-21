@@ -35,3 +35,9 @@ frontend/output/
 
 # Runtime data
 data/
+
+# Local verification scratch (published evaluation/results stay tracked)
+output/
+work/
+**/__pycache__/
+*.pyc

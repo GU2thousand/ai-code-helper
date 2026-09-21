@@ -1,0 +1,1646 @@
+{
+  "baseline": "evaluation/results/baseline-v1.json",
+  "candidate": "evaluation/results/lexical-v1.json",
+  "providerChangeAllowed": false,
+  "caution": "Single sequential local runs do not establish statistically significant latency improvements; account for cache, execution order, host load, and repeated trials.",
+  "metrics": [
+    {
+      "metric": "answerableCount",
+      "baseline": 104,
+      "candidate": 104,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.algorithms.answerableCount",
+      "baseline": 13,
+      "candidate": 13,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.algorithms.clientLatency.count",
+      "baseline": 14,
+      "candidate": 14,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.algorithms.clientLatency.meanMs",
+      "baseline": 20.33263092328395,
+      "candidate": 13.063565644967769,
+      "delta": -7.269065278316182
+    },
+    {
+      "metric": "byCategory.algorithms.clientLatency.p50Ms",
+      "baseline": 18.500000005587935,
+      "candidate": 13.301500002853572,
+      "delta": -5.198500002734363
+    },
+    {
+      "metric": "byCategory.algorithms.clientLatency.p95Ms",
+      "baseline": 30.151374987326562,
+      "candidate": 18.05308402981609,
+      "delta": -12.098290957510471
+    },
+    {
+      "metric": "byCategory.algorithms.clientLatency.p99Ms",
+      "baseline": 30.151374987326562,
+      "candidate": 18.05308402981609,
+      "delta": -12.098290957510471
+    },
+    {
+      "metric": "byCategory.algorithms.count",
+      "baseline": 14,
+      "candidate": 14,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.algorithms.degradedRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.algorithms.errorRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.algorithms.mrr",
+      "baseline": 0.7564102564102565,
+      "candidate": 1.0,
+      "delta": 0.2435897435897435
+    },
+    {
+      "metric": "byCategory.algorithms.noAnswerAccuracy",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.algorithms.noAnswerCount",
+      "baseline": 1,
+      "candidate": 1,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.algorithms.noAnswerFalsePositiveRate",
+      "baseline": 1.0,
+      "candidate": 1.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.algorithms.recallAt1",
+      "baseline": 0.6923076923076923,
+      "candidate": 1.0,
+      "delta": 0.3076923076923077
+    },
+    {
+      "metric": "byCategory.algorithms.recallAt3",
+      "baseline": 0.8461538461538461,
+      "candidate": 1.0,
+      "delta": 0.15384615384615385
+    },
+    {
+      "metric": "byCategory.algorithms.recallAt5",
+      "baseline": 0.8461538461538461,
+      "candidate": 1.0,
+      "delta": 0.15384615384615385
+    },
+    {
+      "metric": "byCategory.algorithms.serverLatency.count",
+      "baseline": 14,
+      "candidate": 14,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.algorithms.serverLatency.meanMs",
+      "baseline": 15.720294571428571,
+      "candidate": 9.141553499999999,
+      "delta": -6.578741071428572
+    },
+    {
+      "metric": "byCategory.algorithms.serverLatency.p50Ms",
+      "baseline": 13.994333,
+      "candidate": 8.296541,
+      "delta": -5.697792
+    },
+    {
+      "metric": "byCategory.algorithms.serverLatency.p95Ms",
+      "baseline": 23.551959,
+      "candidate": 13.457292,
+      "delta": -10.094667
+    },
+    {
+      "metric": "byCategory.algorithms.serverLatency.p99Ms",
+      "baseline": 23.551959,
+      "candidate": 13.457292,
+      "delta": -10.094667
+    },
+    {
+      "metric": "byCategory.api.answerableCount",
+      "baseline": 13,
+      "candidate": 13,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.api.clientLatency.count",
+      "baseline": 14,
+      "candidate": 14,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.api.clientLatency.meanMs",
+      "baseline": 14.215226143798125,
+      "candidate": 12.224517708611009,
+      "delta": -1.9907084351871163
+    },
+    {
+      "metric": "byCategory.api.clientLatency.p50Ms",
+      "baseline": 12.771083042025566,
+      "candidate": 10.580957983620465,
+      "delta": -2.1901250584051013
+    },
+    {
+      "metric": "byCategory.api.clientLatency.p95Ms",
+      "baseline": 21.43220801372081,
+      "candidate": 24.572041002102196,
+      "delta": 3.139832988381386
+    },
+    {
+      "metric": "byCategory.api.clientLatency.p99Ms",
+      "baseline": 21.43220801372081,
+      "candidate": 24.572041002102196,
+      "delta": 3.139832988381386
+    },
+    {
+      "metric": "byCategory.api.count",
+      "baseline": 14,
+      "candidate": 14,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.api.degradedRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.api.errorRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.api.mrr",
+      "baseline": 0.5256410256410257,
+      "candidate": 0.9102564102564104,
+      "delta": 0.3846153846153847
+    },
+    {
+      "metric": "byCategory.api.noAnswerAccuracy",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.api.noAnswerCount",
+      "baseline": 1,
+      "candidate": 1,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.api.noAnswerFalsePositiveRate",
+      "baseline": 1.0,
+      "candidate": 1.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.api.recallAt1",
+      "baseline": 0.38461538461538464,
+      "candidate": 0.8461538461538461,
+      "delta": 0.4615384615384615
+    },
+    {
+      "metric": "byCategory.api.recallAt3",
+      "baseline": 0.6153846153846154,
+      "candidate": 1.0,
+      "delta": 0.3846153846153846
+    },
+    {
+      "metric": "byCategory.api.recallAt5",
+      "baseline": 0.7692307692307693,
+      "candidate": 1.0,
+      "delta": 0.23076923076923073
+    },
+    {
+      "metric": "byCategory.api.serverLatency.count",
+      "baseline": 14,
+      "candidate": 14,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.api.serverLatency.meanMs",
+      "baseline": 10.222315499999999,
+      "candidate": 8.823220142857142,
+      "delta": -1.3990953571428566
+    },
+    {
+      "metric": "byCategory.api.serverLatency.p50Ms",
+      "baseline": 9.024875,
+      "candidate": 7.332541,
+      "delta": -1.6923339999999998
+    },
+    {
+      "metric": "byCategory.api.serverLatency.p95Ms",
+      "baseline": 16.695208,
+      "candidate": 17.25675,
+      "delta": 0.5615419999999993
+    },
+    {
+      "metric": "byCategory.api.serverLatency.p99Ms",
+      "baseline": 16.695208,
+      "candidate": 17.25675,
+      "delta": 0.5615419999999993
+    },
+    {
+      "metric": "byCategory.concurrency.answerableCount",
+      "baseline": 13,
+      "candidate": 13,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.concurrency.clientLatency.count",
+      "baseline": 14,
+      "candidate": 14,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.concurrency.clientLatency.meanMs",
+      "baseline": 13.858410712730672,
+      "candidate": 8.984487853012979,
+      "delta": -4.873922859717693
+    },
+    {
+      "metric": "byCategory.concurrency.clientLatency.p50Ms",
+      "baseline": 12.556999980006367,
+      "candidate": 8.534291002433747,
+      "delta": -4.02270897757262
+    },
+    {
+      "metric": "byCategory.concurrency.clientLatency.p95Ms",
+      "baseline": 20.72120795492083,
+      "candidate": 12.629333010409027,
+      "delta": -8.091874944511801
+    },
+    {
+      "metric": "byCategory.concurrency.clientLatency.p99Ms",
+      "baseline": 20.72120795492083,
+      "candidate": 12.629333010409027,
+      "delta": -8.091874944511801
+    },
+    {
+      "metric": "byCategory.concurrency.count",
+      "baseline": 14,
+      "candidate": 14,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.concurrency.degradedRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.concurrency.errorRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.concurrency.mrr",
+      "baseline": 0.4807692307692308,
+      "candidate": 0.9230769230769231,
+      "delta": 0.44230769230769235
+    },
+    {
+      "metric": "byCategory.concurrency.noAnswerAccuracy",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.concurrency.noAnswerCount",
+      "baseline": 1,
+      "candidate": 1,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.concurrency.noAnswerFalsePositiveRate",
+      "baseline": 1.0,
+      "candidate": 1.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.concurrency.recallAt1",
+      "baseline": 0.46153846153846156,
+      "candidate": 0.8461538461538461,
+      "delta": 0.3846153846153846
+    },
+    {
+      "metric": "byCategory.concurrency.recallAt3",
+      "baseline": 0.46153846153846156,
+      "candidate": 1.0,
+      "delta": 0.5384615384615384
+    },
+    {
+      "metric": "byCategory.concurrency.recallAt5",
+      "baseline": 0.5384615384615384,
+      "candidate": 1.0,
+      "delta": 0.46153846153846156
+    },
+    {
+      "metric": "byCategory.concurrency.serverLatency.count",
+      "baseline": 14,
+      "candidate": 14,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.concurrency.serverLatency.meanMs",
+      "baseline": 10.02285407142857,
+      "candidate": 6.214342214285714,
+      "delta": -3.8085118571428564
+    },
+    {
+      "metric": "byCategory.concurrency.serverLatency.p50Ms",
+      "baseline": 8.461417,
+      "candidate": 5.886417,
+      "delta": -2.575000000000001
+    },
+    {
+      "metric": "byCategory.concurrency.serverLatency.p95Ms",
+      "baseline": 15.513542,
+      "candidate": 8.709208,
+      "delta": -6.804333999999999
+    },
+    {
+      "metric": "byCategory.concurrency.serverLatency.p99Ms",
+      "baseline": 15.513542,
+      "candidate": 8.709208,
+      "delta": -6.804333999999999
+    },
+    {
+      "metric": "byCategory.database.answerableCount",
+      "baseline": 13,
+      "candidate": 13,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.database.clientLatency.count",
+      "baseline": 14,
+      "candidate": 14,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.database.clientLatency.meanMs",
+      "baseline": 17.34049093127916,
+      "candidate": 8.32590471171508,
+      "delta": -9.01458621956408
+    },
+    {
+      "metric": "byCategory.database.clientLatency.p50Ms",
+      "baseline": 14.770000008866191,
+      "candidate": 8.118249999824911,
+      "delta": -6.6517500090412796
+    },
+    {
+      "metric": "byCategory.database.clientLatency.p95Ms",
+      "baseline": 32.13104099268094,
+      "candidate": 10.200375050771981,
+      "delta": -21.930665941908956
+    },
+    {
+      "metric": "byCategory.database.clientLatency.p99Ms",
+      "baseline": 32.13104099268094,
+      "candidate": 10.200375050771981,
+      "delta": -21.930665941908956
+    },
+    {
+      "metric": "byCategory.database.count",
+      "baseline": 14,
+      "candidate": 14,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.database.degradedRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.database.errorRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.database.mrr",
+      "baseline": 0.37179487179487175,
+      "candidate": 1.0,
+      "delta": 0.6282051282051282
+    },
+    {
+      "metric": "byCategory.database.noAnswerAccuracy",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.database.noAnswerCount",
+      "baseline": 1,
+      "candidate": 1,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.database.noAnswerFalsePositiveRate",
+      "baseline": 1.0,
+      "candidate": 1.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.database.recallAt1",
+      "baseline": 0.3076923076923077,
+      "candidate": 1.0,
+      "delta": 0.6923076923076923
+    },
+    {
+      "metric": "byCategory.database.recallAt3",
+      "baseline": 0.38461538461538464,
+      "candidate": 1.0,
+      "delta": 0.6153846153846154
+    },
+    {
+      "metric": "byCategory.database.recallAt5",
+      "baseline": 0.5384615384615384,
+      "candidate": 1.0,
+      "delta": 0.46153846153846156
+    },
+    {
+      "metric": "byCategory.database.serverLatency.count",
+      "baseline": 14,
+      "candidate": 14,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.database.serverLatency.meanMs",
+      "baseline": 12.449690357142856,
+      "candidate": 5.565771071428571,
+      "delta": -6.883919285714285
+    },
+    {
+      "metric": "byCategory.database.serverLatency.p50Ms",
+      "baseline": 9.988166,
+      "candidate": 5.37925,
+      "delta": -4.608916
+    },
+    {
+      "metric": "byCategory.database.serverLatency.p95Ms",
+      "baseline": 25.249083,
+      "candidate": 7.037417,
+      "delta": -18.211666
+    },
+    {
+      "metric": "byCategory.database.serverLatency.p99Ms",
+      "baseline": 25.249083,
+      "candidate": 7.037417,
+      "delta": -18.211666
+    },
+    {
+      "metric": "byCategory.java.answerableCount",
+      "baseline": 13,
+      "candidate": 13,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.java.clientLatency.count",
+      "baseline": 14,
+      "candidate": 14,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.java.clientLatency.meanMs",
+      "baseline": 12.534128136134573,
+      "candidate": 8.790235155694452,
+      "delta": -3.743892980440121
+    },
+    {
+      "metric": "byCategory.java.clientLatency.p50Ms",
+      "baseline": 11.490083998069167,
+      "candidate": 7.5851670117117465,
+      "delta": -3.9049169863574207
+    },
+    {
+      "metric": "byCategory.java.clientLatency.p95Ms",
+      "baseline": 18.624958989676088,
+      "candidate": 14.349625038448721,
+      "delta": -4.275333951227367
+    },
+    {
+      "metric": "byCategory.java.clientLatency.p99Ms",
+      "baseline": 18.624958989676088,
+      "candidate": 14.349625038448721,
+      "delta": -4.275333951227367
+    },
+    {
+      "metric": "byCategory.java.count",
+      "baseline": 14,
+      "candidate": 14,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.java.degradedRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.java.errorRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.java.mrr",
+      "baseline": 0.6243589743589744,
+      "candidate": 1.0,
+      "delta": 0.37564102564102564
+    },
+    {
+      "metric": "byCategory.java.noAnswerAccuracy",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.java.noAnswerCount",
+      "baseline": 1,
+      "candidate": 1,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.java.noAnswerFalsePositiveRate",
+      "baseline": 1.0,
+      "candidate": 1.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.java.recallAt1",
+      "baseline": 0.5384615384615384,
+      "candidate": 1.0,
+      "delta": 0.46153846153846156
+    },
+    {
+      "metric": "byCategory.java.recallAt3",
+      "baseline": 0.6923076923076923,
+      "candidate": 1.0,
+      "delta": 0.3076923076923077
+    },
+    {
+      "metric": "byCategory.java.recallAt5",
+      "baseline": 0.8461538461538461,
+      "candidate": 1.0,
+      "delta": 0.15384615384615385
+    },
+    {
+      "metric": "byCategory.java.serverLatency.count",
+      "baseline": 14,
+      "candidate": 14,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.java.serverLatency.meanMs",
+      "baseline": 9.156351214285715,
+      "candidate": 6.491687499999999,
+      "delta": -2.664663714285716
+    },
+    {
+      "metric": "byCategory.java.serverLatency.p50Ms",
+      "baseline": 8.342542,
+      "candidate": 5.352833,
+      "delta": -2.9897089999999995
+    },
+    {
+      "metric": "byCategory.java.serverLatency.p95Ms",
+      "baseline": 14.931959,
+      "candidate": 11.360875,
+      "delta": -3.571084000000001
+    },
+    {
+      "metric": "byCategory.java.serverLatency.p99Ms",
+      "baseline": 14.931959,
+      "candidate": 11.360875,
+      "delta": -3.571084000000001
+    },
+    {
+      "metric": "byCategory.project-docs.answerableCount",
+      "baseline": 13,
+      "candidate": 13,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.project-docs.clientLatency.count",
+      "baseline": 14,
+      "candidate": 14,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.project-docs.clientLatency.meanMs",
+      "baseline": 11.923750134883448,
+      "candidate": 7.834151711514486,
+      "delta": -4.089598423368963
+    },
+    {
+      "metric": "byCategory.project-docs.clientLatency.p50Ms",
+      "baseline": 11.895250005181879,
+      "candidate": 7.949166989419609,
+      "delta": -3.9460830157622695
+    },
+    {
+      "metric": "byCategory.project-docs.clientLatency.p95Ms",
+      "baseline": 16.55341702280566,
+      "candidate": 8.914832957088947,
+      "delta": -7.638584065716714
+    },
+    {
+      "metric": "byCategory.project-docs.clientLatency.p99Ms",
+      "baseline": 16.55341702280566,
+      "candidate": 8.914832957088947,
+      "delta": -7.638584065716714
+    },
+    {
+      "metric": "byCategory.project-docs.count",
+      "baseline": 14,
+      "candidate": 14,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.project-docs.degradedRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.project-docs.errorRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.project-docs.mrr",
+      "baseline": 0.3230769230769231,
+      "candidate": 0.9230769230769231,
+      "delta": 0.6000000000000001
+    },
+    {
+      "metric": "byCategory.project-docs.noAnswerAccuracy",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.project-docs.noAnswerCount",
+      "baseline": 1,
+      "candidate": 1,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.project-docs.noAnswerFalsePositiveRate",
+      "baseline": 1.0,
+      "candidate": 1.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.project-docs.recallAt1",
+      "baseline": 0.3076923076923077,
+      "candidate": 0.9230769230769231,
+      "delta": 0.6153846153846154
+    },
+    {
+      "metric": "byCategory.project-docs.recallAt3",
+      "baseline": 0.3076923076923077,
+      "candidate": 0.9230769230769231,
+      "delta": 0.6153846153846154
+    },
+    {
+      "metric": "byCategory.project-docs.recallAt5",
+      "baseline": 0.38461538461538464,
+      "candidate": 0.9230769230769231,
+      "delta": 0.5384615384615385
+    },
+    {
+      "metric": "byCategory.project-docs.serverLatency.count",
+      "baseline": 14,
+      "candidate": 14,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.project-docs.serverLatency.meanMs",
+      "baseline": 8.615366214285714,
+      "candidate": 5.289038642857143,
+      "delta": -3.326327571428571
+    },
+    {
+      "metric": "byCategory.project-docs.serverLatency.p50Ms",
+      "baseline": 8.037458,
+      "candidate": 5.19725,
+      "delta": -2.8402080000000005
+    },
+    {
+      "metric": "byCategory.project-docs.serverLatency.p95Ms",
+      "baseline": 12.050209,
+      "candidate": 6.709875,
+      "delta": -5.340334
+    },
+    {
+      "metric": "byCategory.project-docs.serverLatency.p99Ms",
+      "baseline": 12.050209,
+      "candidate": 6.709875,
+      "delta": -5.340334
+    },
+    {
+      "metric": "byCategory.spring.answerableCount",
+      "baseline": 13,
+      "candidate": 13,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.spring.clientLatency.count",
+      "baseline": 14,
+      "candidate": 14,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.spring.clientLatency.meanMs",
+      "baseline": 11.37794935909499,
+      "candidate": 7.651193495673526,
+      "delta": -3.726755863421463
+    },
+    {
+      "metric": "byCategory.spring.clientLatency.p50Ms",
+      "baseline": 11.224250018130988,
+      "candidate": 7.471708988305181,
+      "delta": -3.7525410298258066
+    },
+    {
+      "metric": "byCategory.spring.clientLatency.p95Ms",
+      "baseline": 14.076167019084096,
+      "candidate": 8.83983401581645,
+      "delta": -5.236333003267646
+    },
+    {
+      "metric": "byCategory.spring.clientLatency.p99Ms",
+      "baseline": 14.076167019084096,
+      "candidate": 8.83983401581645,
+      "delta": -5.236333003267646
+    },
+    {
+      "metric": "byCategory.spring.count",
+      "baseline": 14,
+      "candidate": 14,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.spring.degradedRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.spring.errorRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.spring.mrr",
+      "baseline": 0.4128205128205128,
+      "candidate": 0.9487179487179488,
+      "delta": 0.535897435897436
+    },
+    {
+      "metric": "byCategory.spring.noAnswerAccuracy",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.spring.noAnswerCount",
+      "baseline": 1,
+      "candidate": 1,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.spring.noAnswerFalsePositiveRate",
+      "baseline": 1.0,
+      "candidate": 1.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.spring.recallAt1",
+      "baseline": 0.3076923076923077,
+      "candidate": 0.9230769230769231,
+      "delta": 0.6153846153846154
+    },
+    {
+      "metric": "byCategory.spring.recallAt3",
+      "baseline": 0.5384615384615384,
+      "candidate": 1.0,
+      "delta": 0.46153846153846156
+    },
+    {
+      "metric": "byCategory.spring.recallAt5",
+      "baseline": 0.6153846153846154,
+      "candidate": 1.0,
+      "delta": 0.3846153846153846
+    },
+    {
+      "metric": "byCategory.spring.serverLatency.count",
+      "baseline": 14,
+      "candidate": 14,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.spring.serverLatency.meanMs",
+      "baseline": 8.209919857142857,
+      "candidate": 5.402782714285714,
+      "delta": -2.807137142857143
+    },
+    {
+      "metric": "byCategory.spring.serverLatency.p50Ms",
+      "baseline": 8.004167,
+      "candidate": 5.274625,
+      "delta": -2.7295420000000004
+    },
+    {
+      "metric": "byCategory.spring.serverLatency.p95Ms",
+      "baseline": 10.751,
+      "candidate": 6.271,
+      "delta": -4.4799999999999995
+    },
+    {
+      "metric": "byCategory.spring.serverLatency.p99Ms",
+      "baseline": 10.751,
+      "candidate": 6.271,
+      "delta": -4.4799999999999995
+    },
+    {
+      "metric": "byCategory.system-design.answerableCount",
+      "baseline": 13,
+      "candidate": 13,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.system-design.clientLatency.count",
+      "baseline": 14,
+      "candidate": 14,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.system-design.clientLatency.meanMs",
+      "baseline": 10.632520836744723,
+      "candidate": 9.187372151895293,
+      "delta": -1.4451486848494302
+    },
+    {
+      "metric": "byCategory.system-design.clientLatency.p50Ms",
+      "baseline": 10.433832998387516,
+      "candidate": 8.34170903544873,
+      "delta": -2.0921239629387856
+    },
+    {
+      "metric": "byCategory.system-design.clientLatency.p95Ms",
+      "baseline": 13.925665989518166,
+      "candidate": 17.789124976843596,
+      "delta": 3.86345898732543
+    },
+    {
+      "metric": "byCategory.system-design.clientLatency.p99Ms",
+      "baseline": 13.925665989518166,
+      "candidate": 17.789124976843596,
+      "delta": 3.86345898732543
+    },
+    {
+      "metric": "byCategory.system-design.count",
+      "baseline": 14,
+      "candidate": 14,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.system-design.degradedRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.system-design.errorRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.system-design.mrr",
+      "baseline": 0.6923076923076923,
+      "candidate": 0.9487179487179488,
+      "delta": 0.2564102564102565
+    },
+    {
+      "metric": "byCategory.system-design.noAnswerAccuracy",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.system-design.noAnswerCount",
+      "baseline": 1,
+      "candidate": 1,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.system-design.noAnswerFalsePositiveRate",
+      "baseline": 1.0,
+      "candidate": 1.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byCategory.system-design.recallAt1",
+      "baseline": 0.6153846153846154,
+      "candidate": 0.9230769230769231,
+      "delta": 0.3076923076923077
+    },
+    {
+      "metric": "byCategory.system-design.recallAt3",
+      "baseline": 0.7692307692307693,
+      "candidate": 1.0,
+      "delta": 0.23076923076923073
+    },
+    {
+      "metric": "byCategory.system-design.recallAt5",
+      "baseline": 0.7692307692307693,
+      "candidate": 1.0,
+      "delta": 0.23076923076923073
+    },
+    {
+      "metric": "byCategory.system-design.serverLatency.count",
+      "baseline": 14,
+      "candidate": 14,
+      "delta": 0
+    },
+    {
+      "metric": "byCategory.system-design.serverLatency.meanMs",
+      "baseline": 7.759056642857142,
+      "candidate": 5.668881214285714,
+      "delta": -2.0901754285714276
+    },
+    {
+      "metric": "byCategory.system-design.serverLatency.p50Ms",
+      "baseline": 7.553917,
+      "candidate": 5.442875,
+      "delta": -2.1110420000000003
+    },
+    {
+      "metric": "byCategory.system-design.serverLatency.p95Ms",
+      "baseline": 10.337625,
+      "candidate": 7.215792,
+      "delta": -3.1218329999999987
+    },
+    {
+      "metric": "byCategory.system-design.serverLatency.p99Ms",
+      "baseline": 10.337625,
+      "candidate": 7.215792,
+      "delta": -3.1218329999999987
+    },
+    {
+      "metric": "byLanguage.en.answerableCount",
+      "baseline": 56,
+      "candidate": 56,
+      "delta": 0
+    },
+    {
+      "metric": "byLanguage.en.clientLatency.count",
+      "baseline": 60,
+      "candidate": 60,
+      "delta": 0
+    },
+    {
+      "metric": "byLanguage.en.clientLatency.meanMs",
+      "baseline": 14.299816680916896,
+      "candidate": 9.368145832559094,
+      "delta": -4.931670848357802
+    },
+    {
+      "metric": "byLanguage.en.clientLatency.p50Ms",
+      "baseline": 12.556999980006367,
+      "candidate": 8.19645804585889,
+      "delta": -4.360541934147477
+    },
+    {
+      "metric": "byLanguage.en.clientLatency.p95Ms",
+      "baseline": 23.92649999819696,
+      "candidate": 14.723959029652178,
+      "delta": -9.202540968544781
+    },
+    {
+      "metric": "byLanguage.en.clientLatency.p99Ms",
+      "baseline": 32.13104099268094,
+      "candidate": 17.789124976843596,
+      "delta": -14.341916015837342
+    },
+    {
+      "metric": "byLanguage.en.count",
+      "baseline": 60,
+      "candidate": 60,
+      "delta": 0
+    },
+    {
+      "metric": "byLanguage.en.degradedRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byLanguage.en.errorRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byLanguage.en.mrr",
+      "baseline": 0.5181547619047618,
+      "candidate": 0.9404761904761905,
+      "delta": 0.4223214285714286
+    },
+    {
+      "metric": "byLanguage.en.noAnswerAccuracy",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byLanguage.en.noAnswerCount",
+      "baseline": 4,
+      "candidate": 4,
+      "delta": 0
+    },
+    {
+      "metric": "byLanguage.en.noAnswerFalsePositiveRate",
+      "baseline": 1.0,
+      "candidate": 1.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byLanguage.en.recallAt1",
+      "baseline": 0.42857142857142855,
+      "candidate": 0.9107142857142857,
+      "delta": 0.48214285714285715
+    },
+    {
+      "metric": "byLanguage.en.recallAt3",
+      "baseline": 0.5714285714285714,
+      "candidate": 0.9821428571428571,
+      "delta": 0.4107142857142857
+    },
+    {
+      "metric": "byLanguage.en.recallAt5",
+      "baseline": 0.7142857142857143,
+      "candidate": 0.9821428571428571,
+      "delta": 0.2678571428571428
+    },
+    {
+      "metric": "byLanguage.en.serverLatency.count",
+      "baseline": 60,
+      "candidate": 60,
+      "delta": 0
+    },
+    {
+      "metric": "byLanguage.en.serverLatency.meanMs",
+      "baseline": 10.510641666666666,
+      "candidate": 6.40287015,
+      "delta": -4.107771516666666
+    },
+    {
+      "metric": "byLanguage.en.serverLatency.p50Ms",
+      "baseline": 8.829875,
+      "candidate": 5.37925,
+      "delta": -3.4506249999999996
+    },
+    {
+      "metric": "byLanguage.en.serverLatency.p95Ms",
+      "baseline": 18.058875,
+      "candidate": 9.7745,
+      "delta": -8.284375
+    },
+    {
+      "metric": "byLanguage.en.serverLatency.p99Ms",
+      "baseline": 25.249083,
+      "candidate": 14.5175,
+      "delta": -10.731582999999999
+    },
+    {
+      "metric": "byLanguage.zh.answerableCount",
+      "baseline": 48,
+      "candidate": 48,
+      "delta": 0
+    },
+    {
+      "metric": "byLanguage.zh.clientLatency.count",
+      "baseline": 52,
+      "candidate": 52,
+      "delta": 0
+    },
+    {
+      "metric": "byLanguage.zh.clientLatency.meanMs",
+      "baseline": 13.711971146851564,
+      "candidate": 9.668677848262282,
+      "delta": -4.0432932985892815
+    },
+    {
+      "metric": "byLanguage.zh.clientLatency.p50Ms",
+      "baseline": 12.063166010193527,
+      "candidate": 8.786625054199249,
+      "delta": -3.276540955994278
+    },
+    {
+      "metric": "byLanguage.zh.clientLatency.p95Ms",
+      "baseline": 22.909542021807283,
+      "candidate": 15.173916995991021,
+      "delta": -7.735625025816262
+    },
+    {
+      "metric": "byLanguage.zh.clientLatency.p99Ms",
+      "baseline": 29.151624999940395,
+      "candidate": 24.572041002102196,
+      "delta": -4.579583997838199
+    },
+    {
+      "metric": "byLanguage.zh.count",
+      "baseline": 52,
+      "candidate": 52,
+      "delta": 0
+    },
+    {
+      "metric": "byLanguage.zh.degradedRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byLanguage.zh.errorRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byLanguage.zh.mrr",
+      "baseline": 0.529513888888889,
+      "candidate": 0.9756944444444445,
+      "delta": 0.4461805555555556
+    },
+    {
+      "metric": "byLanguage.zh.noAnswerAccuracy",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byLanguage.zh.noAnswerCount",
+      "baseline": 4,
+      "candidate": 4,
+      "delta": 0
+    },
+    {
+      "metric": "byLanguage.zh.noAnswerFalsePositiveRate",
+      "baseline": 1.0,
+      "candidate": 1.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "byLanguage.zh.recallAt1",
+      "baseline": 0.4791666666666667,
+      "candidate": 0.9583333333333334,
+      "delta": 0.4791666666666667
+    },
+    {
+      "metric": "byLanguage.zh.recallAt3",
+      "baseline": 0.5833333333333334,
+      "candidate": 1.0,
+      "delta": 0.41666666666666663
+    },
+    {
+      "metric": "byLanguage.zh.recallAt5",
+      "baseline": 0.6041666666666666,
+      "candidate": 1.0,
+      "delta": 0.39583333333333337
+    },
+    {
+      "metric": "byLanguage.zh.serverLatency.count",
+      "baseline": 52,
+      "candidate": 52,
+      "delta": 0
+    },
+    {
+      "metric": "byLanguage.zh.serverLatency.meanMs",
+      "baseline": 9.991218807692308,
+      "candidate": 6.77287825,
+      "delta": -3.218340557692308
+    },
+    {
+      "metric": "byLanguage.zh.serverLatency.p50Ms",
+      "baseline": 8.461417,
+      "candidate": 5.647209,
+      "delta": -2.8142080000000007
+    },
+    {
+      "metric": "byLanguage.zh.serverLatency.p95Ms",
+      "baseline": 17.258833,
+      "candidate": 11.360875,
+      "delta": -5.897957999999999
+    },
+    {
+      "metric": "byLanguage.zh.serverLatency.p99Ms",
+      "baseline": 23.406625,
+      "candidate": 17.25675,
+      "delta": -6.149874999999998
+    },
+    {
+      "metric": "bySplit.dev.answerableCount",
+      "baseline": 70,
+      "candidate": 70,
+      "delta": 0
+    },
+    {
+      "metric": "bySplit.dev.clientLatency.count",
+      "baseline": 74,
+      "candidate": 74,
+      "delta": 0
+    },
+    {
+      "metric": "bySplit.dev.clientLatency.meanMs",
+      "baseline": 14.440000022610498,
+      "candidate": 9.17243300244917,
+      "delta": -5.267567020161328
+    },
+    {
+      "metric": "bySplit.dev.clientLatency.p50Ms",
+      "baseline": 12.555916968267411,
+      "candidate": 8.41345899971202,
+      "delta": -4.142457968555391
+    },
+    {
+      "metric": "bySplit.dev.clientLatency.p95Ms",
+      "baseline": 26.331790955737233,
+      "candidate": 14.0522500150837,
+      "delta": -12.279540940653533
+    },
+    {
+      "metric": "bySplit.dev.clientLatency.p99Ms",
+      "baseline": 32.13104099268094,
+      "candidate": 18.05308402981609,
+      "delta": -14.077956962864846
+    },
+    {
+      "metric": "bySplit.dev.count",
+      "baseline": 74,
+      "candidate": 74,
+      "delta": 0
+    },
+    {
+      "metric": "bySplit.dev.degradedRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "bySplit.dev.errorRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "bySplit.dev.mrr",
+      "baseline": 0.5461904761904762,
+      "candidate": 0.9690476190476189,
+      "delta": 0.4228571428571427
+    },
+    {
+      "metric": "bySplit.dev.noAnswerAccuracy",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "bySplit.dev.noAnswerCount",
+      "baseline": 4,
+      "candidate": 4,
+      "delta": 0
+    },
+    {
+      "metric": "bySplit.dev.noAnswerFalsePositiveRate",
+      "baseline": 1.0,
+      "candidate": 1.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "bySplit.dev.recallAt1",
+      "baseline": 0.4714285714285714,
+      "candidate": 0.9571428571428572,
+      "delta": 0.48571428571428577
+    },
+    {
+      "metric": "bySplit.dev.recallAt3",
+      "baseline": 0.6,
+      "candidate": 0.9857142857142858,
+      "delta": 0.3857142857142858
+    },
+    {
+      "metric": "bySplit.dev.recallAt5",
+      "baseline": 0.6857142857142857,
+      "candidate": 0.9857142857142858,
+      "delta": 0.30000000000000004
+    },
+    {
+      "metric": "bySplit.dev.serverLatency.count",
+      "baseline": 74,
+      "candidate": 74,
+      "delta": 0
+    },
+    {
+      "metric": "bySplit.dev.serverLatency.meanMs",
+      "baseline": 10.547220716216216,
+      "candidate": 6.391827756756757,
+      "delta": -4.155392959459459
+    },
+    {
+      "metric": "bySplit.dev.serverLatency.p50Ms",
+      "baseline": 8.564458,
+      "candidate": 5.573,
+      "delta": -2.9914579999999997
+    },
+    {
+      "metric": "bySplit.dev.serverLatency.p95Ms",
+      "baseline": 21.248125,
+      "candidate": 10.923417,
+      "delta": -10.324708000000001
+    },
+    {
+      "metric": "bySplit.dev.serverLatency.p99Ms",
+      "baseline": 25.249083,
+      "candidate": 14.5175,
+      "delta": -10.731582999999999
+    },
+    {
+      "metric": "bySplit.test.answerableCount",
+      "baseline": 34,
+      "candidate": 34,
+      "delta": 0
+    },
+    {
+      "metric": "bySplit.test.clientLatency.count",
+      "baseline": 38,
+      "candidate": 38,
+      "delta": 0
+    },
+    {
+      "metric": "bySplit.test.clientLatency.meanMs",
+      "baseline": 13.222407863634688,
+      "candidate": 10.160525154788047,
+      "delta": -3.0618827088466407
+    },
+    {
+      "metric": "bySplit.test.clientLatency.p50Ms",
+      "baseline": 12.063166010193527,
+      "candidate": 8.12554097501561,
+      "delta": -3.9376250351779163
+    },
+    {
+      "metric": "bySplit.test.clientLatency.p95Ms",
+      "baseline": 21.43220801372081,
+      "candidate": 17.789124976843596,
+      "delta": -3.643083036877215
+    },
+    {
+      "metric": "bySplit.test.clientLatency.p99Ms",
+      "baseline": 22.799624945037067,
+      "candidate": 24.572041002102196,
+      "delta": 1.7724160570651293
+    },
+    {
+      "metric": "bySplit.test.count",
+      "baseline": 38,
+      "candidate": 38,
+      "delta": 0
+    },
+    {
+      "metric": "bySplit.test.degradedRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "bySplit.test.errorRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "bySplit.test.mrr",
+      "baseline": 0.4764705882352941,
+      "candidate": 0.9313725490196079,
+      "delta": 0.4549019607843138
+    },
+    {
+      "metric": "bySplit.test.noAnswerAccuracy",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "bySplit.test.noAnswerCount",
+      "baseline": 4,
+      "candidate": 4,
+      "delta": 0
+    },
+    {
+      "metric": "bySplit.test.noAnswerFalsePositiveRate",
+      "baseline": 1.0,
+      "candidate": 1.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "bySplit.test.recallAt1",
+      "baseline": 0.4117647058823529,
+      "candidate": 0.8823529411764706,
+      "delta": 0.47058823529411764
+    },
+    {
+      "metric": "bySplit.test.recallAt3",
+      "baseline": 0.5294117647058824,
+      "candidate": 1.0,
+      "delta": 0.47058823529411764
+    },
+    {
+      "metric": "bySplit.test.recallAt5",
+      "baseline": 0.6176470588235294,
+      "candidate": 1.0,
+      "delta": 0.38235294117647056
+    },
+    {
+      "metric": "bySplit.test.serverLatency.count",
+      "baseline": 38,
+      "candidate": 38,
+      "delta": 0
+    },
+    {
+      "metric": "bySplit.test.serverLatency.meanMs",
+      "baseline": 9.728619605263157,
+      "candidate": 6.930700631578947,
+      "delta": -2.79791897368421
+    },
+    {
+      "metric": "bySplit.test.serverLatency.p50Ms",
+      "baseline": 8.5185,
+      "candidate": 5.57275,
+      "delta": -2.9457499999999994
+    },
+    {
+      "metric": "bySplit.test.serverLatency.p95Ms",
+      "baseline": 16.695208,
+      "candidate": 11.360875,
+      "delta": -5.334333000000001
+    },
+    {
+      "metric": "bySplit.test.serverLatency.p99Ms",
+      "baseline": 18.058875,
+      "candidate": 17.25675,
+      "delta": -0.8021250000000002
+    },
+    {
+      "metric": "clientLatency.count",
+      "baseline": 112,
+      "candidate": 112,
+      "delta": 0
+    },
+    {
+      "metric": "clientLatency.meanMs",
+      "baseline": 14.026888397243706,
+      "candidate": 9.507678554135575,
+      "delta": -4.519209843108131
+    },
+    {
+      "metric": "clientLatency.p50Ms",
+      "baseline": 12.143958010710776,
+      "candidate": 8.41345899971202,
+      "delta": -3.7304990109987557
+    },
+    {
+      "metric": "clientLatency.p95Ms",
+      "baseline": 23.92649999819696,
+      "candidate": 14.81004199013114,
+      "delta": -9.11645800806582
+    },
+    {
+      "metric": "clientLatency.p99Ms",
+      "baseline": 30.151374987326562,
+      "candidate": 18.05308402981609,
+      "delta": -12.098290957510471
+    },
+    {
+      "metric": "count",
+      "baseline": 112,
+      "candidate": 112,
+      "delta": 0
+    },
+    {
+      "metric": "degradedRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "errorRate",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "mrr",
+      "baseline": 0.5233974358974358,
+      "candidate": 0.9567307692307693,
+      "delta": 0.43333333333333346
+    },
+    {
+      "metric": "noAnswerAccuracy",
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "noAnswerCount",
+      "baseline": 8,
+      "candidate": 8,
+      "delta": 0
+    },
+    {
+      "metric": "noAnswerFalsePositiveRate",
+      "baseline": 1.0,
+      "candidate": 1.0,
+      "delta": 0.0
+    },
+    {
+      "metric": "recallAt1",
+      "baseline": 0.4519230769230769,
+      "candidate": 0.9326923076923077,
+      "delta": 0.4807692307692308
+    },
+    {
+      "metric": "recallAt3",
+      "baseline": 0.5769230769230769,
+      "candidate": 0.9903846153846154,
+      "delta": 0.41346153846153855
+    },
+    {
+      "metric": "recallAt5",
+      "baseline": 0.6634615384615384,
+      "candidate": 0.9903846153846154,
+      "delta": 0.326923076923077
+    },
+    {
+      "metric": "serverLatency.count",
+      "baseline": 112,
+      "candidate": 112,
+      "delta": 0
+    },
+    {
+      "metric": "serverLatency.meanMs",
+      "baseline": 10.269481053571429,
+      "candidate": 6.574659625000001,
+      "delta": -3.6948214285714283
+    },
+    {
+      "metric": "serverLatency.p50Ms",
+      "baseline": 8.540833,
+      "candidate": 5.573,
+      "delta": -2.967832999999999
+    },
+    {
+      "metric": "serverLatency.p95Ms",
+      "baseline": 18.058875,
+      "candidate": 10.923417,
+      "delta": -7.135458
+    },
+    {
+      "metric": "serverLatency.p99Ms",
+      "baseline": 23.551959,
+      "candidate": 14.5175,
+      "delta": -9.034459
+    }
+  ]
+}

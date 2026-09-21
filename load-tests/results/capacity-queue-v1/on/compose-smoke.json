@@ -1,0 +1,95 @@
+{
+  "provider": "local-mock",
+  "realModelValidated": false,
+  "checks": [
+    {
+      "name": "Nginx proxies the offline backend",
+      "passed": true,
+      "detail": {
+        "status": "UP",
+        "service": "ai-code-helper-backend",
+        "timestamp": "2026-09-21T05:58:39.672218968Z",
+        "chatProvider": "local",
+        "chatModel": "local-mock",
+        "embeddingProvider": "local",
+        "embeddingModel": "local-hash-embedding",
+        "mcpConfigured": false,
+        "mcpConnected": false,
+        "knowledgeSegments": 0
+      }
+    },
+    {
+      "name": "Production frontend serves HTML",
+      "passed": true,
+      "detail": true
+    },
+    {
+      "name": "Authenticated RAG through the reverse proxy",
+      "passed": true,
+      "detail": {
+        "traceId": "09252ee923af4fccb1d41071a613dad5"
+      }
+    },
+    {
+      "name": "Hybrid query actually uses PostgreSQL without fallback",
+      "passed": true,
+      "detail": {
+        "backend": "pgvector",
+        "resultCount": 5
+      }
+    },
+    {
+      "name": "Authenticated SSE reaches completion through Nginx",
+      "passed": true,
+      "detail": true
+    },
+    {
+      "name": "Actuator exports request and retrieval histogram metrics",
+      "passed": true,
+      "detail": true
+    },
+    {
+      "name": "Prometheus successfully scrapes the running backend",
+      "passed": true,
+      "detail": true
+    },
+    {
+      "name": "Every provisioned dashboard query parses in Prometheus",
+      "passed": true,
+      "detail": 14
+    },
+    {
+      "name": "Actual request and stage spans exported through Collector and stored in Tempo",
+      "passed": true,
+      "detail": {
+        "traceId": "09252ee923af4fccb1d41071a613dad5",
+        "spanNames": [
+          "ai.rag",
+          "auth.session",
+          "http post /api/ai/rag",
+          "lexical",
+          "llm",
+          "retrieval"
+        ]
+      }
+    },
+    {
+      "name": "Explicit hybrid retrieval trace contains lexical and vector stages",
+      "passed": true,
+      "detail": {
+        "traceId": "d530b04885e94452ae0dcefe8f71c2af",
+        "spanNames": [
+          "http post /api/evaluation/retrieval",
+          "lexical",
+          "retrieval",
+          "vector"
+        ]
+      }
+    },
+    {
+      "name": "Grafana provisions the dashboard",
+      "passed": true,
+      "detail": "AI Engineering \u00b7 Requests, Retrieval and Tools"
+    }
+  ]
+}

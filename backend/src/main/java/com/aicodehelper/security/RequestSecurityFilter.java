@@ -11,6 +11,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.HandlerMapping;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -18,7 +19,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 @Component
-@Order(Ordered.HIGHEST_PRECEDENCE)
+// Run within Spring's HTTP observation so access logs retain trace correlation.
+@Order(Ordered.HIGHEST_PRECEDENCE + 10)
 public class RequestSecurityFilter extends OncePerRequestFilter {
 
     private static final Logger log = LoggerFactory.getLogger(RequestSecurityFilter.class);
@@ -32,17 +34,24 @@ public class RequestSecurityFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
         long start = System.nanoTime();
         String requestId = requestId(request);
+        String previousRequestId = MDC.get("requestId");
         MDC.put("requestId", requestId);
         response.setHeader("X-Request-Id", requestId);
+        if (MDC.get("traceId") != null) response.setHeader("X-Trace-Id", MDC.get("traceId"));
         addSecurityHeaders(response);
 
         try {
             filterChain.doFilter(request, response);
         } finally {
             long durationMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
-            log.info("HTTP {} {} status={} durationMs={}",
-                    request.getMethod(), request.getRequestURI(), response.getStatus(), durationMs);
-            MDC.remove("requestId");
+            // The template excludes stream ticket IDs and arbitrary untrusted paths.
+            Object route = request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
+            log.atInfo().addKeyValue("event", "http.dispatch.completed")
+                    .addKeyValue("method", request.getMethod()).addKeyValue("route", route == null ? "unmatched" : route)
+                    .addKeyValue("status", response.getStatus()).addKeyValue("dispatch_duration_ms", durationMs)
+                    .addKeyValue("async", request.isAsyncStarted()).log("HTTP dispatch completed");
+            if (previousRequestId == null) MDC.remove("requestId");
+            else MDC.put("requestId", previousRequestId);
         }
     }
 

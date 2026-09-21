@@ -1,0 +1,28 @@
+{
+  "source_revision": "b4cabf91210470546a5dc73cf47ab216383078c7",
+  "independent_read_only_audit": "passed",
+  "samples_reconciled_with_server_counters": 14,
+  "off": {
+    "attempts": 993,
+    "successes": 722,
+    "http_429": 72,
+    "unexpected": 199,
+    "http_503": 51,
+    "sse_errors": 148
+  },
+  "on": {
+    "attempts": 1015,
+    "successes": 943,
+    "http_429": 72,
+    "unexpected": 0
+  },
+  "all_samples_drained": true,
+  "sample_errors": 0,
+  "observed_max_metric_sampling_gap_ms": 544,
+  "notes": [
+    "Closed-workload attempts differ; do not compare aggregates as equal offered load.",
+    "SSE success p95 increased by314.470ms at50 workers and396.128ms at100 workers.",
+    "No queue timeout observed in measured runs; timeout paths covered by deterministic regression tests.",
+    "Queue-specific trace retrieval was not verified; optional fetch after teardown failed."
+  ]
+}

@@ -22,12 +22,52 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: health,info,prometheus
   endpoint:
     health:
       show-details: never
+  tracing:
+    enabled: ${APP_TRACING_ENABLED:false}
+    sampling:
+      probability: ${APP_TRACE_SAMPLE_RATE:1.0}
+  otlp:
+    tracing:
+      endpoint: ${OTEL_EXPORTER_OTLP_TRACES_ENDPOINT:http://localhost:4318/v1/traces}
 
 app:
+  evaluation:
+    enabled: ${APP_EVALUATION_ENABLED:false}
+    key: ${APP_EVALUATION_KEY:}
+  retrieval:
+    mode: ${RETRIEVAL_MODE:lexical}
+    backend: ${RETRIEVAL_BACKEND:memory}
+    embedding-version: ${RETRIEVAL_EMBEDDING_VERSION:v1}
+    embedding-retry-backoff: ${RETRIEVAL_EMBEDDING_RETRY_BACKOFF:30s}
+    candidates: ${RETRIEVAL_CANDIDATES:25}
+    rrf-k: ${RETRIEVAL_RRF_K:60}
+    postgres:
+      url: ${RETRIEVAL_POSTGRES_URL:jdbc:postgresql://localhost:5432/aicodehelper}
+      username: ${RETRIEVAL_POSTGRES_USERNAME:aicodehelper}
+      password: ${RETRIEVAL_POSTGRES_PASSWORD:}
+    reranker:
+      type: ${RETRIEVAL_RERANKER_TYPE:deterministic-token-overlap}
+      url: ${RETRIEVAL_RERANKER_URL:}
+      api-key: ${RETRIEVAL_RERANKER_API_KEY:}
+      timeout: ${RETRIEVAL_RERANKER_TIMEOUT:2s}
+  provider:
+    chat-timeout: ${AI_PROVIDER_CHAT_TIMEOUT:45s}
+    embedding-timeout: ${AI_PROVIDER_EMBEDDING_TIMEOUT:20s}
+    stream-first-token-timeout: ${AI_PROVIDER_FIRST_TOKEN_TIMEOUT:15s}
+    stream-timeout: ${AI_PROVIDER_STREAM_TIMEOUT:90s}
+    max-in-flight: ${AI_PROVIDER_MAX_IN_FLIGHT:16}
+    max-queued: ${AI_PROVIDER_MAX_QUEUED:48}
+    queue-timeout: ${AI_PROVIDER_QUEUE_TIMEOUT:2s}
+  agent:
+    max-steps: ${MAX_AGENT_STEPS:6}
+    max-tool-retries: ${MAX_TOOL_RETRIES:2}
+    tool-timeout: ${TOOL_TIMEOUT:10s}
+    max-total-tool-time: ${MAX_TOTAL_TOOL_TIME:30s}
+    max-calls-per-tool: ${MAX_CALLS_PER_TOOL:3}
   storage:
     enabled: ${APP_STORAGE_ENABLED:true}
     directory: ${APP_DATA_DIR:./data}
@@ -78,10 +118,13 @@ app:
     connect-timeout: ${INTERVIEW_CONNECT_TIMEOUT:4s}
 
 logging:
+  structured:
+    format:
+      console: ${LOGGING_STRUCTURED_FORMAT_CONSOLE:}
   level:
     root: INFO
     com.aicodehelper: INFO
     dev.langchain4j: WARN
     dev.langchain4j.community.model.dashscope: WARN
   pattern:
-    level: "%5p [requestId:%X{requestId:-}]"
+    level: "%5p [requestId:%X{requestId:-} traceId:%X{traceId:-} spanId:%X{spanId:-}]"
