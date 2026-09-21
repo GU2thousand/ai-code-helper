@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "started_at": "2026-09-21T02:45:22.138867+00:00",
+  "base_url": "http://127.0.0.1:28081",
+  "configuration": {
+    "concurrency": 100,
+    "launch_duration_seconds": 10,
+    "request_timeout_seconds": 30,
+    "max_requests": null,
+    "think_seconds": 3.1,
+    "max_saturation_rate": 1.0
+  },
+  "duration_seconds": 10.017042,
+  "workers": {
+    "requested": 100,
+    "registered": 100,
+    "setup_failures": 0,
+    "error_counts": {},
+    "http_status_counts": {}
+  },
+  "requests": {
+    "attempted": 300,
+    "succeeded": 153,
+    "failed": 147,
+    "http_429": 36,
+    "non_saturation_failures": 111,
+    "error_rate": 0.49,
+    "unexpected_error_rate": 0.37,
+    "non_saturated_error_rate": 0.420455,
+    "http_429_rate": 0.12,
+    "error_counts": {
+      "http_429": 36,
+      "sse_error": 111
+    },
+    "http_status_counts": {
+      "429": 36
+    },
+    "http_429_by_phase": {
+      "stream": 36
+    }
+  },
+  "streams": {
+    "active": 0,
+    "max_active": 59,
+    "completed": 153,
+    "content_events": 2295,
+    "content_characters": 22644
+  },
+  "throughput": {
+    "attempts_per_second": 29.948962,
+    "completed_streams_per_second": 15.273971,
+    "content_events_per_second": 229.109559
+  },
+  "latency_ms": {
+    "ttft_ms": {
+      "count": 153,
+      "p50": 148.312,
+      "p95": 1533.217,
+      "p99": 1658.736,
+      "min": 9.866,
+      "max": 1701.408
+    },
+    "ticket_to_first_content_ms": {
+      "count": 153,
+      "p50": 165.878,
+      "p95": 1607.054,
+      "p99": 1744.019,
+      "min": 13.183,
+      "max": 1793.203
+    },
+    "request_duration_ms": {
+      "count": 300,
+      "p50": 290.33,
+      "p95": 1692.085,
+      "p99": 1868.351,
+      "min": 42.575,
+      "max": 1996.397
+    },
+    "stream_duration_ms": {
+      "count": 300,
+      "p50": 262.726,
+      "p95": 1624.507,
+      "p99": 1776.391,
+      "min": 26.469,
+      "max": 1950.188
+    },
+    "successful_request_duration_ms": {
+      "count": 153,
+      "p50": 290.876,
+      "p95": 1784.043,
+      "p99": 1966.15,
+      "min": 45.811,
+      "max": 1996.397
+    }
+  },
+  "measurement_notes": [
+    "TTFT starts before the SSE GET and ends at the first nonempty message content event; headers, meta and sources do not count.",
+    "Ticket-to-first-content starts before the ticket POST; guest setup is excluded from request latency.",
+    "Milestone distributions include failed attempts that reached that milestone; successful request duration is also reported separately.",
+    "Percentiles use linear interpolation. Empty distributions are null, never fabricated zero latency.",
+    "Active streams counts open HTTP SSE responses; throughput uses total wall time including guest setup and final request drain.",
+    "Duration limits launching new requests; in-flight requests drain for up to the request timeout. Each worker has its own guest cookies and each request a unique memory ID.",
+    "Default 3.1-second worker think time avoids the default 20 starts/minute per-owner limiter; use --think-seconds 0 only when intentionally testing that limiter or changing its configuration.",
+    "Content events are not model tokens. HTTP 429 is counted as failure and also reported separately as saturation; guest setup errors are separate.",
+    "unexpected_error_rate divides non-429 failures by all attempts; non_saturated_error_rate divides them by attempts excluding HTTP 429. HTTP 503 remains an unexpected failure.",
+    "This is measured HTTP transport/load behavior, not an evaluation of answer quality or provider correctness."
+  ],
+  "diagnostic_only": {
+    "purpose": "Capture only stable error codes omitted by original baseline runner; this is a separate run, excluded from all seven baseline rows.",
+    "started_at": "2026-09-21T02:45:22.138209+00:00",
+    "sse_error_codes": {
+      "AI_PROVIDER_CAPACITY": 111
+    },
+    "source_revision": "d4520ab96d00701c5386d7999fbaa1dc90a6c039",
+    "runner_instrumentation": "iter_sse wrapper counts uppercase error-event payloads only; no answers, cookies, or prompt content stored."
+  }
+}

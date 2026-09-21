@@ -1,0 +1,6 @@
+# Preserve exact raw capture bytes, including CSV CRLF and Prometheus HELP spacing.
+evaluation/results/*.csv -text -whitespace
+load-tests/results/**/*.prom -text -whitespace
+# Keep measured artifacts available while focusing review on implementation changes.
+evaluation/results/** linguist-generated=true
+load-tests/results/** linguist-generated=true

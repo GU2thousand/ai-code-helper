@@ -1,0 +1,165 @@
+[
+  {
+    "scenario": "chat10",
+    "started_at": "2026-09-21T02:41:18.545443+00:00",
+    "completed_at": "2026-09-21T02:41:30.552815+00:00",
+    "elapsed_seconds": 11.96653504204005,
+    "exit_code": 0,
+    "command": [
+      "/Users/guerqian77/Documents/Codex/2026-09-20/qi-2/work/load-test-tools/k6-v2.2.0-macos-arm64/k6",
+      "run",
+      "--quiet",
+      "load-tests/http.js"
+    ],
+    "environment_overrides": {
+      "BASE_URL": "http://127.0.0.1:28081",
+      "SCENARIO": "chat10",
+      "DURATION": "10s",
+      "SUMMARY_PATH": "/Users/guerqian77/Documents/Codex/2026-09-20/qi-2/work/final-load/chat10.json"
+    },
+    "backend_restart_exit_code": 0,
+    "raw_result": "chat10.json",
+    "resource_series": "chat10-resources.jsonl"
+  },
+  {
+    "scenario": "chat50",
+    "started_at": "2026-09-21T02:41:32.879390+00:00",
+    "completed_at": "2026-09-21T02:41:45.905864+00:00",
+    "elapsed_seconds": 12.996878375008237,
+    "exit_code": 0,
+    "command": [
+      "/Users/guerqian77/Documents/Codex/2026-09-20/qi-2/work/load-test-tools/k6-v2.2.0-macos-arm64/k6",
+      "run",
+      "--quiet",
+      "load-tests/http.js"
+    ],
+    "environment_overrides": {
+      "BASE_URL": "http://127.0.0.1:28081",
+      "SCENARIO": "chat50",
+      "DURATION": "10s",
+      "SUMMARY_PATH": "/Users/guerqian77/Documents/Codex/2026-09-20/qi-2/work/final-load/chat50.json"
+    },
+    "backend_restart_exit_code": 0,
+    "raw_result": "chat50.json",
+    "resource_series": "chat50-resources.jsonl"
+  },
+  {
+    "scenario": "chat100",
+    "started_at": "2026-09-21T02:41:48.918523+00:00",
+    "completed_at": "2026-09-21T02:42:02.070924+00:00",
+    "elapsed_seconds": 13.14074400003301,
+    "exit_code": 99,
+    "command": [
+      "/Users/guerqian77/Documents/Codex/2026-09-20/qi-2/work/load-test-tools/k6-v2.2.0-macos-arm64/k6",
+      "run",
+      "--quiet",
+      "load-tests/http.js"
+    ],
+    "environment_overrides": {
+      "BASE_URL": "http://127.0.0.1:28081",
+      "SCENARIO": "chat100",
+      "DURATION": "10s",
+      "SUMMARY_PATH": "/Users/guerqian77/Documents/Codex/2026-09-20/qi-2/work/final-load/chat100.json"
+    },
+    "backend_restart_exit_code": 0,
+    "raw_result": "chat100.json",
+    "resource_series": "chat100-resources.jsonl"
+  },
+  {
+    "scenario": "rag",
+    "started_at": "2026-09-21T02:42:05.060319+00:00",
+    "completed_at": "2026-09-21T02:42:15.985300+00:00",
+    "elapsed_seconds": 10.874913583043963,
+    "exit_code": 0,
+    "command": [
+      "/Users/guerqian77/Documents/Codex/2026-09-20/qi-2/work/load-test-tools/k6-v2.2.0-macos-arm64/k6",
+      "run",
+      "--quiet",
+      "load-tests/http.js"
+    ],
+    "environment_overrides": {
+      "BASE_URL": "http://127.0.0.1:28081",
+      "SCENARIO": "rag",
+      "DURATION": "10s",
+      "SUMMARY_PATH": "/Users/guerqian77/Documents/Codex/2026-09-20/qi-2/work/final-load/rag.json"
+    },
+    "backend_restart_exit_code": 0,
+    "raw_result": "rag.json",
+    "resource_series": "rag-resources.jsonl"
+  },
+  {
+    "scenario": "sse10",
+    "started_at": "2026-09-21T02:42:18.905405+00:00",
+    "completed_at": "2026-09-21T02:42:29.090180+00:00",
+    "elapsed_seconds": 10.156498333031777,
+    "exit_code": 0,
+    "command": [
+      "python3",
+      "load-tests/sse_load.py",
+      "--base-url",
+      "http://127.0.0.1:28081",
+      "--concurrency",
+      "10",
+      "--duration",
+      "10",
+      "--timeout",
+      "30",
+      "--output",
+      "/Users/guerqian77/Documents/Codex/2026-09-20/qi-2/work/final-load/sse10.json"
+    ],
+    "environment_overrides": {},
+    "backend_restart_exit_code": 0,
+    "raw_result": "sse10.json",
+    "resource_series": "sse10-resources.jsonl"
+  },
+  {
+    "scenario": "sse50",
+    "started_at": "2026-09-21T02:42:32.028697+00:00",
+    "completed_at": "2026-09-21T02:42:42.887100+00:00",
+    "elapsed_seconds": 10.815157500037458,
+    "exit_code": 1,
+    "command": [
+      "python3",
+      "load-tests/sse_load.py",
+      "--base-url",
+      "http://127.0.0.1:28081",
+      "--concurrency",
+      "50",
+      "--duration",
+      "10",
+      "--timeout",
+      "30",
+      "--output",
+      "/Users/guerqian77/Documents/Codex/2026-09-20/qi-2/work/final-load/sse50.json"
+    ],
+    "environment_overrides": {},
+    "backend_restart_exit_code": 0,
+    "raw_result": "sse50.json",
+    "resource_series": "sse50-resources.jsonl"
+  },
+  {
+    "scenario": "sse100",
+    "started_at": "2026-09-21T02:42:45.821453+00:00",
+    "completed_at": "2026-09-21T02:42:56.206331+00:00",
+    "elapsed_seconds": 10.347774082969408,
+    "exit_code": 1,
+    "command": [
+      "python3",
+      "load-tests/sse_load.py",
+      "--base-url",
+      "http://127.0.0.1:28081",
+      "--concurrency",
+      "100",
+      "--duration",
+      "10",
+      "--timeout",
+      "30",
+      "--output",
+      "/Users/guerqian77/Documents/Codex/2026-09-20/qi-2/work/final-load/sse100.json"
+    ],
+    "environment_overrides": {},
+    "backend_restart_exit_code": 0,
+    "raw_result": "sse100.json",
+    "resource_series": "sse100-resources.jsonl"
+  }
+]

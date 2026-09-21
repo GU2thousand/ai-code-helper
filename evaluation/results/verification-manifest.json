@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-09-21T02:36:48.613029+00:00",
+  "sourceCommit": "d4520ab96d00701c5386d7999fbaa1dc90a6c039",
+  "sourceClean": true,
+  "applicationImagesMatchSourceRevision": true,
+  "composeProject": "ai-code-helper-verification",
+  "dockerServerVersion": "27.3.1",
+  "configFileSha256": {
+    "docker-compose.yml": "1d7915121bcc258d0648ea2d91816524ffc7a49c90011cacaf21c717be66978a",
+    "backend/Dockerfile": "6fcf929612933815dfde468339aeeecfb1b0fbf589b860035d2ae2c384ea2e2c",
+    "frontend/Dockerfile": "2eb20c4929c926af1ff0fffc7784e93d03a5af5ed5cbff2a6d73e64643baf435",
+    "frontend/nginx.conf": "c68266c8120479023bf49f6c1e596ec0018ca77ff43aa7cfef94df2f50f72831",
+    "backend/src/main/resources/application.yml": "2f86dd8e7e1a430760df8c2155f7a3aa3ed6a04d54e89b693e48fa97bb80f1ad",
+    "backend/src/main/resources/application-local.yml": "39709588b2121c212c0e1aaa3e2dbebd081058113aa8ec73b20426bc0a773e8a",
+    "deployment/grafana/dashboards/ai-engineering.json": "ff0f01b29d9f53f1a381ec45c83009825f018251abc96b7f6245db4c3213043d",
+    "deployment/grafana/provisioning/dashboards/dashboards.yml": "09b0aa634b489fc5b439203f9870170ae13ed021dc4afee9804056872cd56fed",
+    "deployment/grafana/provisioning/datasources/datasources.yml": "0c71faef30343ea7e28b4a18cab82518b985c25adc5f05fae22fd0b0b3dc2613",
+    "deployment/otel-collector.yml": "4da24f8a86d15d57a3a6159302f1acbd8d871fd192f68f361799a1197759edc1",
+    "deployment/postgres/init.sql": "9e9b2cfec47519f49ee73cb533c459e22f8ca54fe5ba1cbec59f3d5883fe191c",
+    "deployment/prometheus/prometheus.yml": "699112f3f1c1c2ab79dd157bee1f4f78c7f35d7fbc250235eaa29963e6d05e9d",
+    "deployment/tempo.yml": "cfefcdcb3c60210af251a93589a3a95b390120c35def488ee56bb271b57f8c9e"
+  },
+  "containers": [
+    {
+      "id": "667a75155234ca52f6f95334891b6e6d9bc9d636229e3894fb5db1da532f1b5b",
+      "imageId": "sha256:c4c3e1ebcc738970087c241d176965e84737ac4c0986b7e7552b64a9efb47ec3",
+      "imageReference": "ai-code-helper-verification-backend",
+      "createdAt": "2026-09-21T02:36:24.009613752Z",
+      "state": "running",
+      "service": "backend",
+      "composeConfigHash": "1859a7260a769db42bd0f013c9294a7c89dad9de39f0cc212bdff44d699f0e8a",
+      "image": {
+        "id": "sha256:c4c3e1ebcc738970087c241d176965e84737ac4c0986b7e7552b64a9efb47ec3",
+        "createdAt": "2026-09-21T02:36:23.034370626Z",
+        "architecture": "arm64",
+        "os": "linux",
+        "sourceRevision": "d4520ab96d00701c5386d7999fbaa1dc90a6c039",
+        "repoDigests": []
+      }
+    },
+    {
+      "id": "bb5900dc9c5abf9e1ce8cb2b79e8cfe230fd2761fb270718fc7df978ca91c6da",
+      "imageId": "sha256:fa53acf3effae4da563c0adf9fb7f3bdfec3cad21941c1bb1f402dd4c354dd1e",
+      "imageReference": "ai-code-helper-verification-frontend",
+      "createdAt": "2026-09-21T02:36:24.395902794Z",
+      "state": "running",
+      "service": "frontend",
+      "composeConfigHash": "7200df1392b32328b55a610cf437124c29b807b54384214d7843ab0e1b4703b5",
+      "image": {
+        "id": "sha256:fa53acf3effae4da563c0adf9fb7f3bdfec3cad21941c1bb1f402dd4c354dd1e",
+        "createdAt": "2026-09-21T02:30:34.665589548Z",
+        "architecture": "arm64",
+        "os": "linux",
+        "sourceRevision": "d4520ab96d00701c5386d7999fbaa1dc90a6c039",
+        "repoDigests": []
+      }
+    },
+    {
+      "id": "4ed7f99c600320d81c5d3b992e1125aa31d9129a3b70e1ee97cad107619eb90b",
+      "imageId": "sha256:bd0f4bdeef147686fd23c6ae632f9e965dd497f59c8ba78669382f8827162e1e",
+      "imageReference": "grafana/grafana:12.4.11",
+      "createdAt": "2026-09-21T02:28:10.852932885Z",
+      "state": "running",
+      "service": "grafana",
+      "composeConfigHash": "46c5500f971d0472b88448cefad659a574d0781c92c0c6f157beef17eb4e2c86",
+      "image": {
+        "id": "sha256:bd0f4bdeef147686fd23c6ae632f9e965dd497f59c8ba78669382f8827162e1e",
+        "createdAt": "2026-09-14T12:08:00.441800324Z",
+        "architecture": "arm64",
+        "os": "linux",
+        "sourceRevision": null,
+        "repoDigests": [
+          "grafana/grafana@sha256:3ea272e5cab64a4a62240c682e2c62433b25614d956d44c299a10cb6994f6f2e"
+        ]
+      }
+    },
+    {
+      "id": "51895355ead0d31a843ce836a91f4b442e2c5f16cea0870b5a95ccdec5f4c383",
+      "imageId": "sha256:18f0da44c85002d9fd2d1da75171334e9ca842ae58a6a7494b6c969a18c5fc01",
+      "imageReference": "otel/opentelemetry-collector-contrib:0.161.0",
+      "createdAt": "2026-09-21T02:28:10.852798093Z",
+      "state": "running",
+      "service": "otel-collector",
+      "composeConfigHash": "87f7a15b874c3b412153bebee2249d3b8a2fa55c45a5d22c8f7f471511a3f54f",
+      "image": {
+        "id": "sha256:18f0da44c85002d9fd2d1da75171334e9ca842ae58a6a7494b6c969a18c5fc01",
+        "createdAt": "2026-09-16T02:49:49.78670771Z",
+        "architecture": "arm64",
+        "os": "linux",
+        "sourceRevision": "619d1d0d06e9488a4a38e993f09605bbc13db592",
+        "repoDigests": [
+          "otel/opentelemetry-collector-contrib@sha256:fd328de2552466ad78385e1b1289c3f2402b1c45f265b252aab1955b42845ac1"
+        ]
+      }
+    },
+    {
+      "id": "ce4622d2823fe9bedd7ff099db83f3e5a12d7ec4af68ec62c6a236ec8c0a8d3a",
+      "imageId": "sha256:9f6f5e8f6bf64903df0a7743c4580477c14139cdaac1c17056b21721cf34369e",
+      "imageReference": "pgvector/pgvector:0.8.6-pg17-bookworm",
+      "createdAt": "2026-09-21T02:28:09.997288551Z",
+      "state": "running",
+      "service": "postgres",
+      "composeConfigHash": "91ff1cfaecfedea57d7e243d5cd46aca261603734f57b006869fabace6b93756",
+      "image": {
+        "id": "sha256:9f6f5e8f6bf64903df0a7743c4580477c14139cdaac1c17056b21721cf34369e",
+        "createdAt": "2026-08-13T21:26:32.515595343Z",
+        "architecture": "arm64",
+        "os": "linux",
+        "sourceRevision": null,
+        "repoDigests": [
+          "pgvector/pgvector@sha256:cf134a767f474095eeba57e0117be8e568e011a63f33fbf252f14c9b760f8e6f"
+        ]
+      }
+    },
+    {
+      "id": "fe6d23f5cde7d1a488dbc12cd8f221a8371c221e0d21ebb75051854562a98af8",
+      "imageId": "sha256:249c7fa94198524d75d26cae28169774e41627c2d0fc1b7104f2feec8d192d0f",
+      "imageReference": "prom/prometheus:v3.13.3",
+      "createdAt": "2026-09-21T02:28:10.158203926Z",
+      "state": "running",
+      "service": "prometheus",
+      "composeConfigHash": "cf9decdd96b7a7912df34e0e3aa5a79e9fd70e08ba69b8b2cb3f005ab7d8841c",
+      "image": {
+        "id": "sha256:249c7fa94198524d75d26cae28169774e41627c2d0fc1b7104f2feec8d192d0f",
+        "createdAt": "2026-09-07T12:19:42.46608114Z",
+        "architecture": "arm64",
+        "os": "linux",
+        "sourceRevision": null,
+        "repoDigests": [
+          "prom/prometheus@sha256:6976aa8a60fec930796ce5772b8d12da7a318a5daa8d40d69c5c7819a05eeed7"
+        ]
+      }
+    },
+    {
+      "id": "59e12ce4bfee1d377c9a93e8f32f15caa8b99cdca116cfd0031c00d61de9b7fe",
+      "imageId": "sha256:432b0c85b622b4ac693568b584a0304f5c1b4e292a8784388d22b80d00421cdc",
+      "imageReference": "grafana/tempo:2.10.8",
+      "createdAt": "2026-09-21T02:28:10.435547343Z",
+      "state": "running",
+      "service": "tempo",
+      "composeConfigHash": "9d14bd52fda1f429fd267189930c6f3b09ecb6dc0c381ae1b65d39f4532df5a1",
+      "image": {
+        "id": "sha256:432b0c85b622b4ac693568b584a0304f5c1b4e292a8784388d22b80d00421cdc",
+        "createdAt": "2026-08-13T17:13:05.298320429Z",
+        "architecture": "arm64",
+        "os": "linux",
+        "sourceRevision": null,
+        "repoDigests": [
+          "grafana/tempo@sha256:f0561deb1c68ec44d6e6e7e4487f30106c4e5e768642077695b37958b105812a"
+        ]
+      }
+    }
+  ],
+  "scope": "Observed local containers and image labels; no provider credentials or environment values recorded."
+}

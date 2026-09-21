@@ -90,13 +90,31 @@ Baseline evaluation is measured on a fixed programming QA set. All numbers below
 Recall checks exact evidence anchors inside retrieved chunks. A correct filename with an unrelated paragraph earns no credit. MRR uses the first evidence hit. Three warmups per mode are excluded. Latency is server retrieval duration, not end-to-end answer latency. Each run retains dataset/script/corpus hashes, code revision, server configuration, degradation and raw rankings.
 
 <!-- RETRIEVAL_RESULTS_START -->
-Final pinned-revision measurements are being recorded in `evaluation/results/`.
+Measured on 2026-09-21 UTC from clean source [`d4520ab`](https://github.com/GU2thousand/ai-code-helper/commit/d4520ab96d00701c5386d7999fbaa1dc90a6c039), with PostgreSQL/pgvector, `local-hash-embedding` v1, k=5 and the heuristic reranker. [Image/configuration manifest](evaluation/results/verification-manifest.json) binds the serving containers to that revision. All four runs completed without HTTP errors or degradation.
+
+| Pipeline | Recall@1 | Recall@3 | Recall@5 | MRR | Mean retrieval | p95 retrieval | Answer accuracy |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| [Vector only](evaluation/results/baseline-v1.json) | 45.19% | 57.69% | 66.35% | 0.5234 | 10.27 ms | 18.06 ms | Unmeasured |
+| [BM25 lexical](evaluation/results/lexical-v1.json) | 93.27% | 99.04% | 99.04% | 0.9567 | 6.57 ms | 10.92 ms | Unmeasured |
+| [Hybrid RRF](evaluation/results/hybrid-v1.json) | 71.15% | 88.46% | 92.31% | 0.8029 | 14.55 ms | 18.99 ms | Unmeasured |
+| [Hybrid + heuristic reranker](evaluation/results/hybrid_rerank-v1.json) | 88.46% | 97.12% | 98.08% | 0.9271 | 16.35 ms | 21.21 ms | Unmeasured |
+
+Fixed test split: 38 questions, including 34 answerable and 4 no-answer cases. No cases were changed after comparison; source/question co-authorship still limits independence.
+
+| Pipeline | Test Recall@5 | Test MRR |
+| --- | ---: | ---: |
+| Vector only | 61.76% | 0.4765 |
+| BM25 lexical | 100.00% | 0.9314 |
+| Hybrid RRF | 88.24% | 0.7451 |
+| Hybrid + heuristic reranker | 100.00% | 0.9289 |
+
+**No-answer abstention was 0/8 for every mode** (false-positive rate 100%): all unsupported queries returned chunks. This is a retrieval rejection failure, not a measured LLM hallucination rate. Full per-query CSV/JSON and language/category summaries are retained in [`evaluation/results/`](evaluation/results/). Sequential single-run timings are descriptive and do not prove a latency improvement.
 <!-- RETRIEVAL_RESULTS_END -->
 
 `baseline-v1` means **vector-only on the upgraded fixed corpus**, not a historical measurement of the old three-document implementation. No before/after claim across different corpora is made. The default follows the measured local winner; changing to real embeddings requires a new comparison. Ranking metrics do not measure answer accuracy.
 
 <!-- AGENT_RESULTS_START -->
-The controlled runtime results are recorded separately in `evaluation/results/agent-runtime-v1.json`.
+[Controlled runtime run](evaluation/results/agent-runtime-v1.json): **60/60 expected contracts passed**, with no evaluation HTTP errors. Across the intentionally failing fixtures, tool-result success was 43.48%, average underlying calls 1.67, average entered steps 1.40, task completion 13.33%, timeout rate 4.35%, 32 retries and 8 loop-prevention results. These different denominators are defined in the evaluator; none is a production reliability estimate.
 <!-- AGENT_RESULTS_END -->
 
 The 60 agent cases repeat 15 controlled fixtures four times. Contract pass checks expected outcomes; injected failures intentionally lower execution success and completion. **Tool-selection accuracy is null:** no real planner was invoked. The answer evaluator rejects local/mock results, supports actual provider exports/live runs, resolves chunk citations, and optionally accepts an external judge. Lexical coverage/citation proxies are labeled separately from semantic correctness, faithfulness and hallucination metrics.
@@ -112,7 +130,19 @@ Structured request logs include request/trace ID, model, mode, duration, tool co
 [`load-tests/`](load-tests/README.md) includes k6 chat 10/50/100-VU, mixed RAG and provider-gated tool scenarios, plus an incremental SSE client with actual first-content timing. HTTP 429 saturation is reported separately from unexpected failures. VUs include think time and do not imply that every user is simultaneously admitted. [`failure-injection.md`](load-tests/failure-injection.md) maps database, reranker, MCP and provider failures to executable checks.
 
 <!-- LOAD_RESULTS_START -->
-Local load results are recorded with their workload and configuration limits in `load-tests/results/`.
+[Seven recorded samples](load-tests/results/local-v1/README.md), 2026-09-21 UTC: 10-second launch windows, 3.1s think time, local models, lexical retrieval/pgvector, persistence and tracing enabled. The isolated backend restarted before each sample to reset admission windows; no separate warmup. Limits remained 64 application requests, 16 physical provider calls and 300 starts/minute. Short samples include JVM startup effects.
+
+| Workload / users | Success / attempts | HTTP 429 | Unexpected failures | Success p95 | Success / second |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| [Chat 10](load-tests/results/local-v1/chat10.json) | 30/30 | 0 | 0 (0.00%) | 599.3 ms | 2.89 |
+| [Chat 50](load-tests/results/local-v1/chat50.json) | 150/150 | 0 | 0 (0.00%) | 1294.2 ms | 12.85 |
+| [Chat 100](load-tests/results/local-v1/chat100.json) | 238/303 | 36 | 29 (9.57%) | 1262.1 ms | 18.18 |
+| [RAG 10](load-tests/results/local-v1/rag.json) | 30/30 | 0 | 0 (0.00%) | 572.9 ms | 2.96 |
+| [SSE 10](load-tests/results/local-v1/sse10.json) | 30/30 | 0 | 0 (0.00%) | 689.8 ms | 3.00 |
+| [SSE 50](load-tests/results/local-v1/sse50.json) | 88/150 | 0 | 62 (41.33%) | 1225.7 ms | 8.79 |
+| [SSE 100](load-tests/results/local-v1/sse100.json) | 146/300 | 36 | 118 (39.33%) | 1750.2 ms | 14.59 |
+
+**Chat 100 and SSE 50/100 failed the load acceptance thresholds.** Chat 100's 29 unexpected failures were HTTP 503. The SSE failures were provider errors after the response opened; their baseline payload codes were not retained. A separate diagnostic run captured 111 `AI_PROVIDER_CAPACITY` SSE errors; it is recorded separately and does not relabel or replace baseline failures. These results expose the configured capacity boundary and do not establish 100-user production readiness. No capacity settings or error classifications were changed to make the runs pass. All SSE runs drained to zero active streams; observed peak open responses were 10, 50 and 63 respectively. Raw TTFT p50/p95/p99, resource samples, status counters and exit codes remain in the linked artifacts.
 <!-- LOAD_RESULTS_END -->
 
 ## Run locally
@@ -145,7 +175,7 @@ APP_EVALUATION_KEY=local-evaluation-only python3 evaluation/scripts/run_benchmar
 APP_EVALUATION_KEY=local-evaluation-only python3 evaluation/scripts/run_agent_eval.py
 ```
 
-Evaluation routes are disabled by default and require `X-Evaluation-Key` when enabled. Do not expose the diagnostics/monitoring stack publicly. To connect real providers in standalone mode, configure `DASHSCOPE_API_KEY` and optionally `BIGMODEL_MCP_ENABLED`/`BIGMODEL_API_KEY`. Compose intentionally uses the offline `local` profile. [`backend/.env.example`](backend/.env.example) documents every application override; Spring Boot does not automatically load that file.
+Evaluation routes are disabled by default and require `X-Evaluation-Key` when enabled. Do not expose the diagnostics/monitoring stack publicly. To connect real providers in standalone mode, configure `DASHSCOPE_API_KEY` and optionally `BIGMODEL_MCP_ENABLED`/`BIGMODEL_API_KEY`. Compose intentionally uses the offline `local` profile. [`backend/.env.example`](backend/.env.example) documents the main application overrides; Spring Boot does not automatically load that file.
 
 ## Validation
 
@@ -157,6 +187,8 @@ python3 evaluation/scripts/validate_datasets.py
 python3 -m unittest discover -s evaluation/tests -v
 python3 -m unittest discover -s load-tests -p 'test_*.py' -v
 ```
+
+Recorded verification: **159 backend tests passed with no skips**, including the real PostgreSQL cases; **46 frontend**, **22 evaluator**, and **11 load-client** tests passed, as did the production frontend build and dependency audit (zero reported vulnerabilities). The final container smoke passed all **11** HTTP, SSE, source, metric, dashboard and stored-trace checks. These local/controlled checks do not establish real-provider quality.
 
 The PostgreSQL tests require `TEST_PGVECTOR_URL`, `TEST_PGVECTOR_USERNAME`, and `TEST_PGVECTOR_PASSWORD`; otherwise they explicitly skip. k6 runner tests require `k6` on PATH or `K6_BINARY`. CI runs frontend/backend validation, real pgvector integration, evaluator/client contracts, Compose smoke and observability checks.
 
@@ -209,9 +241,13 @@ The PostgreSQL tests require `TEST_PGVECTOR_URL`, `TEST_PGVECTOR_USERNAME`, and 
 
 ## 评估方法与实验结果
 
+最终实测中，BM25 Recall@5 为 **99.04%**、MRR 为 **0.9567**，服务端检索 p95 为 **10.92 ms**；向量基线 Recall@5 为 66.35%，混合为 92.31%，混合加启发式重排为 98.08%。固定测试集上 BM25 与重排的 Recall@5 均为 100%，BM25 MRR 为 0.9314。所有模式对 8 个无答案问题的拒答均为 **0/8**，不能把高 Recall 当作可信回答保证。
+
 上方结果表来自 [`evaluation/`](evaluation/README.md) 的真实本地运行。固定语料为 11 篇 Markdown、272 个片段；112 个不同问题包含 104 个有答案问题和 8 个无答案问题，带固定 dev/test 与中英文标签。检索和回答数据集使用相同问题，并非 224 道独立题。语料与题目共同编写，因此这是一套开发评估，不是独立质量认证。
 
 Recall 要求检索片段命中确切证据锚点，仅文件名相同不得分；MRR 使用首个相关片段排名。每种模式预热 3 次，结果保留原始排名、Git、数据集/脚本/语料哈希、模型和配置。服务端检索耗时与完整回答耗时分开。`baseline-v1` 是升级后固定语料上的向量基线，不冒充旧三篇语料版本的历史效果。
+
+后端 159 项、前端 46 项、评估脚本 22 项、负载客户端 11 项测试通过；真实 PostgreSQL 已启用，无后端跳过项。生产构建、依赖审计及 11 项容器/观测检查也已通过。Agent 的 60/60 受控契约符合预期。
 
 Agent 的 60 个案例对应 15 类受控场景各重复 4 次。契约通过率表示系统返回了预期结果；故障注入故意降低执行成功率与完成率，不能把这些数字当成线上可靠性。未调用真实规划模型，因此工具选择准确率为 `null`。回答评估器拒绝本地 mock，支持真实导出、实时调用和可选外部 judge；关键词与引用代理指标不冒充语义正确率、可信度或幻觉率。
 
@@ -220,6 +256,8 @@ Agent 的 60 个案例对应 15 类受控场景各重复 4 次。契约通过率
 Grafana 提供请求 p50/p95、检索/模型/工具耗时、错误、token 与活跃流面板，Tempo 保留请求及各阶段 trace。token 只记录模型真实返回的 usage，不估算离线 token 或费用。结构化日志关联 request/trace ID、模型、检索模式、耗时、工具数与状态，排除提示词、Cookie、密钥和原始用户/会话标识。
 
 [`load-tests/`](load-tests/README.md) 提供 k6 聊天 10/50/100 VU、混合 RAG、需真实服务的工具场景，以及逐帧读取 SSE 的首内容延迟测试。429 限流与意外失败分开报告；包含思考间隔的 VU 不等于同等数量的请求同时进入模型。[故障注入说明](load-tests/failure-injection.md) 对应数据库、重排、MCP 和模型超时的可执行验证。
+
+本地短时负载中，Chat 10/50、RAG 10、SSE 10 没有意外失败；Chat 100 为 238/303 成功、36 次 429、29 次 503，SSE 50 为 88/150 成功，SSE 100 为 146/300 成功。后三个样本未通过错误率阈值，全部保留失败记录；默认 provider 并发上限为 16，因此不能宣称已验证 100 用户生产能力。
 
 ## 本地部署与验证
 
