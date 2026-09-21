@@ -5,9 +5,7 @@ import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
@@ -33,20 +31,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<ApiErrorResponse> handleApiException(ApiException error, HttpServletRequest request) {
-        return response(error.status(), error.code(), error.getMessage(), request, Map.of());
-    }
-
-    @ExceptionHandler(StreamTicketException.class)
-    public ResponseEntity<?> handleStreamTicketException(
-            StreamTicketException error,
-            HttpServletRequest request
-    ) {
-        String accept = request.getHeader(HttpHeaders.ACCEPT);
-        if (accept != null && accept.contains(MediaType.TEXT_EVENT_STREAM_VALUE)) {
-            return ResponseEntity.status(error.status())
-                    .contentType(MediaType.TEXT_EVENT_STREAM)
-                    .body("");
-        }
         return response(error.status(), error.code(), error.getMessage(), request, Map.of());
     }
 
