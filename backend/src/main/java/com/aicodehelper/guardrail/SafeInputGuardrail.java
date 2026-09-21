@@ -17,7 +17,9 @@ public final class SafeInputGuardrail implements InputGuardrail {
     private static final List<Pattern> PROMPT_ATTACK_PATTERNS = List.of(
             Pattern.compile("(?is)(忽略|无视|绕过).{0,24}(之前|上面|系统|开发者).{0,24}(指令|提示词|规则)"),
             Pattern.compile("(?is)(reveal|show|print|leak|expose).{0,32}(system prompt|developer message|hidden instruction|api[ -]?key|secret)"),
-            Pattern.compile("(?is)\\b(jailbreak|developer mode|DAN mode)\\b")
+            Pattern.compile("(?is)\\b(jailbreak|developer mode|DAN mode)\\b"),
+            Pattern.compile("(?is)(帮我|教我|请).{0,20}(写|编写|制作|生成|开发).{0,20}(木马|恶意软件|勒索软件|病毒)"),
+            Pattern.compile("(?is)\\b(help me|show me how to|write|build|create|develop)\\b.{0,32}\\b(malware|trojan|ransomware|virus)\\b")
     );
 
     private final int maxCharacters;
@@ -71,7 +73,7 @@ public final class SafeInputGuardrail implements InputGuardrail {
         }
         for (Pattern pattern : PROMPT_ATTACK_PATTERNS) {
             if (pattern.matcher(input).find()) {
-                return "消息疑似试图绕过系统安全规则";
+                return "消息包含不安全内容或疑似试图绕过系统规则";
             }
         }
         return null;

@@ -232,6 +232,12 @@ class ApiIntegrationTest {
         mockMvc.perform(get("/api/ai/chat/streams/{streamId}", streamId).cookie(cookie).accept(MediaType.TEXT_EVENT_STREAM))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code").value("STREAM_NOT_FOUND"));
+
+        mockMvc.perform(get("/api/ai/chat/streams/{streamId}", streamId)
+                        .cookie(cookie)
+                        .accept(MediaType.TEXT_EVENT_STREAM))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_EVENT_STREAM));
     }
 
     @Test
