@@ -5,6 +5,7 @@ import com.aicodehelper.error.GuardrailViolationException;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.guardrail.InputGuardrail;
 import dev.langchain4j.guardrail.InputGuardrailResult;
+import dev.langchain4j.guardrail.InputGuardrailRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,6 +24,24 @@ public final class SafeInputGuardrail implements InputGuardrail {
 
     public SafeInputGuardrail(AppProperties properties) {
         this.maxCharacters = properties.getAi().getMaxInputCharacters();
+    }
+
+    @Override
+    public InputGuardrailResult validate(InputGuardrailRequest request) {
+        // LangChain4j invokes this guardrail after RAG augmentation. Validate the
+        // actual method argument, not the independently bounded retrieved documents.
+        // Never split a user-controlled string on a supposed augmentation marker.
+        var params = request.requestParams();
+        var invocation = params == null ? null : params.invocationContext();
+        if (invocation != null && ("com.aicodehelper.ai.CoreAssistant".equals(invocation.interfaceName())
+                || "com.aicodehelper.ai.RagAssistant".equals(invocation.interfaceName()))) {
+            var arguments = invocation.methodArguments();
+            if (arguments != null && arguments.size() == 2 && arguments.get(1) instanceof String original) {
+                String failure = violation(original);
+                return failure == null ? success() : failure(failure);
+            }
+        }
+        return validate(request.userMessage());
     }
 
     @Override

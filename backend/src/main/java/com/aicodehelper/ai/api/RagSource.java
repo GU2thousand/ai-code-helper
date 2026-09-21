@@ -5,6 +5,7 @@ public record RagSource(
         String source,
         String location,
         String excerpt,
-        Double score
+        Double score,
+        String chunkId
 ) {
 }

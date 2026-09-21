@@ -1,6 +1,6 @@
 <script setup>
 import { Check, Clipboard, Code2, RefreshCw, UserRound } from '@lucide/vue'
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 import { copyText } from '../utils/chat'
 import { renderMarkdown } from '../utils/markdown'
 
@@ -12,7 +12,10 @@ const props = defineProps({
 defineEmits(['regenerate'])
 
 const copied = ref(false)
-const renderedContent = computed(() => renderMarkdown(props.message.content))
+const sourceDetails = ref(null)
+const sourceEntries = ref([])
+const sources = computed(() => Array.isArray(props.message.sources) ? props.message.sources : [])
+const renderedContent = computed(() => renderMarkdown(props.message.content, sources.value))
 const displayTime = computed(() => {
   const date = new Date(props.message.createdAt)
   if (Number.isNaN(date.getTime())) return ''
@@ -33,6 +36,16 @@ async function copyReply() {
 }
 
 async function handleContentClick(event) {
+  const citation = event.target.closest?.('button[data-citation-index]')
+  if (citation) {
+    const index = Number(citation.dataset.citationIndex)
+    if (Number.isInteger(index) && sources.value[index] && sourceDetails.value) {
+      sourceDetails.value.open = true
+      await nextTick()
+      sourceEntries.value[index]?.focus()
+    }
+    return
+  }
   const button = event.target.closest?.('[data-copy-code]')
   if (!button) return
   const code = button.closest('.code-block')?.querySelector('code')?.textContent
@@ -81,9 +94,16 @@ async function handleContentClick(event) {
           已停止生成
         </div>
 
-        <details v-if="message.sources?.length" class="knowledge-sources">
-          <summary>参考知识库（{{ message.sources.length }}）</summary>
-          <ul><li v-for="(source, index) in message.sources" :key="index">{{ source.title }}</li></ul>
+        <details v-if="sources.length" ref="sourceDetails" class="knowledge-sources">
+          <summary>参考知识库（{{ sources.length }}）</summary>
+          <p class="citation-note">引用标记对应检索片段，未自动核验结论。</p>
+          <ol>
+            <li v-for="(source, index) in sources" :key="index" :ref="element => { sourceEntries[index] = element }" tabindex="-1">
+              <strong>{{ source.title }}</strong>
+              <span v-if="typeof source.location === 'string' && source.location" class="source-location">{{ source.location }}</span>
+              <p v-if="typeof source.excerpt === 'string' && source.excerpt" class="source-excerpt">{{ source.excerpt }}</p>
+            </li>
+          </ol>
         </details>
 
         <div v-if="message.content && message.status !== 'streaming'" class="message-actions">
@@ -105,3 +125,43 @@ async function handleContentClick(event) {
     </div>
   </article>
 </template>
+
+<style scoped>
+:deep(.citation-reference) {
+  padding: 0 0.18em;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--accent, #2766c8);
+  font: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+:deep(.citation-reference:focus-visible),
+.knowledge-sources li:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+:deep(.citation-unmatched),
+.citation-note,
+.source-location {
+  font-size: 0.85em;
+}
+
+.source-location {
+  display: block;
+}
+
+.knowledge-sources li {
+  margin-bottom: 0.65em;
+}
+
+.source-excerpt {
+  margin: 0.3em 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+</style>

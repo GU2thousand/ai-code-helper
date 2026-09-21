@@ -5,6 +5,12 @@ import com.aicodehelper.ai.SafeChatModelListener;
 import com.aicodehelper.ai.local.LocalChatModel;
 import com.aicodehelper.ai.local.LocalHashEmbeddingModel;
 import com.aicodehelper.ai.local.LocalStreamingChatModel;
+import com.aicodehelper.ai.provider.DeadlineChatModel;
+import com.aicodehelper.ai.provider.DeadlineEmbeddingModel;
+import com.aicodehelper.ai.provider.DeadlineStreamingChatModel;
+import com.aicodehelper.ai.provider.ProviderCallExecutor;
+import com.aicodehelper.ai.provider.ProviderProperties;
+import com.aicodehelper.observability.AiTelemetry;
 import dev.langchain4j.community.model.dashscope.QwenChatModel;
 import dev.langchain4j.community.model.dashscope.QwenEmbeddingModel;
 import dev.langchain4j.community.model.dashscope.QwenStreamingChatModel;
@@ -19,6 +25,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.time.Duration;
 import java.util.concurrent.ExecutorService;
 
 @Configuration
@@ -27,16 +34,22 @@ public class ModelConfiguration {
     private static final Logger log = LoggerFactory.getLogger(ModelConfiguration.class);
 
     @Bean
-    ChatModelListener safeChatModelListener() {
-        return new SafeChatModelListener();
+    ChatModelListener safeChatModelListener(AiTelemetry telemetry) {
+        return new SafeChatModelListener(telemetry);
+    }
+
+    @Bean(destroyMethod = "close")
+    ProviderCallExecutor providerCallExecutor(ProviderProperties provider, AiTelemetry telemetry) {
+        return new ProviderCallExecutor(provider, telemetry);
     }
 
     @Bean
-    ChatModel chatModel(AppProperties properties, ChatModelListener listener) {
+    ChatModel chatModel(AppProperties properties, ChatModelListener listener,
+                        ProviderProperties provider, ProviderCallExecutor calls) {
         AppProperties.Dashscope config = properties.getAi().getDashscope();
         if (!StringUtils.hasText(config.getApiKey())) {
             log.info("DASHSCOPE_API_KEY is absent; using the local chat model");
-            return new LocalChatModel();
+            return new DeadlineChatModel(new LocalChatModel(), calls, provider.getChatTimeout());
         }
 
         QwenChatModel.QwenChatModelBuilder builder = QwenChatModel.builder()
@@ -49,21 +62,26 @@ public class ModelConfiguration {
             builder.baseUrl(config.getBaseUrl());
         }
         log.info("Using DashScope chat model name={}", config.getChatModel());
-        return builder.build();
+        return new DeadlineChatModel(builder.build(), calls, provider.getChatTimeout());
     }
 
     @Bean
     StreamingChatModel streamingChatModel(
             AppProperties properties,
             ChatModelListener listener,
-            ExecutorService aiStreamExecutor
+            ExecutorService aiStreamExecutor,
+            ProviderProperties provider,
+            ProviderCallExecutor calls
     ) {
         AppProperties.Dashscope config = properties.getAi().getDashscope();
+        Duration streamDeadline = providerStreamTimeout(properties, provider);
+        Duration firstTokenDeadline = minimum(provider.getStreamFirstTokenTimeout(), streamDeadline);
         String apiKey = StringUtils.hasText(config.getStreamingApiKey())
                 ? config.getStreamingApiKey()
                 : config.getApiKey();
         if (!StringUtils.hasText(apiKey)) {
-            return new LocalStreamingChatModel(aiStreamExecutor);
+            return new DeadlineStreamingChatModel(new LocalStreamingChatModel(aiStreamExecutor), calls,
+                    firstTokenDeadline, streamDeadline);
         }
 
         String modelName = StringUtils.hasText(config.getStreamingChatModel())
@@ -82,18 +100,32 @@ public class ModelConfiguration {
         if (StringUtils.hasText(baseUrl)) {
             builder.baseUrl(baseUrl);
         }
-        return builder.build();
+        return new DeadlineStreamingChatModel(builder.build(), calls,
+                firstTokenDeadline, streamDeadline);
+    }
+
+    static Duration providerStreamTimeout(AppProperties properties, ProviderProperties provider) {
+        Duration servletTimeout = properties.getAi().getStreamTimeout();
+        if (servletTimeout == null || servletTimeout.compareTo(Duration.ofNanos(10)) < 0) {
+            throw new IllegalArgumentException("app.ai.stream-timeout must be positive");
+        }
+        Duration margin = minimum(Duration.ofMillis(100), servletTimeout.dividedBy(10));
+        return minimum(provider.getStreamTimeout(), servletTimeout.minus(margin));
+    }
+
+    private static Duration minimum(Duration left, Duration right) {
+        return left.compareTo(right) <= 0 ? left : right;
     }
 
     @Bean
-    EmbeddingModel embeddingModel(AppProperties properties) {
+    EmbeddingModel embeddingModel(AppProperties properties, ProviderProperties provider, ProviderCallExecutor calls) {
         AppProperties.Dashscope config = properties.getAi().getDashscope();
         String apiKey = StringUtils.hasText(config.getEmbeddingApiKey())
                 ? config.getEmbeddingApiKey()
                 : config.getApiKey();
         if (!StringUtils.hasText(apiKey)) {
             log.info("DashScope embedding key is absent; using local deterministic embeddings");
-            return new LocalHashEmbeddingModel();
+            return new DeadlineEmbeddingModel(new LocalHashEmbeddingModel(), calls, provider.getEmbeddingTimeout());
         }
 
         QwenEmbeddingModel.QwenEmbeddingModelBuilder builder = QwenEmbeddingModel.builder()
@@ -103,7 +135,7 @@ public class ModelConfiguration {
             builder.baseUrl(config.getBaseUrl());
         }
         log.info("Using DashScope embedding model name={}", config.getEmbeddingModel());
-        return builder.build();
+        return new DeadlineEmbeddingModel(builder.build(), calls, provider.getEmbeddingTimeout());
     }
 
     @Bean

@@ -4,10 +4,10 @@ import com.aicodehelper.ai.CoreAssistant;
 import com.aicodehelper.ai.RagAssistant;
 import com.aicodehelper.ai.ReportAssistant;
 import com.aicodehelper.guardrail.SafeInputGuardrail;
-import com.aicodehelper.mcp.OptionalMcpToolProvider;
+import com.aicodehelper.agent.AgentProperties;
+import com.aicodehelper.agent.BoundedToolProvider;
 import com.aicodehelper.memory.ConversationMemoryRegistry;
 import com.aicodehelper.rag.KnowledgeBaseRetriever;
-import com.aicodehelper.tool.InterviewQuestionTool;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.StreamingChatModel;
 import dev.langchain4j.service.AiServices;
@@ -23,8 +23,8 @@ public class AssistantConfiguration {
             StreamingChatModel streamingChatModel,
             ConversationMemoryRegistry memories,
             SafeInputGuardrail guardrail,
-            InterviewQuestionTool interviewQuestionTool,
-            OptionalMcpToolProvider mcpToolProvider,
+            BoundedToolProvider toolProvider,
+            AgentProperties agentProperties,
             KnowledgeBaseRetriever contentRetriever
     ) {
         return AiServices.builder(CoreAssistant.class)
@@ -32,11 +32,14 @@ public class AssistantConfiguration {
                 .streamingChatModel(streamingChatModel)
                 .chatMemoryProvider(memories)
                 .inputGuardrails(guardrail)
-                .tools(interviewQuestionTool)
-                .toolProvider(mcpToolProvider)
+                .toolProvider(toolProvider)
+                .beforeToolExecution(toolProvider::beforeToolExecution)
+                .hallucinatedToolNameStrategy(toolProvider::unauthorized)
+                .toolExecutionErrorHandler((error, context) -> toolProvider.sanitizedError(error))
+                .toolArgumentsErrorHandler((error, context) -> toolProvider.sanitizedError(error))
                 .contentRetriever(contentRetriever)
                 .storeRetrievedContentInChatMemory(false)
-                .maxToolCallingRoundTrips(3)
+                .maxToolCallingRoundTrips(agentProperties.getMaxSteps())
                 .build();
     }
 
@@ -45,19 +48,22 @@ public class AssistantConfiguration {
             ChatModel chatModel,
             ConversationMemoryRegistry memories,
             SafeInputGuardrail guardrail,
-            InterviewQuestionTool interviewQuestionTool,
-            OptionalMcpToolProvider mcpToolProvider,
+            BoundedToolProvider toolProvider,
+            AgentProperties agentProperties,
             KnowledgeBaseRetriever contentRetriever
     ) {
         return AiServices.builder(RagAssistant.class)
                 .chatModel(chatModel)
                 .chatMemoryProvider(memories)
                 .inputGuardrails(guardrail)
-                .tools(interviewQuestionTool)
-                .toolProvider(mcpToolProvider)
+                .toolProvider(toolProvider)
+                .beforeToolExecution(toolProvider::beforeToolExecution)
+                .hallucinatedToolNameStrategy(toolProvider::unauthorized)
+                .toolExecutionErrorHandler((error, context) -> toolProvider.sanitizedError(error))
+                .toolArgumentsErrorHandler((error, context) -> toolProvider.sanitizedError(error))
                 .contentRetriever(contentRetriever)
                 .storeRetrievedContentInChatMemory(false)
-                .maxToolCallingRoundTrips(3)
+                .maxToolCallingRoundTrips(agentProperties.getMaxSteps())
                 .build();
     }
 

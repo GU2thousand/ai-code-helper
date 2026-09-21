@@ -4,6 +4,10 @@ import com.aicodehelper.ai.AiChatService;
 import com.aicodehelper.ai.AiExecutionRegistry;
 import com.aicodehelper.ai.ChatStreamTicketService;
 import com.aicodehelper.ai.ModelRuntimeInfo;
+import com.aicodehelper.agent.BoundedToolRuntime;
+import com.aicodehelper.observability.AiTelemetry;
+import com.aicodehelper.ai.provider.ProviderCallExecutor;
+import com.aicodehelper.retrieval.RetrievalProperties;
 import com.aicodehelper.config.AppProperties;
 import com.aicodehelper.error.ApiException;
 import com.aicodehelper.memory.ConversationMemoryRegistry;
@@ -40,8 +44,11 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Supplier;
 
 @RestController
 @Validated
@@ -58,6 +65,11 @@ public class AiChatController {
     private final ConversationMemoryRegistry memories;
     private final ModelRuntimeInfo modelInfo;
     private final AppProperties properties;
+    private final BoundedToolRuntime tools;
+    private final AiTelemetry telemetry;
+    private final ProviderCallExecutor providers;
+    private final RetrievalProperties retrieval;
+    private final ExecutorService aiStreamExecutor;
 
     public AiChatController(
             AiChatService ai,
@@ -67,7 +79,12 @@ public class AiChatController {
             ConversationMemoryManager memoryManager,
             ConversationMemoryRegistry memories,
             ModelRuntimeInfo modelInfo,
-            AppProperties properties
+            AppProperties properties,
+            BoundedToolRuntime tools,
+            AiTelemetry telemetry,
+            ProviderCallExecutor providers,
+            RetrievalProperties retrieval,
+            ExecutorService aiStreamExecutor
     ) {
         this.ai = ai;
         this.identities = identities;
@@ -77,6 +94,11 @@ public class AiChatController {
         this.memories = memories;
         this.modelInfo = modelInfo;
         this.properties = properties;
+        this.tools = tools;
+        this.telemetry = telemetry;
+        this.providers = providers;
+        this.retrieval = retrieval;
+        this.aiStreamExecutor = aiStreamExecutor;
     }
 
     @PostMapping("/chat")
@@ -85,22 +107,25 @@ public class AiChatController {
             HttpServletRequest request,
             HttpServletResponse response
     ) {
-        ai.validateMessage(body.message());
-        String key = identities.conversationKey(body.userId(), body.memoryId(), request, response);
-        try (AiExecutionRegistry.Lease ignored = executions.acquire(key)) {
-            memoryManager.prepare(key);
-            ConversationMemoryRegistry.RewindSnapshot snapshot = Boolean.TRUE.equals(body.regenerate())
-                    ? memories.rewindLastTurnWithSnapshot(key)
-                    : memories.snapshot(key);
-            try {
-                ChatResponse result = ai.chat(key, body.memoryId(), body.message());
-                memories.commit(key);
-                return result;
-            } catch (RuntimeException error) {
-                memories.restore(key, snapshot);
-                throw error;
+        return observed("chat", () -> {
+            ai.validateMessage(body.message());
+            String key = conversationKey(body.userId(), body.memoryId(), request, response);
+            try (AiExecutionRegistry.Lease ignored = executions.acquire(key);
+                 BoundedToolRuntime.Scope toolScope = tools.begin(key)) {
+                memoryManager.prepare(key);
+                ConversationMemoryRegistry.RewindSnapshot snapshot = Boolean.TRUE.equals(body.regenerate())
+                        ? memories.rewindLastTurnWithSnapshot(key)
+                        : memories.snapshot(key);
+                try {
+                    ChatResponse result = ai.chat(key, body.memoryId(), body.message());
+                    memories.commit(key);
+                    return result;
+                } catch (RuntimeException error) {
+                    memories.restore(key, snapshot);
+                    throw error;
+                }
             }
-        }
+        });
     }
 
     @PostMapping("/rag")
@@ -109,19 +134,22 @@ public class AiChatController {
             HttpServletRequest request,
             HttpServletResponse response
     ) {
-        String key = identities.conversationKey(body.userId(), body.memoryId(), request, response);
-        try (AiExecutionRegistry.Lease ignored = executions.acquire(key)) {
-            memoryManager.prepare(key);
-            ConversationMemoryRegistry.RewindSnapshot snapshot = memories.snapshot(key);
-            try {
-                RagResponse result = ai.rag(key, body.memoryId(), body.message());
-                memories.commit(key);
-                return result;
-            } catch (RuntimeException error) {
-                memories.restore(key, snapshot);
-                throw error;
+        return observed("rag", () -> {
+            String key = conversationKey(body.userId(), body.memoryId(), request, response);
+            try (AiExecutionRegistry.Lease ignored = executions.acquire(key);
+                 BoundedToolRuntime.Scope toolScope = tools.begin(key)) {
+                memoryManager.prepare(key);
+                ConversationMemoryRegistry.RewindSnapshot snapshot = memories.snapshot(key);
+                try {
+                    RagResponse result = ai.rag(key, body.memoryId(), body.message());
+                    memories.commit(key);
+                    return result;
+                } catch (RuntimeException error) {
+                    memories.restore(key, snapshot);
+                    throw error;
+                }
             }
-        }
+        });
     }
 
     @PostMapping("/report")
@@ -130,10 +158,13 @@ public class AiChatController {
             HttpServletRequest request,
             HttpServletResponse response
     ) {
-        String key = identities.conversationKey(body.userId(), body.memoryId(), request, response);
-        try (AiExecutionRegistry.Lease ignored = executions.acquire(key)) {
-            return ai.report(key, body.memoryId(), body.message());
-        }
+        return observed("report", () -> {
+            String key = conversationKey(body.userId(), body.memoryId(), request, response);
+            try (AiExecutionRegistry.Lease ignored = executions.acquire(key);
+                 BoundedToolRuntime.Scope toolScope = tools.begin(key)) {
+                return ai.report(key, body.memoryId(), body.message());
+            }
+        });
     }
 
     @PostMapping("/chat/streams")
@@ -164,8 +195,10 @@ public class AiChatController {
             HttpServletRequest request,
             HttpServletResponse response
     ) {
+        AiTelemetry.RequestObservation observation = startObservation("sse");
+        try (AiTelemetry.Scope activation = observation.activate()) {
         ChatStreamTicketService.TicketDescriptor descriptor = tickets.describe(streamId);
-        String key = identities.conversationKey(null, descriptor.memoryId(), request, response);
+        String key = conversationKey(null, descriptor.memoryId(), request, response);
         AiExecutionRegistry.Lease lease = executions.acquire(key);
         try {
             ChatStreamTicketService.StreamTicket ticket = tickets.claim(streamId, key);
@@ -178,10 +211,15 @@ public class AiChatController {
                     ticket.memoryId(),
                     ticket.message(),
                     snapshot,
-                    lease
+                    lease,
+                    observation
             );
         } catch (RuntimeException error) {
             lease.close();
+            throw error;
+        }
+        } catch (RuntimeException error) {
+            observation.finish(status(error));
             throw error;
         }
     }
@@ -203,20 +241,26 @@ public class AiChatController {
             HttpServletRequest request,
             HttpServletResponse response
     ) {
+        AiTelemetry.RequestObservation observation = startObservation("sse");
+        try (AiTelemetry.Scope activation = observation.activate()) {
         rejectCrossSiteLegacyRequest(request);
         ai.validateMessage(message);
         response.setHeader("Deprecation", "true");
         response.setHeader("Sunset", DateTimeFormatter.RFC_1123_DATE_TIME.format(
                 ZonedDateTime.ofInstant(Instant.parse("2027-01-01T00:00:00Z"), ZoneOffset.UTC)));
         response.setHeader(HttpHeaders.WARNING, "299 - \"Use POST /api/ai/chat/streams\"");
-        String key = identities.conversationKey(userId, memoryId, request, response);
+        String key = conversationKey(userId, memoryId, request, response);
         AiExecutionRegistry.Lease lease = executions.acquire(key);
         try {
             memoryManager.prepare(key);
             ConversationMemoryRegistry.RewindSnapshot snapshot = memories.snapshot(key);
-            return stream(key, memoryId, message, snapshot, lease);
+            return stream(key, memoryId, message, snapshot, lease, observation);
         } catch (RuntimeException error) {
             lease.close();
+            throw error;
+        }
+        } catch (RuntimeException error) {
+            observation.finish(status(error));
             throw error;
         }
     }
@@ -236,10 +280,14 @@ public class AiChatController {
             String memoryId,
             String message,
             ConversationMemoryRegistry.RewindSnapshot memorySnapshot,
-            AiExecutionRegistry.Lease lease
+            AiExecutionRegistry.Lease lease,
+            AiTelemetry.RequestObservation observation
     ) {
         SseEmitter emitter = new SseEmitter(properties.getAi().getStreamTimeout().toMillis());
-        StreamLifecycle lifecycle = new StreamLifecycle(emitter, conversationKey, memorySnapshot, lease);
+        BoundedToolRuntime.Scope toolScope = tools.begin(conversationKey);
+        StreamLifecycle lifecycle = new StreamLifecycle(emitter, conversationKey, memorySnapshot, lease,
+                toolScope, observation);
+        observation.streamOpened();
 
         emitter.onTimeout(() -> lifecycle.fail("STREAM_TIMEOUT"));
         emitter.onError(error -> lifecycle.disconnect());
@@ -267,12 +315,12 @@ public class AiChatController {
                     .onCompleteResponse(response -> lifecycle.complete())
                     .onError(error -> {
                         log.warn("Streaming AI request failed errorType={}", error.getClass().getSimpleName());
-                        lifecycle.fail("AI_STREAM_ERROR");
+                        lifecycle.fail(error instanceof ApiException apiError ? apiError.code() : "AI_STREAM_ERROR");
                     })
                     .start();
         } catch (RuntimeException | IOException error) {
             log.warn("Unable to start SSE response errorType={}", error.getClass().getSimpleName());
-            lifecycle.fail("AI_STREAM_ERROR");
+            lifecycle.fail(error instanceof ApiException apiError ? apiError.code() : "AI_STREAM_ERROR");
         }
         return emitter;
     }
@@ -293,6 +341,9 @@ public class AiChatController {
         private final String conversationKey;
         private final ConversationMemoryRegistry.RewindSnapshot memorySnapshot;
         private final AiExecutionRegistry.Lease lease;
+        private final BoundedToolRuntime.Scope toolScope;
+        private final AiTelemetry.RequestObservation observation;
+        private final AiTelemetry.StageTimer streamTimer;
         private final AtomicReference<StreamingHandle> currentHandle = new AtomicReference<>();
         private final AtomicBoolean terminal = new AtomicBoolean();
 
@@ -300,12 +351,17 @@ public class AiChatController {
                 SseEmitter emitter,
                 String conversationKey,
                 ConversationMemoryRegistry.RewindSnapshot memorySnapshot,
-                AiExecutionRegistry.Lease lease
+                AiExecutionRegistry.Lease lease,
+                BoundedToolRuntime.Scope toolScope,
+                AiTelemetry.RequestObservation observation
         ) {
             this.emitter = emitter;
             this.conversationKey = conversationKey;
             this.memorySnapshot = memorySnapshot;
             this.lease = lease;
+            this.toolScope = toolScope;
+            this.observation = observation;
+            this.streamTimer = observation.stage("stream");
         }
 
         private void capture(StreamingHandle handle) {
@@ -343,10 +399,12 @@ public class AiChatController {
             try {
                 memories.commit(conversationKey);
             } catch (RuntimeException error) {
-                memories.restore(conversationKey, memorySnapshot);
-                try { emitter.send(SseEmitter.event().name("error").data("MEMORY_SAVE_FAILED")); }
+                try {
+                    memories.restore(conversationKey, memorySnapshot);
+                    emitter.send(SseEmitter.event().name("error").data("MEMORY_SAVE_FAILED"));
+                }
                 catch (IOException ignored) { }
-                finally { lease.close(); emitter.complete(); }
+                finally { finish("error"); }
                 return;
             }
             try {
@@ -354,35 +412,101 @@ public class AiChatController {
             } catch (IOException ignored) {
                 // Generation completed; a closed browser does not roll back a completed model turn.
             } finally {
-                lease.close();
-                emitter.complete();
+                finish("success");
             }
         }
 
         private void fail(String code) {
-            if (!terminal.compareAndSet(false, true)) {
-                return;
-            }
-            cancelHandle(currentHandle.get());
-            memories.restore(conversationKey, memorySnapshot);
-            try {
-                emitter.send(SseEmitter.event().name("error").data(code));
-            } catch (IOException ignored) {
-                // The browser may already be disconnected.
-            } finally {
-                lease.close();
-                emitter.complete();
-            }
+            terminate(code.contains("TIMEOUT") ? "timeout" : "error", code);
         }
 
         private void disconnect() {
-            if (!terminal.compareAndSet(false, true)) {
-                return;
-            }
-            cancelHandle(currentHandle.get());
-            memories.restore(conversationKey, memorySnapshot);
-            lease.close();
-            emitter.complete();
+            terminate("cancelled", null);
         }
+
+        private void terminate(String status, String errorCode) {
+            if (!terminal.compareAndSet(false, true)) return;
+            // Spring can invoke these callbacks while holding an emitter or servlet
+            // lock. A provider callback holds its own guard while sending SSE data.
+            // Claim termination now, but fence callbacks on another worker so the
+            // framework callback can return and release its locks without waiting.
+            Runnable cleanup = () -> {
+                try (AiTelemetry.Scope ignored = observation.activate()) {
+                    // A guard may be delivering a tool call. Interrupt the tool before
+                    // waiting for the provider callback fence, then restore memory.
+                    toolScope.cancel();
+                    providers.cancelRequest(observation);
+                    cancelHandle(currentHandle.get());
+                    memories.restore(conversationKey, memorySnapshot);
+                    if (errorCode != null) {
+                        try { emitter.send(SseEmitter.event().name("error").data(errorCode)); }
+                        catch (IOException | IllegalStateException disconnected) { /* Client already left. */ }
+                    }
+                } catch (RuntimeException error) {
+                    log.warn("SSE terminal cleanup failed errorType={}", error.getClass().getSimpleName());
+                } finally {
+                    finish(status);
+                }
+            };
+            try { aiStreamExecutor.execute(cleanup); }
+            catch (RejectedExecutionException shuttingDown) {
+                // Shutdown must not strand the lease or run cleanup inline under
+                // framework locks. At most one cleanup exists per admitted stream.
+                Thread.ofVirtual().name("ai-stream-terminal-cleanup").start(cleanup);
+            }
+        }
+
+        private void finish(String status) {
+            try (AiTelemetry.Scope ignored = observation.activate()) {
+                try { toolScope.close(); }
+                finally {
+                    lease.close();
+                    try {
+                        if (!"success".equals(status)) streamTimer.failure(new IllegalStateException(status));
+                        streamTimer.close();
+                        observation.finish(status);
+                    } finally { emitter.complete(); }
+                }
+            }
+        }
+    }
+
+    private String conversationKey(UUID userId, String memoryId, HttpServletRequest request,
+                                   HttpServletResponse response) {
+        try (AiTelemetry.StageTimer stage = telemetry.stage("auth.session")) {
+            try {
+                return identities.conversationKey(userId, memoryId, request, response);
+            } catch (RuntimeException error) {
+                stage.failure(error);
+                throw error;
+            }
+        }
+    }
+
+    private <T> T observed(String mode, Supplier<T> action) {
+        AiTelemetry.RequestObservation observation = startObservation(mode);
+        try (AiTelemetry.Scope activation = observation.activate()) {
+            try {
+                T result = action.get();
+                observation.finish("success");
+                return result;
+            } catch (RuntimeException error) {
+                observation.finish(status(error));
+                throw error;
+            }
+        }
+    }
+
+    private String status(Throwable error) {
+        if (error instanceof ApiException apiError) {
+            if (apiError.code().contains("TIMEOUT")) return "timeout";
+            if (apiError.status() == HttpStatus.TOO_MANY_REQUESTS
+                    || apiError.status() == HttpStatus.CONFLICT) return "rejected";
+        }
+        return "error";
+    }
+
+    private AiTelemetry.RequestObservation startObservation(String mode) {
+        return telemetry.startRequest(mode).describe(modelInfo.chatModel(), retrieval.getMode());
     }
 }

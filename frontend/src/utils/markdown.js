@@ -1,6 +1,7 @@
 import DOMPurify from 'dompurify'
 import hljs from 'highlight.js/lib/common'
 import { marked } from 'marked'
+import { renderCitationReferences } from './citations'
 
 function escapeHtml(value) {
   return String(value)
@@ -54,9 +55,9 @@ marked.setOptions({
   headerIds: false
 })
 
-export function renderMarkdown(markdown) {
+export function renderMarkdown(markdown, sources = []) {
   const html = marked.parse(markdown || '')
-  return DOMPurify.sanitize(html, {
+  const sanitizedHtml = DOMPurify.sanitize(html, {
     ALLOWED_TAGS: [
       'a', 'blockquote', 'br', 'button', 'code', 'del', 'div', 'em', 'h1', 'h2', 'h3',
       'h4', 'h5', 'h6', 'hr', 'li', 'ol', 'p', 'pre', 'span', 'strong', 'table', 'tbody',
@@ -69,4 +70,5 @@ export function renderMarkdown(markdown) {
     ALLOW_DATA_ATTR: false,
     FORBID_TAGS: ['form', 'iframe', 'img', 'input', 'object', 'script', 'style', 'svg', 'textarea']
   })
+  return renderCitationReferences(sanitizedHtml, sources)
 }

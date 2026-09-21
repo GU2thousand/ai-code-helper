@@ -1,6 +1,8 @@
 package com.aicodehelper.mcp;
 
 import com.aicodehelper.config.AppProperties;
+import com.aicodehelper.agent.ToolError;
+import com.aicodehelper.agent.ToolFailureException;
 import dev.langchain4j.mcp.McpToolProvider;
 import dev.langchain4j.mcp.client.DefaultMcpClient;
 import dev.langchain4j.mcp.client.McpClient;
@@ -20,6 +22,8 @@ import java.util.Map;
 
 @Component
 public class OptionalMcpToolProvider implements ToolProvider, AutoCloseable {
+
+    public static final String TIMEOUT_SENTINEL = "AI_CODE_HELPER_MCP_TOOL_TIMEOUT";
 
     private static final Logger log = LoggerFactory.getLogger(OptionalMcpToolProvider.class);
 
@@ -45,7 +49,7 @@ public class OptionalMcpToolProvider implements ToolProvider, AutoCloseable {
             return ToolProviderResult.builder().build();
         }
         if (clock.instant().isBefore(retryAfter)) {
-            return ToolProviderResult.builder().build();
+            throw new ToolFailureException(ToolError.Code.PROVIDER_UNAVAILABLE);
         }
         try {
             return provider().provideTools(request);
@@ -53,7 +57,7 @@ public class OptionalMcpToolProvider implements ToolProvider, AutoCloseable {
             markFailed();
             log.warn("BigModel MCP tool discovery failed errorType={} retryBackoffSeconds={}",
                     error.getClass().getSimpleName(), config.getRetryBackoff().toSeconds());
-            return ToolProviderResult.builder().build();
+            throw new ToolFailureException(ToolError.Code.MCP_CONNECTION_FAILED);
         }
     }
 
@@ -87,11 +91,14 @@ public class OptionalMcpToolProvider implements ToolProvider, AutoCloseable {
                         .transport(transport)
                         .initializationTimeout(config.getTimeout())
                         .toolExecutionTimeout(config.getTimeout())
+                        // The library's synthetic timeout does not set isError; the bounded adapter
+                        // recognizes this exact sentinel and turns it into a typed failed result.
+                        .toolExecutionTimeoutErrorMessage(TIMEOUT_SENTINEL)
                         .autoHealthCheck(false)
                         .build();
                 delegate = McpToolProvider.builder()
                         .mcpClients(client)
-                        .failIfOneServerFails(false)
+                        .failIfOneServerFails(true)
                         .filterToolNames(config.getAllowedToolNames())
                         .build();
             }

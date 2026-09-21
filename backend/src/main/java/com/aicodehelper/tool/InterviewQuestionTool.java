@@ -1,6 +1,9 @@
 package com.aicodehelper.tool;
 
 import com.aicodehelper.config.AppProperties;
+import com.aicodehelper.agent.BoundedToolRuntime;
+import com.aicodehelper.agent.ToolError;
+import com.aicodehelper.agent.ToolFailureException;
 import dev.langchain4j.agent.tool.P;
 import dev.langchain4j.agent.tool.Tool;
 import org.jsoup.Jsoup;
@@ -44,7 +47,7 @@ public class InterviewQuestionTool {
             return parseQuestions(document, MAX_RESULTS);
         } catch (IOException | RuntimeException error) {
             log.warn("Interview question lookup failed errorType={}", error.getClass().getSimpleName());
-            return List.of("当前无法访问面试题来源，请稍后重试");
+            throw new ToolFailureException(BoundedToolRuntime.classify(error));
         }
     }
 
@@ -64,6 +67,7 @@ public class InterviewQuestionTool {
                 break;
             }
         }
-        return questions.isEmpty() ? List.of("未找到与该主题匹配的公开面试题") : List.copyOf(questions);
+        if (questions.isEmpty()) throw new ToolFailureException(ToolError.Code.EMPTY_RESPONSE);
+        return List.copyOf(questions);
     }
 }

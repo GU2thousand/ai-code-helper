@@ -12,6 +12,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 class KnowledgeBaseRetrieverTest {
 
     @Test
+    void healthSegmentCountDoesNotInitializeEmbeddings() {
+        KnowledgeBaseRetriever retriever = new KnowledgeBaseRetriever(segments -> {
+            throw new AssertionError("Health must not call the embedding provider");
+        }, new PathMatchingResourcePatternResolver(), new AppProperties());
+        assertThat(retriever.segmentCount()).isZero();
+    }
+
+    @Test
     void marksRetrievalInputAsDashScopeQuery() {
         EmbeddingModel unused = segments -> {
             throw new UnsupportedOperationException();

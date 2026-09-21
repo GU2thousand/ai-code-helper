@@ -19,7 +19,7 @@ public class WebConfiguration implements WebMvcConfigurer {
                 .allowedOrigins(properties.getCors().getAllowedOrigins().toArray(String[]::new))
                 .allowedMethods("GET", "POST", "OPTIONS")
                 .allowedHeaders("Content-Type", "Accept", "Authorization", "X-Guest-Token", "X-Request-Id")
-                .exposedHeaders("X-Request-Id")
+                .exposedHeaders("X-Request-Id", "X-Trace-Id")
                 .allowCredentials(true)
                 .maxAge(3_600);
     }

@@ -101,7 +101,7 @@ source.addEventListener('error', () => source.close())
 
 ### 重新生成
 
-票据请求可添加 `"regenerate": true`。成功消费票据后，服务端会原子移除同一身份、同一 `memoryId` 的最近一轮 User/Assistant 消息，再生成新回复；仅创建但未消费的票据不会改动记忆。正常流与重新生成流都会先保存记忆快照，模型成功完成后先原子持久化，再发送 `done`；持久化失败返回 `MEMORY_SAVE_FAILED`。完成后的断连不撤销已保存的回复；模型错误、发送失败或浏览器断连会恢复旧快照并释放并发额度。
+票据请求可添加 `"regenerate": true`。成功消费票据后，服务端会原子移除同一身份、同一 `memoryId` 的最近一轮 User/Assistant 消息，再生成新回复；仅创建但未消费的票据不会改动记忆。正常流与重新生成流都会先保存记忆快照，模型成功完成后先原子持久化，再发送 `done`；持久化失败返回 `MEMORY_SAVE_FAILED`。完成后的断连不撤销已保存的回复；模型错误、发送失败或浏览器断连会先取消工具并隔离模型回调，再恢复旧快照、释放应用执行额度；仍在实际运行的上游调用保留物理 provider 额度直到退出。
 
 ## REST API
 
@@ -133,7 +133,7 @@ POST /api/ai/report
 POST /api/ai/rag
 ```
 
-响应中的 `sources` 包含知识文档标题、文件名、摘录和相似度分数。本地 Markdown 示例位于 `src/main/resources/knowledge-base/`。添加文档后重启应用即可；知识库在第一次 RAG 请求时惰性向量化，启动阶段不访问外部网络。
+响应中的 `sources` 包含稳定 `chunkId`、标题、文件名、摘录与当前排序分数；不同模式的分数不能当作同一种概率比较。回答使用 `[chunk:ID]` 标记来源。本地 Markdown 位于 `src/main/resources/knowledge-base/`。添加文档后重启应用触发惰性入库，保留去重、模型/版本与语料身份信息。默认 `RETRIEVAL_MODE=lexical` 使用 BM25，另外支持 `vector`、`hybrid`、`hybrid_rerank`。`RETRIEVAL_BACKEND=pgvector` 启用 PostgreSQL，数据库失败时显式回退到不可变内存快照。完整架构、四模式实测与局限见[根目录 README](../README.md)，复现命令见[评估说明](../evaluation/README.md)。
 
 ### 用户验证
 

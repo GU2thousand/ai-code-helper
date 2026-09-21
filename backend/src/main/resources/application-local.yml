@@ -2,6 +2,7 @@ app:
   ai:
     dashscope:
       api-key: ""
+      streaming-api-key: ""
       embedding-api-key: ""
   mcp:
     enabled: false

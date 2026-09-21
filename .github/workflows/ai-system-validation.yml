@@ -1,0 +1,119 @@
+name: AI system validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ai-system-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  evaluation-clients:
+    name: Evaluation datasets and scoring contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      - name: Validate fixed datasets and test evaluation scoring
+        run: |
+          python3 evaluation/scripts/validate_datasets.py
+          python3 -m unittest discover -s evaluation/tests -v
+
+  load-clients:
+    name: HTTP and SSE load client contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      - uses: grafana/setup-k6-action@v1
+        with:
+          k6-version: '2.2.0'
+      - name: Verify isolation, SSE timing and failure classification with local fixtures
+        run: python3 -m unittest discover -s load-tests -p 'test_*.py' -v
+
+  pgvector:
+    name: PostgreSQL retrieval integration
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: pgvector/pgvector:0.8.6-pg17-bookworm
+        env:
+          POSTGRES_DB: ai_code_helper
+          POSTGRES_USER: ai_code_helper
+          POSTGRES_PASSWORD: integration-only
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U ai_code_helper -d ai_code_helper"
+          --health-interval 5s --health-timeout 3s --health-retries 20
+    env:
+      TEST_PGVECTOR_URL: jdbc:postgresql://localhost:5432/ai_code_helper
+      TEST_PGVECTOR_USERNAME: ai_code_helper
+      TEST_PGVECTOR_PASSWORD: integration-only
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - name: Test retrieval against real PostgreSQL and pgvector
+        run: mvn -f backend/pom.xml --batch-mode --no-transfer-progress -Dtest=PgVectorEmbeddingRepositoryTest test
+      - name: Preserve integration evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pgvector-integration
+          path: backend/target/surefire-reports/
+
+  compose:
+    name: Container and observability smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      COMPOSE_PROJECT_NAME: ai-code-helper-ci
+      APP_EVALUATION_ENABLED: "true"
+      APP_EVALUATION_KEY: ci-evaluation-only
+      SOURCE_REVISION: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Validate infrastructure configuration
+        run: |
+          docker compose config --quiet
+          docker compose run --rm --no-deps --entrypoint /bin/promtool prometheus check config /etc/prometheus/prometheus.yml
+          docker compose run --rm --no-deps otel-collector validate --config=/etc/otelcol-contrib/config.yaml
+      - name: Build production frontend and backend, start persistent infrastructure
+        run: docker compose up --build --detach --wait --wait-timeout 240
+      - name: Exercise HTTP, SSE, dashboards, metric scraping and stored traces
+        run: python3 deployment/smoke.py
+      - name: Measure all fixed retrieval modes and controlled agent runtime fixtures
+        run: |
+          for mode in vector lexical hybrid hybrid_rerank; do
+            python3 evaluation/scripts/run_retrieval_eval.py --mode "$mode" --output "output/ai-system/evaluation/$mode.json"
+          done
+          python3 evaluation/scripts/run_agent_eval.py --output output/ai-system/evaluation/controlled-agent.json
+      - name: Bind verification to clean source and actual running images
+        run: python3 deployment/verification_manifest.py --require-clean
+      - name: Capture container logs
+        if: always()
+        run: |
+          mkdir -p output/ai-system
+          docker compose ps --all > output/ai-system/containers.txt
+          docker compose logs --no-color > output/ai-system/compose.log
+      - name: Preserve system evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-system-compose
+          path: output/ai-system/
+          retention-days: 7
+      - name: Stop temporary CI stack
+        if: always()
+        run: docker compose down --volumes
