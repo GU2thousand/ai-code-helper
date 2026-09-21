@@ -18,8 +18,8 @@ public final class SafeInputGuardrail implements InputGuardrail {
             Pattern.compile("(?is)(忽略|无视|绕过).{0,24}(之前|上面|系统|开发者).{0,24}(指令|提示词|规则)"),
             Pattern.compile("(?is)(reveal|show|print|leak|expose).{0,32}(system prompt|developer message|hidden instruction|api[ -]?key|secret)"),
             Pattern.compile("(?is)\\b(jailbreak|developer mode|DAN mode)\\b"),
-            Pattern.compile("(?is)(帮我|教我|请).{0,20}(写|编写|制作|生成|开发).{0,20}(木马|恶意软件|勒索软件|病毒)"),
-            Pattern.compile("(?is)\\b(help me|show me how to|write|build|create|develop)\\b.{0,32}\\b(malware|trojan|ransomware|virus)\\b")
+            Pattern.compile("(?is)(写|编写|制作|生成|开发)\\s*(?:一个|一款|一段|个|款)?\\s*(木马|恶意软件|勒索软件|病毒)(?!(?:检测|防御|查杀|清除|移除|分析|扫描))"),
+            Pattern.compile("(?is)\\b(write|build|create|develop)\\s+(?:(?:me|a|an|some|new|custom|simple)\\s+){0,3}(malware|trojan|ransomware|virus)\\b(?![ -]+(?:detector|detection|scanner|remover|removal|analysis|analyzer|defen[cs]e|protection|prevention)\\b)")
     );
 
     private final int maxCharacters;
