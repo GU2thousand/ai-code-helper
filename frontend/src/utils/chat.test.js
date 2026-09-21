@@ -10,6 +10,16 @@ describe('chat utilities', () => {
     expect(normalizeChunk('{"error":"内容被拦截"}')).toEqual({ error: '内容被拦截' })
   })
 
+  it.each(['42', '0', 'true', 'false', 'null', '{"answer":42}', '[1,2]'])('preserves plain JSON-like text %s', raw => {
+    expect(normalizeChunk(raw)).toEqual({ content: raw })
+  })
+
+  it('preserves whitespace, code and literal completion markers inside envelopes', () => {
+    for (const content of [' REST API', '\n    return 42\n', '[DONE]', 'true']) {
+      expect(normalizeChunk(JSON.stringify({ content }))).toEqual({ content })
+    }
+  })
+
   it('creates a compact title from the first prompt', () => {
     expect(makeConversationTitle('  帮我   制定 Java 学习路线  ')).toBe('帮我 制定 Java 学习路线')
     expect(makeConversationTitle('这是一个明显超过二十个字符的会话标题用于测试截断效果')).toMatch(/…$/)

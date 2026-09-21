@@ -145,6 +145,6 @@ public class GlobalExceptionHandler {
                 MDC.get("requestId"),
                 validationErrors
         );
-        return ResponseEntity.status(status).body(body);
+        return ResponseEntity.status(status).contentType(org.springframework.http.MediaType.APPLICATION_JSON).body(body);
     }
 }

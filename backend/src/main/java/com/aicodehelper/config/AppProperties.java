@@ -9,6 +9,19 @@ import java.util.List;
 @ConfigurationProperties(prefix = "app")
 public class AppProperties {
 
+    private final Storage storage = new Storage();
+
+    public Storage getStorage() { return storage; }
+
+    public static class Storage {
+        private boolean enabled;
+        private String directory = "./data";
+        public boolean isEnabled() { return enabled; }
+        public void setEnabled(boolean enabled) { this.enabled = enabled; }
+        public String getDirectory() { return directory; }
+        public void setDirectory(String directory) { this.directory = directory; }
+    }
+
     private final Ai ai = new Ai();
     private final Security security = new Security();
     private final Cors cors = new Cors();
@@ -291,7 +304,7 @@ public class AppProperties {
     public static class Cors {
         private List<String> allowedOrigins = new ArrayList<>(List.of(
                 "http://localhost:5173",
-                "http://127.0.0.1:5173"
+                "http://127.0.0.1:5173", "http://localhost:4173", "http://127.0.0.1:4173"
         ));
 
         public List<String> getAllowedOrigins() {

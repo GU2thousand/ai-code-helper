@@ -1,0 +1,92 @@
+name: Runtime regression
+on:
+  push:
+    branches: [main, codex/fix-runtime-issues]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 20.19.0
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Build and verify application
+        run: |
+          mkdir -p output/playwright
+          mvn -f backend/pom.xml --batch-mode --no-transfer-progress clean verify > output/playwright/maven.log 2>&1
+          cd frontend
+          npm ci
+          npm test
+          npm run build
+          npm audit --json > ../output/playwright/npm-audit.json
+      - name: Install isolated browser inspection tools
+        run: |
+          npm install --prefix /tmp/audit-tools --no-save @playwright/cli@0.1.21 axe-core@4.13.0
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          echo '/tmp/audit-tools/node_modules/.bin' >> "$GITHUB_PATH"
+      - name: Start real backend, development frontend and production preview
+        run: |
+          nohup java -jar backend/target/backend-0.0.1-SNAPSHOT.jar > output/playwright/backend.log 2>&1 &
+          echo $! > /tmp/audit-backend.pid
+          (cd frontend && nohup npm run dev -- --host 127.0.0.1 > ../output/playwright/vite-dev.log 2>&1 &)
+          (cd frontend && nohup npm run preview -- --host 127.0.0.1 > ../output/playwright/vite-preview.log 2>&1 &)
+          python3 .github/audit/api.py wait
+      - name: Inspect real HTTP and SSE contracts
+        run: python3 .github/audit/api.py
+      - name: Inspect desktop browser and live chat
+        run: |
+          playwright-cli open http://127.0.0.1:5173 --browser=chrome
+          playwright-cli snapshot --filename=output/playwright/initial.yml
+          playwright-cli run-code --filename=.github/audit/browser-core.js | tee output/playwright/browser-core.log
+      - name: Inspect browser edge cases and production preview
+        if: ${{ !cancelled() }}
+        run: |
+          playwright-cli snapshot --filename=output/playwright/before-edges.yml
+          playwright-cli run-code --filename=.github/audit/browser-edge.js | tee output/playwright/browser-edge.log
+      - name: Restart backend with default configuration
+        if: ${{ !cancelled() }}
+        run: |
+          kill "$(cat /tmp/audit-backend.pid)"
+          for attempt in $(seq 1 40); do
+            if ! kill -0 "$(cat /tmp/audit-backend.pid)" 2>/dev/null; then break; fi
+            sleep 1
+          done
+          nohup java -jar backend/target/backend-0.0.1-SNAPSHOT.jar > output/playwright/backend-restart.log 2>&1 &
+          echo $! > /tmp/audit-backend.pid
+          python3 .github/audit/api.py wait
+          playwright-cli snapshot --filename=output/playwright/before-restart-reload.yml
+          playwright-cli run-code --filename=.github/audit/browser-restart.js | tee output/playwright/browser-restart.log
+      - name: Inspect incremental rendering with controlled real SSE delivery
+        if: ${{ !cancelled() }}
+        run: playwright-cli run-code --filename=.github/audit/browser-streaming.js | tee output/playwright/browser-streaming.log
+      - name: Inspect plain-text SSE token handling in browser
+        if: ${{ !cancelled() }}
+        run: playwright-cli run-code --filename=.github/audit/browser-contracts.js | tee output/playwright/browser-contracts.log
+      - name: Compare restart with a stable authentication secret
+        if: ${{ !cancelled() }}
+        run: python3 .github/audit/stable-restart.py
+      - name: Require all runtime checks to pass
+        if: ${{ !cancelled() }}
+        run: python3 .github/audit/verify.py
+      - name: Preserve evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: remote-runtime-audit
+          path: |
+            output/playwright
+            backend/target/surefire-reports/*.txt
+          retention-days: 7

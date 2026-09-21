@@ -77,6 +77,7 @@ const generationAnnouncement = computed(() => {
 })
 
 const serviceLabel = computed(() => {
+  if (!ready.value) return '访客会话尚未就绪'
   const payload = healthDetails.value?.data ?? healthDetails.value ?? {}
   const provider = String(payload.chatProvider ?? payload.provider ?? payload.aiProvider ?? '')
   const model = String(payload.chatModel ?? payload.modelName ?? payload.model ?? '')
