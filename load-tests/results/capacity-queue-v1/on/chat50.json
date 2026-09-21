@@ -1,0 +1,706 @@
+{
+  "scenario": "chat50",
+  "baseUrl": "http://127.0.0.1:28082",
+  "units": {
+    "ai_success_duration_ms": "milliseconds",
+    "counter_rate": "requests/second"
+  },
+  "failure_classification": {
+    "http_status_counts": {},
+    "error_code_counts": {}
+  },
+  "notes": [
+    "Only successful AI responses contribute to ai_success_duration_ms.",
+    "ai_attempts and ai_successes expose count and throughput; setup HTTP is excluded.",
+    "429 is saturation, separately reported from unexpected error rate.",
+    "Failure classifications contain only allowlisted codes/statuses and fixed fallback buckets; HTTP 503 remains unexpected.",
+    "This HTTP workload does not measure first-token latency; use sse_load.py."
+  ],
+  "metrics": {
+    "ai_failure_responses{status:401}": {
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      },
+      "type": "counter"
+    },
+    "ai_failure_responses{code:AI_PROVIDER_QUEUE_TIMEOUT}": {
+      "values": {
+        "count": 0,
+        "rate": 0
+      },
+      "type": "counter",
+      "contains": "default"
+    },
+    "ai_failure_responses{status:other}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{status:408}": {
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      },
+      "type": "counter"
+    },
+    "ai_failure_responses{status:403}": {
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      },
+      "type": "counter"
+    },
+    "ai_failure_responses{code:AI_PROVIDER_CANCELLED}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "http_req_connecting": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(95)": 3.339,
+        "p(99)": 3.502,
+        "max": 3.561,
+        "min": 0,
+        "med": 0,
+        "p(50)": 0
+      }
+    },
+    "ai_failure_responses{status:other_1xx}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{status:410}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{status:413}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_saturation_429": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "rate": 0,
+        "count": 0
+      }
+    },
+    "ai_failure_responses{status:other_5xx}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{status:400}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_unexpected_error_rate": {
+      "type": "rate",
+      "contains": "default",
+      "values": {
+        "rate": 0,
+        "passes": 0,
+        "fails": 150
+      },
+      "thresholds": {
+        "rate<0.01": {
+          "ok": true
+        }
+      }
+    },
+    "ai_failure_responses{code:AI_UPSTREAM_ERROR}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{code:missing}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{status:429}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "http_req_sending": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "med": 0.018,
+        "p(50)": 0.018,
+        "p(95)": 0.07,
+        "p(99)": 0.158,
+        "max": 0.231,
+        "min": 0.004
+      }
+    },
+    "ai_saturation_rate": {
+      "type": "rate",
+      "contains": "default",
+      "values": {
+        "rate": 0,
+        "passes": 0,
+        "fails": 150
+      },
+      "thresholds": {
+        "rate<=1": {
+          "ok": true
+        }
+      }
+    },
+    "ai_failure_responses{status:404}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "rate": 0,
+        "count": 0
+      }
+    },
+    "http_req_blocked": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "med": 0.005,
+        "p(50)": 0.005,
+        "p(95)": 3.361,
+        "p(99)": 3.525,
+        "max": 3.576,
+        "min": 0.001
+      }
+    },
+    "ai_failure_responses{code:CONVERSATION_BUSY}": {
+      "values": {
+        "rate": 0,
+        "count": 0
+      },
+      "type": "counter",
+      "contains": "default"
+    },
+    "ai_attempts": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 150,
+        "rate": 13.415874951166217
+      }
+    },
+    "ai_failure_responses{code:invalid_payload}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{status:422}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{code:AI_PROVIDER_CAPACITY}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "http_req_failed": {
+      "type": "rate",
+      "contains": "default",
+      "values": {
+        "rate": 0,
+        "passes": 0,
+        "fails": 201
+      }
+    },
+    "vus_max": {
+      "contains": "default",
+      "values": {
+        "min": 50,
+        "max": 50,
+        "value": 50
+      },
+      "type": "gauge"
+    },
+    "ai_failure_responses{code:GUARDRAIL_REJECTED}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{code:AI_MEMORY_CAPACITY_REACHED}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{code:UNSUPPORTED_MEDIA_TYPE}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{code:METHOD_NOT_ALLOWED}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{status:500}": {
+      "values": {
+        "count": 0,
+        "rate": 0
+      },
+      "type": "counter",
+      "contains": "default"
+    },
+    "data_sent": {
+      "type": "counter",
+      "contains": "data",
+      "values": {
+        "rate": 6838.876415106491,
+        "count": 76464
+      }
+    },
+    "ai_failure_responses{code:AI_PROVIDER_TIMEOUT}": {
+      "values": {
+        "rate": 0,
+        "count": 0
+      },
+      "type": "counter",
+      "contains": "default"
+    },
+    "ai_unexpected_errors": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_non_saturated_error_rate": {
+      "thresholds": {
+        "rate<0.01": {
+          "ok": true
+        }
+      },
+      "type": "rate",
+      "contains": "default",
+      "values": {
+        "rate": 0,
+        "passes": 0,
+        "fails": 150
+      }
+    },
+    "iteration_duration": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "min": 3128.261333,
+        "med": 3604.1172500000002,
+        "p(50)": 3604.1172500000002,
+        "p(95)": 4224.95,
+        "p(99)": 4232.6493761599995,
+        "max": 4234.952708
+      }
+    },
+    "http_req_duration{expected_response:true}": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "med": 249.44,
+        "p(50)": 249.44,
+        "p(95)": 939.282,
+        "p(99)": 968.294,
+        "max": 971.271,
+        "min": 6.042
+      }
+    },
+    "http_reqs": {
+      "contains": "default",
+      "values": {
+        "count": 201,
+        "rate": 17.977272434562728
+      },
+      "type": "counter"
+    },
+    "ai_successes": {
+      "values": {
+        "rate": 13.415874951166217,
+        "count": 150
+      },
+      "thresholds": {
+        "count>0": {
+          "ok": true
+        }
+      },
+      "type": "counter",
+      "contains": "default"
+    },
+    "ai_failure_responses{status:other_2xx}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "rate": 0,
+        "count": 0
+      }
+    },
+    "http_req_waiting": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "min": 5.402,
+        "med": 248.935,
+        "p(50)": 248.935,
+        "p(95)": 938.78,
+        "p(99)": 967.943,
+        "max": 971.022
+      }
+    },
+    "ai_failure_responses{status:504}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{status:415}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "http_req_tls_handshaking": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "min": 0,
+        "med": 0,
+        "p(50)": 0,
+        "p(95)": 0,
+        "p(99)": 0,
+        "max": 0
+      }
+    },
+    "ai_failure_responses{code:INVALID_REQUEST}": {
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      },
+      "type": "counter"
+    },
+    "vus": {
+      "type": "gauge",
+      "contains": "default",
+      "values": {
+        "value": 33,
+        "min": 33,
+        "max": 50
+      }
+    },
+    "ai_failure_responses{code:AI_CAPACITY_REACHED}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{code:STREAM_NOT_FOUND}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{status:503}": {
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      },
+      "type": "counter"
+    },
+    "ai_failure_responses{code:INVALID_GUEST_SESSION}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{code:STREAM_CAPACITY_REACHED}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{code:INVALID_STREAM_OWNER}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "rate": 0,
+        "count": 0
+      }
+    },
+    "ai_failure_responses{code:INTERNAL_ERROR}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "http_req_duration": {
+      "contains": "time",
+      "values": {
+        "med": 249.44,
+        "p(50)": 249.44,
+        "p(95)": 939.282,
+        "p(99)": 968.294,
+        "max": 971.271,
+        "min": 6.042
+      },
+      "type": "trend"
+    },
+    "ai_failure_responses": {
+      "values": {
+        "count": 0,
+        "rate": 0
+      },
+      "type": "counter",
+      "contains": "default"
+    },
+    "ai_failure_responses{status:0}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{status:other_4xx}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{status:409}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{code:INVALID_JSON}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{status:200}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "iterations": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 150,
+        "rate": 13.415874951166217
+      }
+    },
+    "ai_failure_responses{code:payload_too_large}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{status:other_3xx}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_success_duration_ms": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "min": 27.274,
+        "med": 503.187,
+        "p(50)": 503.187,
+        "p(95)": 947.15625,
+        "p(99)": 968.80808,
+        "max": 971.271
+      }
+    },
+    "ai_failure_responses{code:VALIDATION_FAILED}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "http_req_receiving": {
+      "contains": "time",
+      "values": {
+        "max": 25.937,
+        "min": 0.018,
+        "med": 0.308,
+        "p(50)": 0.308,
+        "p(95)": 4.175,
+        "p(99)": 12.965
+      },
+      "type": "trend"
+    },
+    "ai_failure_responses{status:405}": {
+      "values": {
+        "count": 0,
+        "rate": 0
+      },
+      "type": "counter",
+      "contains": "default"
+    },
+    "ai_failure_responses{code:unknown}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{status:502}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "ai_failure_responses{code:NOT_FOUND}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    },
+    "data_received": {
+      "type": "counter",
+      "contains": "data",
+      "values": {
+        "count": 207351,
+        "rate": 18545.300579995106
+      }
+    },
+    "ai_failure_responses{code:AI_STREAM_ERROR}": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 0,
+        "rate": 0
+      }
+    }
+  },
+  "setup_data": {
+    "runId": "1789970228938-580000224"
+  },
+  "root_group": {
+    "name": "",
+    "path": "",
+    "id": "d41d8cd98f00b204e9800998ecf8427e",
+    "groups": [],
+    "checks": []
+  },
+  "options": {
+    "summaryTrendStats": [
+      "min",
+      "med",
+      "p(50)",
+      "p(95)",
+      "p(99)",
+      "max"
+    ],
+    "summaryTimeUnit": "",
+    "noColor": true
+  },
+  "state": {
+    "isStdOutTTY": false,
+    "isStdErrTTY": false,
+    "testRunDurationMs": 11180.784
+  }
+}

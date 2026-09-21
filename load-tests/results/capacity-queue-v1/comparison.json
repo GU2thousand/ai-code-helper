@@ -1,0 +1,770 @@
+{
+  "source_revision": "b4cabf91210470546a5dc73cf47ab216383078c7",
+  "complete": true,
+  "profiles": [
+    "off",
+    "on"
+  ],
+  "rows": [
+    {
+      "scenario": "chat10",
+      "profile": "off",
+      "max_queued": 0,
+      "client_exit_code": 0,
+      "attempts": 30,
+      "successes": 30,
+      "http_429": 0,
+      "unexpected_errors": 0,
+      "unexpected_error_rate": 0,
+      "non_saturated_error_rate": 0,
+      "error_code_counts": {},
+      "http_status_counts": {},
+      "success_p95_ms": 467.20025,
+      "success_p99_ms": 471.3221,
+      "ttft_p95_ms": null,
+      "successes_per_second": 2.9768257095338497,
+      "provider_peak": 10.0,
+      "queue_peak": 0.0,
+      "server_stream_peak": 0.0,
+      "final_gauges": {
+        "ai_provider_in_flight": 0.0,
+        "ai_provider_queued": 0.0,
+        "active_sse_streams": 0.0
+      },
+      "drained_to_zero": true,
+      "container_peak_cpu_percent": 732.2645454506707,
+      "java_peak_rss_bytes": 342061056,
+      "client_peak_cpu_percent": 31.913096980796862,
+      "client_peak_rss_bytes": 41844736,
+      "sampling": {
+        "metrics": {
+          "count": 106,
+          "mean_interval_seconds": 0.10184086269499468,
+          "max_interval_seconds": 0.257392208033707
+        },
+        "container": {
+          "count": 103,
+          "mean_interval_seconds": 0.10447630064742293,
+          "max_interval_seconds": 0.15431962499860674
+        },
+        "client": {
+          "count": 108,
+          "mean_interval_seconds": 0.1000065841123453,
+          "max_interval_seconds": 0.11058670899365097
+        }
+      },
+      "sampling_errors": []
+    },
+    {
+      "scenario": "chat10",
+      "profile": "on",
+      "max_queued": 48,
+      "client_exit_code": 0,
+      "attempts": 30,
+      "successes": 30,
+      "http_429": 0,
+      "unexpected_errors": 0,
+      "unexpected_error_rate": 0,
+      "non_saturated_error_rate": 0,
+      "error_code_counts": {},
+      "http_status_counts": {},
+      "success_p95_ms": 858.3104999999999,
+      "success_p99_ms": 862.43152,
+      "ttft_p95_ms": null,
+      "successes_per_second": 2.8730117322307094,
+      "provider_peak": 0.0,
+      "queue_peak": 0.0,
+      "server_stream_peak": 0.0,
+      "final_gauges": {
+        "ai_provider_in_flight": 0.0,
+        "ai_provider_queued": 0.0,
+        "active_sse_streams": 0.0
+      },
+      "drained_to_zero": true,
+      "container_peak_cpu_percent": 667.5860000097147,
+      "java_peak_rss_bytes": 404656128,
+      "client_peak_cpu_percent": 42.19023607986059,
+      "client_peak_rss_bytes": 42434560,
+      "sampling": {
+        "metrics": {
+          "count": 110,
+          "mean_interval_seconds": 0.10162112385316521,
+          "max_interval_seconds": 0.22804800001904368
+        },
+        "container": {
+          "count": 105,
+          "mean_interval_seconds": 0.10592208493303937,
+          "max_interval_seconds": 0.22542375000193715
+        },
+        "client": {
+          "count": 112,
+          "mean_interval_seconds": 0.10002315464861658,
+          "max_interval_seconds": 0.1096483749570325
+        }
+      },
+      "sampling_errors": []
+    },
+    {
+      "scenario": "chat50",
+      "profile": "off",
+      "max_queued": 0,
+      "client_exit_code": 99,
+      "attempts": 150,
+      "successes": 145,
+      "http_429": 0,
+      "unexpected_errors": 5,
+      "unexpected_error_rate": 0.03333333333333333,
+      "non_saturated_error_rate": 0.03333333333333333,
+      "error_code_counts": {
+        "AI_PROVIDER_CAPACITY": 5
+      },
+      "http_status_counts": {
+        "503": 5
+      },
+      "success_p95_ms": 1002.436,
+      "success_p99_ms": 1017.0821199999999,
+      "ttft_p95_ms": null,
+      "successes_per_second": 12.96673192658898,
+      "provider_peak": 2.0,
+      "queue_peak": 0.0,
+      "server_stream_peak": 0.0,
+      "final_gauges": {
+        "ai_provider_in_flight": 0.0,
+        "ai_provider_queued": 0.0,
+        "active_sse_streams": 0.0
+      },
+      "drained_to_zero": true,
+      "container_peak_cpu_percent": 691.3283333182432,
+      "java_peak_rss_bytes": 714862592,
+      "client_peak_cpu_percent": 21.932981031994007,
+      "client_peak_rss_bytes": 54706176,
+      "sampling": {
+        "metrics": {
+          "count": 114,
+          "mean_interval_seconds": 0.1034171286809662,
+          "max_interval_seconds": 0.352833750017453
+        },
+        "container": {
+          "count": 111,
+          "mean_interval_seconds": 0.10542836590902879,
+          "max_interval_seconds": 0.12355945800663903
+        },
+        "client": {
+          "count": 118,
+          "mean_interval_seconds": 0.10001092521338445,
+          "max_interval_seconds": 0.10985504102427512
+        }
+      },
+      "sampling_errors": []
+    },
+    {
+      "scenario": "chat50",
+      "profile": "on",
+      "max_queued": 48,
+      "client_exit_code": 0,
+      "attempts": 150,
+      "successes": 150,
+      "http_429": 0,
+      "unexpected_errors": 0,
+      "unexpected_error_rate": 0,
+      "non_saturated_error_rate": 0,
+      "error_code_counts": {},
+      "http_status_counts": {},
+      "success_p95_ms": 947.15625,
+      "success_p99_ms": 968.80808,
+      "ttft_p95_ms": null,
+      "successes_per_second": 13.415874951166217,
+      "provider_peak": 9.0,
+      "queue_peak": 0.0,
+      "server_stream_peak": 0.0,
+      "final_gauges": {
+        "ai_provider_in_flight": 0.0,
+        "ai_provider_queued": 0.0,
+        "active_sse_streams": 0.0
+      },
+      "drained_to_zero": true,
+      "container_peak_cpu_percent": 770.6280000112141,
+      "java_peak_rss_bytes": 710770688,
+      "client_peak_cpu_percent": 20.12768501218092,
+      "client_peak_rss_bytes": 54689792,
+      "sampling": {
+        "metrics": {
+          "count": 110,
+          "mean_interval_seconds": 0.10696792699089018,
+          "max_interval_seconds": 0.3100680409697816
+        },
+        "container": {
+          "count": 112,
+          "mean_interval_seconds": 0.10486704542307888,
+          "max_interval_seconds": 0.1302949579549022
+        },
+        "client": {
+          "count": 118,
+          "mean_interval_seconds": 0.10002832336781117,
+          "max_interval_seconds": 0.10943025001324713
+        }
+      },
+      "sampling_errors": []
+    },
+    {
+      "scenario": "chat100",
+      "profile": "off",
+      "max_queued": 0,
+      "client_exit_code": 99,
+      "attempts": 300,
+      "successes": 218,
+      "http_429": 36,
+      "unexpected_errors": 46,
+      "unexpected_error_rate": 0.15333333333333332,
+      "non_saturated_error_rate": 0.17424242424242425,
+      "error_code_counts": {
+        "AI_CAPACITY_REACHED": 36,
+        "AI_PROVIDER_CAPACITY": 46
+      },
+      "http_status_counts": {
+        "429": 36,
+        "503": 46
+      },
+      "success_p95_ms": 1202.0212999999999,
+      "success_p99_ms": 1244.68632,
+      "ttft_p95_ms": null,
+      "successes_per_second": 19.157291823289977,
+      "provider_peak": 2.0,
+      "queue_peak": 0.0,
+      "server_stream_peak": 0.0,
+      "final_gauges": {
+        "ai_provider_in_flight": 0.0,
+        "ai_provider_queued": 0.0,
+        "active_sse_streams": 0.0
+      },
+      "drained_to_zero": true,
+      "container_peak_cpu_percent": 697.7177778048527,
+      "java_peak_rss_bytes": 856760320,
+      "client_peak_cpu_percent": 30.547189362288133,
+      "client_peak_rss_bytes": 70582272,
+      "sampling": {
+        "metrics": {
+          "count": 110,
+          "mean_interval_seconds": 0.10837947744972269,
+          "max_interval_seconds": 0.41751808300614357
+        },
+        "container": {
+          "count": 113,
+          "mean_interval_seconds": 0.1047653497049136,
+          "max_interval_seconds": 0.14011929201660678
+        },
+        "client": {
+          "count": 119,
+          "mean_interval_seconds": 0.10000999011020413,
+          "max_interval_seconds": 0.10865229205228388
+        }
+      },
+      "sampling_errors": []
+    },
+    {
+      "scenario": "chat100",
+      "profile": "on",
+      "max_queued": 48,
+      "client_exit_code": 0,
+      "attempts": 314,
+      "successes": 278,
+      "http_429": 36,
+      "unexpected_errors": 0,
+      "unexpected_error_rate": 0,
+      "non_saturated_error_rate": 0,
+      "error_code_counts": {
+        "AI_CAPACITY_REACHED": 36
+      },
+      "http_status_counts": {
+        "429": 36
+      },
+      "success_p95_ms": 1190.4672500000001,
+      "success_p99_ms": 1262.6364899999999,
+      "ttft_p95_ms": null,
+      "successes_per_second": 21.134453363065507,
+      "provider_peak": 1.0,
+      "queue_peak": 0.0,
+      "server_stream_peak": 0.0,
+      "final_gauges": {
+        "ai_provider_in_flight": 0.0,
+        "ai_provider_queued": 0.0,
+        "active_sse_streams": 0.0
+      },
+      "drained_to_zero": true,
+      "container_peak_cpu_percent": 750.8820000109267,
+      "java_peak_rss_bytes": 709496832,
+      "client_peak_cpu_percent": 49.05192825820257,
+      "client_peak_rss_bytes": 71548928,
+      "sampling": {
+        "metrics": {
+          "count": 128,
+          "mean_interval_seconds": 0.10773014008639542,
+          "max_interval_seconds": 0.5438296250067651
+        },
+        "container": {
+          "count": 131,
+          "mean_interval_seconds": 0.10432406859203744,
+          "max_interval_seconds": 0.1155541249900125
+        },
+        "client": {
+          "count": 137,
+          "mean_interval_seconds": 0.10000276562512976,
+          "max_interval_seconds": 0.11213891702936962
+        }
+      },
+      "sampling_errors": []
+    },
+    {
+      "scenario": "rag",
+      "profile": "off",
+      "max_queued": 0,
+      "client_exit_code": 0,
+      "attempts": 31,
+      "successes": 31,
+      "http_429": 0,
+      "unexpected_errors": 0,
+      "unexpected_error_rate": 0,
+      "non_saturated_error_rate": 0,
+      "error_code_counts": {},
+      "http_status_counts": {},
+      "success_p95_ms": 435.4045,
+      "success_p99_ms": 443.5892,
+      "ttft_p95_ms": null,
+      "successes_per_second": 2.370485830306248,
+      "provider_peak": 10.0,
+      "queue_peak": 0.0,
+      "server_stream_peak": 0.0,
+      "final_gauges": {
+        "ai_provider_in_flight": 0.0,
+        "ai_provider_queued": 0.0,
+        "active_sse_streams": 0.0
+      },
+      "drained_to_zero": true,
+      "container_peak_cpu_percent": 632.0070000091969,
+      "java_peak_rss_bytes": 413696000,
+      "client_peak_cpu_percent": 20.008486998635373,
+      "client_peak_rss_bytes": 40304640,
+      "sampling": {
+        "metrics": {
+          "count": 136,
+          "mean_interval_seconds": 0.10007458487396231,
+          "max_interval_seconds": 0.11079320800490677
+        },
+        "container": {
+          "count": 129,
+          "mean_interval_seconds": 0.1051666549451511,
+          "max_interval_seconds": 0.12977283401414752
+        },
+        "client": {
+          "count": 136,
+          "mean_interval_seconds": 0.1000745774664985,
+          "max_interval_seconds": 0.10906200000317767
+        }
+      },
+      "sampling_errors": []
+    },
+    {
+      "scenario": "rag",
+      "profile": "on",
+      "max_queued": 48,
+      "client_exit_code": 0,
+      "attempts": 40,
+      "successes": 40,
+      "http_429": 0,
+      "unexpected_errors": 0,
+      "unexpected_error_rate": 0,
+      "non_saturated_error_rate": 0,
+      "error_code_counts": {},
+      "http_status_counts": {},
+      "success_p95_ms": 366.217,
+      "success_p99_ms": 371.50454,
+      "ttft_p95_ms": null,
+      "successes_per_second": 3.0309668579686657,
+      "provider_peak": 0.0,
+      "queue_peak": 0.0,
+      "server_stream_peak": 0.0,
+      "final_gauges": {
+        "ai_provider_in_flight": 0.0,
+        "ai_provider_queued": 0.0,
+        "active_sse_streams": 0.0
+      },
+      "drained_to_zero": true,
+      "container_peak_cpu_percent": 683.8190909054724,
+      "java_peak_rss_bytes": 468168704,
+      "client_peak_cpu_percent": 29.928632774689063,
+      "client_peak_rss_bytes": 42074112,
+      "sampling": {
+        "metrics": {
+          "count": 138,
+          "mean_interval_seconds": 0.10003166697090016,
+          "max_interval_seconds": 0.11196429200936109
+        },
+        "container": {
+          "count": 130,
+          "mean_interval_seconds": 0.1056189522013617,
+          "max_interval_seconds": 0.13041070802137256
+        },
+        "client": {
+          "count": 138,
+          "mean_interval_seconds": 0.10002880139415744,
+          "max_interval_seconds": 0.10953937500016764
+        }
+      },
+      "sampling_errors": []
+    },
+    {
+      "scenario": "sse10",
+      "profile": "off",
+      "max_queued": 0,
+      "client_exit_code": 0,
+      "attempts": 32,
+      "successes": 32,
+      "http_429": 0,
+      "unexpected_errors": 0,
+      "unexpected_error_rate": 0.0,
+      "non_saturated_error_rate": 0.0,
+      "error_code_counts": {},
+      "error_counts": {},
+      "http_status_counts": {},
+      "success_p95_ms": 516.026,
+      "success_p99_ms": 583.7,
+      "ttft_p95_ms": 323.059,
+      "ttft_p99_ms": 349.384,
+      "ticket_to_first_content_p95_ms": 357.97,
+      "successes_per_second": 3.17454,
+      "client_max_active_streams": 10,
+      "client_final_active_streams": 0,
+      "worker_setup_failures": 0,
+      "provider_peak": 4.0,
+      "queue_peak": 0.0,
+      "server_stream_peak": 10.0,
+      "final_gauges": {
+        "ai_provider_in_flight": 0.0,
+        "ai_provider_queued": 0.0,
+        "active_sse_streams": 0.0
+      },
+      "drained_to_zero": true,
+      "container_peak_cpu_percent": 688.9839999598959,
+      "java_peak_rss_bytes": 360738816,
+      "client_peak_cpu_percent": 80.28474347882236,
+      "client_peak_rss_bytes": 43319296,
+      "sampling": {
+        "metrics": {
+          "count": 106,
+          "mean_interval_seconds": 0.100091370237836,
+          "max_interval_seconds": 0.10990766604663804
+        },
+        "container": {
+          "count": 100,
+          "mean_interval_seconds": 0.10568010647466049,
+          "max_interval_seconds": 0.11361454200232401
+        },
+        "client": {
+          "count": 106,
+          "mean_interval_seconds": 0.10000820199049831,
+          "max_interval_seconds": 0.10977516695857048
+        }
+      },
+      "sampling_errors": []
+    },
+    {
+      "scenario": "sse10",
+      "profile": "on",
+      "max_queued": 48,
+      "client_exit_code": 0,
+      "attempts": 31,
+      "successes": 31,
+      "http_429": 0,
+      "unexpected_errors": 0,
+      "unexpected_error_rate": 0.0,
+      "non_saturated_error_rate": 0.0,
+      "error_code_counts": {},
+      "error_counts": {},
+      "http_status_counts": {},
+      "success_p95_ms": 488.953,
+      "success_p99_ms": 520.099,
+      "ttft_p95_ms": 291.053,
+      "ttft_p99_ms": 318.087,
+      "ticket_to_first_content_p95_ms": 329.264,
+      "successes_per_second": 3.087672,
+      "client_max_active_streams": 10,
+      "client_final_active_streams": 0,
+      "worker_setup_failures": 0,
+      "provider_peak": 2.0,
+      "queue_peak": 0.0,
+      "server_stream_peak": 10.0,
+      "final_gauges": {
+        "ai_provider_in_flight": 0.0,
+        "ai_provider_queued": 0.0,
+        "active_sse_streams": 0.0
+      },
+      "drained_to_zero": true,
+      "container_peak_cpu_percent": 653.2520000095061,
+      "java_peak_rss_bytes": 408936448,
+      "client_peak_cpu_percent": 21.08758324461285,
+      "client_peak_rss_bytes": 43974656,
+      "sampling": {
+        "metrics": {
+          "count": 106,
+          "mean_interval_seconds": 0.10008781032381757,
+          "max_interval_seconds": 0.10930466599529609
+        },
+        "container": {
+          "count": 100,
+          "mean_interval_seconds": 0.10560849494938127,
+          "max_interval_seconds": 0.12081679201219231
+        },
+        "client": {
+          "count": 106,
+          "mean_interval_seconds": 0.10004406984718073,
+          "max_interval_seconds": 0.10950262501137331
+        }
+      },
+      "sampling_errors": []
+    },
+    {
+      "scenario": "sse50",
+      "profile": "off",
+      "max_queued": 0,
+      "client_exit_code": 1,
+      "attempts": 150,
+      "successes": 93,
+      "http_429": 0,
+      "unexpected_errors": 57,
+      "unexpected_error_rate": 0.38,
+      "non_saturated_error_rate": 0.38,
+      "error_code_counts": {
+        "AI_PROVIDER_CAPACITY": 57
+      },
+      "error_counts": {
+        "sse_error": 57
+      },
+      "http_status_counts": {},
+      "success_p95_ms": 1322.028,
+      "success_p99_ms": 1399.361,
+      "ttft_p95_ms": 1154.705,
+      "ttft_p99_ms": 1203.666,
+      "ticket_to_first_content_p95_ms": 1228.226,
+      "successes_per_second": 9.285876,
+      "client_max_active_streams": 50,
+      "client_final_active_streams": 0,
+      "worker_setup_failures": 0,
+      "provider_peak": 16.0,
+      "queue_peak": 0.0,
+      "server_stream_peak": 50.0,
+      "final_gauges": {
+        "ai_provider_in_flight": 0.0,
+        "ai_provider_queued": 0.0,
+        "active_sse_streams": 0.0
+      },
+      "drained_to_zero": true,
+      "container_peak_cpu_percent": 778.179000011324,
+      "java_peak_rss_bytes": 777621504,
+      "client_peak_cpu_percent": 401.16860598756875,
+      "client_peak_rss_bytes": 92405760,
+      "sampling": {
+        "metrics": {
+          "count": 101,
+          "mean_interval_seconds": 0.10540460249991156,
+          "max_interval_seconds": 0.2535754169803113
+        },
+        "container": {
+          "count": 101,
+          "mean_interval_seconds": 0.10502759416995104,
+          "max_interval_seconds": 0.13040745799662545
+        },
+        "client": {
+          "count": 106,
+          "mean_interval_seconds": 0.10000765278070634,
+          "max_interval_seconds": 0.10970254201674834
+        }
+      },
+      "sampling_errors": []
+    },
+    {
+      "scenario": "sse50",
+      "profile": "on",
+      "max_queued": 48,
+      "client_exit_code": 0,
+      "attempts": 150,
+      "successes": 150,
+      "http_429": 0,
+      "unexpected_errors": 0,
+      "unexpected_error_rate": 0.0,
+      "non_saturated_error_rate": 0.0,
+      "error_code_counts": {},
+      "error_counts": {},
+      "http_status_counts": {},
+      "success_p95_ms": 1636.498,
+      "success_p99_ms": 1752.215,
+      "ttft_p95_ms": 1491.354,
+      "ttft_p99_ms": 1517.458,
+      "ticket_to_first_content_p95_ms": 1574.141,
+      "successes_per_second": 14.978973,
+      "client_max_active_streams": 50,
+      "client_final_active_streams": 0,
+      "worker_setup_failures": 0,
+      "provider_peak": 16.0,
+      "queue_peak": 28.0,
+      "server_stream_peak": 50.0,
+      "final_gauges": {
+        "ai_provider_in_flight": 0.0,
+        "ai_provider_queued": 0.0,
+        "active_sse_streams": 0.0
+      },
+      "drained_to_zero": true,
+      "container_peak_cpu_percent": 799.3990000116328,
+      "java_peak_rss_bytes": 626970624,
+      "client_peak_cpu_percent": 199.9786865624066,
+      "client_peak_rss_bytes": 89817088,
+      "sampling": {
+        "metrics": {
+          "count": 101,
+          "mean_interval_seconds": 0.10466363375016954,
+          "max_interval_seconds": 0.3237054590135813
+        },
+        "container": {
+          "count": 101,
+          "mean_interval_seconds": 0.10480747832974885,
+          "max_interval_seconds": 0.12432720902143046
+        },
+        "client": {
+          "count": 106,
+          "mean_interval_seconds": 0.10009644919995307,
+          "max_interval_seconds": 0.11002087499946356
+        }
+      },
+      "sampling_errors": []
+    },
+    {
+      "scenario": "sse100",
+      "profile": "off",
+      "max_queued": 0,
+      "client_exit_code": 1,
+      "attempts": 300,
+      "successes": 173,
+      "http_429": 36,
+      "unexpected_errors": 91,
+      "unexpected_error_rate": 0.303333,
+      "non_saturated_error_rate": 0.344697,
+      "error_code_counts": {
+        "AI_CAPACITY_REACHED": 36,
+        "AI_PROVIDER_CAPACITY": 91
+      },
+      "error_counts": {
+        "http_429": 36,
+        "sse_error": 91
+      },
+      "http_status_counts": {
+        "429": 36
+      },
+      "success_p95_ms": 1677.708,
+      "success_p99_ms": 1796.306,
+      "ttft_p95_ms": 1434.402,
+      "ttft_p99_ms": 1520.732,
+      "ticket_to_first_content_p95_ms": 1579.983,
+      "successes_per_second": 17.252425,
+      "client_max_active_streams": 46,
+      "client_final_active_streams": 0,
+      "worker_setup_failures": 0,
+      "provider_peak": 16.0,
+      "queue_peak": 0.0,
+      "server_stream_peak": 64.0,
+      "final_gauges": {
+        "ai_provider_in_flight": 0.0,
+        "ai_provider_queued": 0.0,
+        "active_sse_streams": 0.0
+      },
+      "drained_to_zero": true,
+      "container_peak_cpu_percent": 768.1866666033213,
+      "java_peak_rss_bytes": 721297408,
+      "client_peak_cpu_percent": 656.7512749560384,
+      "client_peak_rss_bytes": 145424384,
+      "sampling": {
+        "metrics": {
+          "count": 99,
+          "mean_interval_seconds": 0.10840061096930687,
+          "max_interval_seconds": 0.39593200001399964
+        },
+        "container": {
+          "count": 102,
+          "mean_interval_seconds": 0.10458730486173201,
+          "max_interval_seconds": 0.14600754104321823
+        },
+        "client": {
+          "count": 107,
+          "mean_interval_seconds": 0.10002660652829053,
+          "max_interval_seconds": 0.10916208400158212
+        }
+      },
+      "sampling_errors": []
+    },
+    {
+      "scenario": "sse100",
+      "profile": "on",
+      "max_queued": 48,
+      "client_exit_code": 0,
+      "attempts": 300,
+      "successes": 264,
+      "http_429": 36,
+      "unexpected_errors": 0,
+      "unexpected_error_rate": 0.0,
+      "non_saturated_error_rate": 0.0,
+      "error_code_counts": {
+        "AI_CAPACITY_REACHED": 36
+      },
+      "error_counts": {
+        "http_429": 36
+      },
+      "http_status_counts": {
+        "429": 36
+      },
+      "success_p95_ms": 2073.836,
+      "success_p99_ms": 2251.666,
+      "ttft_p95_ms": 1862.537,
+      "ttft_p99_ms": 1961.954,
+      "ticket_to_first_content_p95_ms": 1978.846,
+      "successes_per_second": 26.344059,
+      "client_max_active_streams": 64,
+      "client_final_active_streams": 0,
+      "worker_setup_failures": 0,
+      "provider_peak": 16.0,
+      "queue_peak": 42.0,
+      "server_stream_peak": 64.0,
+      "final_gauges": {
+        "ai_provider_in_flight": 0.0,
+        "ai_provider_queued": 0.0,
+        "active_sse_streams": 0.0
+      },
+      "drained_to_zero": true,
+      "container_peak_cpu_percent": 805.2630000117181,
+      "java_peak_rss_bytes": 792522752,
+      "client_peak_cpu_percent": 684.9415658570573,
+      "client_peak_rss_bytes": 144736256,
+      "sampling": {
+        "metrics": {
+          "count": 99,
+          "mean_interval_seconds": 0.10863335714235958,
+          "max_interval_seconds": 0.37640075001399964
+        },
+        "container": {
+          "count": 102,
+          "mean_interval_seconds": 0.10471966336619588,
+          "max_interval_seconds": 0.12304291600594297
+        },
+        "client": {
+          "count": 107,
+          "mean_interval_seconds": 0.1000409021227893,
+          "max_interval_seconds": 0.10974350001197308
+        }
+      },
+      "sampling_errors": []
+    }
+  ],
+  "notes": [
+    "Same updated source/image; off has maxQueued=0, on has maxQueued=48; physical capacity remains 16.",
+    "HTTP 503 and SSE errors remain unexpected failures; original exits and error code counts are retained.",
+    "Protected status preflight initializes retrieval before each sample; no chat/SSE warmup, so short local-mock samples retain request-path JIT effects. Sampled peaks are lower bounds.",
+    "TTFT milestones may include attempts failing later; success latency includes successful requests only."
+  ]
+}

@@ -1,0 +1,11 @@
+Nginx proxies the offline backend: passed
+Production frontend serves HTML: passed
+Authenticated RAG through the reverse proxy: passed
+Hybrid query actually uses PostgreSQL without fallback: passed
+Authenticated SSE reaches completion through Nginx: passed
+Actuator exports request and retrieval histogram metrics: passed
+Prometheus successfully scrapes the running backend: passed
+Every provisioned dashboard query parses in Prometheus: passed
+Actual request and stage spans exported through Collector and stored in Tempo: passed
+Explicit hybrid retrieval trace contains lexical and vector stages: passed
+Grafana provisions the dashboard: passed

@@ -1,0 +1,38 @@
+{
+  "target_interval_seconds": 0.1,
+  "errors": [],
+  "observed_peak_gauges": {
+    "ai_provider_in_flight": 16.0,
+    "ai_provider_queued": 28.0,
+    "active_sse_streams": 50.0
+  },
+  "sampling": {
+    "metrics": {
+      "count": 101,
+      "mean_interval_seconds": 0.10466363375016954,
+      "max_interval_seconds": 0.3237054590135813
+    },
+    "container": {
+      "count": 101,
+      "mean_interval_seconds": 0.10480747832974885,
+      "max_interval_seconds": 0.12432720902143046
+    },
+    "client": {
+      "count": 106,
+      "mean_interval_seconds": 0.10009644919995307,
+      "max_interval_seconds": 0.11002087499946356
+    }
+  },
+  "peak_container_cpu_percent": 799.3990000116328,
+  "peak_container_java_rss_bytes": 626970624,
+  "peak_container_cgroup_memory_current_bytes": 636968960,
+  "peak_client_rss_bytes": 89817088,
+  "peak_client_interval_cpu_percent": 199.9786865624066,
+  "end_gauges": {
+    "ai_provider_in_flight": 0.0,
+    "ai_provider_queued": 0.0,
+    "active_sse_streams": 0.0
+  },
+  "drained_to_zero": true,
+  "peak_is_sampled_lower_bound": true
+}

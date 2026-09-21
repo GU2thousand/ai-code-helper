@@ -145,6 +145,20 @@ Structured request logs include request/trace ID, model, mode, duration, tool co
 **Chat 100 and SSE 50/100 failed the load acceptance thresholds.** Chat 100's 29 unexpected failures were HTTP 503. The SSE failures were provider errors after the response opened; their baseline payload codes were not retained. A separate diagnostic run captured 111 `AI_PROVIDER_CAPACITY` SSE errors; it is recorded separately and does not relabel or replace baseline failures. These results expose the configured capacity boundary and do not establish 100-user production readiness. No capacity settings or error classifications were changed to make the runs pass. All SSE runs drained to zero active streams; observed peak open responses were 10, 50 and 63 respectively. Raw TTFT p50/p95/p99, resource samples, status counters and exit codes remain in the linked artifacts.
 <!-- LOAD_RESULTS_END -->
 
+### Bounded-queue follow-up
+
+[Paired measurements on clean `b4cabf9`](load-tests/results/capacity-queue-v1/README.md) use the same images with queue size 0 vs 48, retaining 16 physical calls, 64 application requests and 300 starts/minute. All seven queue-on samples passed the unchanged thresholds with zero unexpected failures; application429 remains explicit.
+
+| Workload | Queue off: success / attempts | Queue on: success / attempts | Provider errors off → on | HTTP429 off / on |
+| --- | ---: | ---: | ---: | ---: |
+| Chat50 | 145/150 | 150/150 | 5 → 0 | 0 / 0 |
+| Chat100 | 218/300 | 278/314 | 46 → 0 | 36 / 36 |
+| SSE50 | 93/150 | 150/150 | 57 → 0 | 0 / 0 |
+| SSE100 | 173/300 | 264/300 | 91 → 0 | 36 / 36 |
+
+Waiting has a cost: successful SSE50 p95 rose 1322.0→1636.5ms and SSE100 1677.7→2073.8ms. All 14 samples drained physical calls, queued calls and streams to zero. These are 10-second local-model samples; diagnostic preflight loads the index, there is no chat/SSE warmup, and the closed workload can change attempt counts. They demonstrate burst handling, not production capacity or a statistically proven throughput/latency gain. [Raw results, TTFT, resources, configuration and original failures](load-tests/results/capacity-queue-v1/) are preserved.
+
+
 ## Run locally
 
 The full isolated stack needs Docker Compose; no provider keys are required:
@@ -188,7 +202,7 @@ python3 -m unittest discover -s evaluation/tests -v
 python3 -m unittest discover -s load-tests -p 'test_*.py' -v
 ```
 
-Recorded verification: **159 backend tests passed with no skips**, including the real PostgreSQL cases; **46 frontend**, **22 evaluator**, and **11 load-client** tests passed, as did the production frontend build and dependency audit (zero reported vulnerabilities). The final container smoke passed all **11** HTTP, SSE, source, metric, dashboard and stored-trace checks. These local/controlled checks do not establish real-provider quality.
+Current capacity revision: **169 local backend tests passed**, with 2 database-gated cases skipped locally; the separate CI PostgreSQL suite passed **10/10 with no skips**, covering both gated cases. **46 frontend**, **22 evaluator**, and **16 load-client** tests passed, as did the production build/audit and all 7 CI jobs. The post-load container smoke passed all **11** checks, including 14 dashboard panels and stored traces. These local/controlled checks do not establish real-provider quality.
 
 The PostgreSQL tests require `TEST_PGVECTOR_URL`, `TEST_PGVECTOR_USERNAME`, and `TEST_PGVECTOR_PASSWORD`; otherwise they explicitly skip. k6 runner tests require `k6` on PATH or `K6_BINARY`. CI runs frontend/backend validation, real pgvector integration, evaluator/client contracts, Compose smoke and observability checks.
 
@@ -247,7 +261,7 @@ The PostgreSQL tests require `TEST_PGVECTOR_URL`, `TEST_PGVECTOR_USERNAME`, and 
 
 Recall 要求检索片段命中确切证据锚点，仅文件名相同不得分；MRR 使用首个相关片段排名。每种模式预热 3 次，结果保留原始排名、Git、数据集/脚本/语料哈希、模型和配置。服务端检索耗时与完整回答耗时分开。`baseline-v1` 是升级后固定语料上的向量基线，不冒充旧三篇语料版本的历史效果。
 
-后端 159 项、前端 46 项、评估脚本 22 项、负载客户端 11 项测试通过；真实 PostgreSQL 已启用，无后端跳过项。生产构建、依赖审计及 11 项容器/观测检查也已通过。Agent 的 60/60 受控契约符合预期。
+本次容量版本本地后端169项通过、2项数据库用例跳过；CI真实PostgreSQL专项10/10通过且无跳过，覆盖上述2项。前端46项、评估脚本22项、负载客户端16项通过，7项CI全部通过。生产构建、依赖审计及11项容器/观测检查通过，面板增至14个。原Agent评估的60/60受控契约符合预期。
 
 Agent 的 60 个案例对应 15 类受控场景各重复 4 次。契约通过率表示系统返回了预期结果；故障注入故意降低执行成功率与完成率，不能把这些数字当成线上可靠性。未调用真实规划模型，因此工具选择准确率为 `null`。回答评估器拒绝本地 mock，支持真实导出、实时调用和可选外部 judge；关键词与引用代理指标不冒充语义正确率、可信度或幻觉率。
 
@@ -258,6 +272,8 @@ Grafana 提供请求 p50/p95、检索/模型/工具耗时、错误、token 与�
 [`load-tests/`](load-tests/README.md) 提供 k6 聊天 10/50/100 VU、混合 RAG、需真实服务的工具场景，以及逐帧读取 SSE 的首内容延迟测试。429 限流与意外失败分开报告；包含思考间隔的 VU 不等于同等数量的请求同时进入模型。[故障注入说明](load-tests/failure-injection.md) 对应数据库、重排、MCP 和模型超时的可执行验证。
 
 首次升级的历史基线中，Chat 10/50、RAG 10、SSE 10 没有意外失败；Chat 100 为 238/303 成功、36 次 429、29 次 503，SSE 50 为 88/150 成功，SSE 100 为 146/300 成功。后三个样本未通过错误率阈值，全部保留失败记录；默认 provider 并发上限为 16，因此不能宣称已验证 100 用户生产能力。
+
+[本次容量对照](load-tests/results/capacity-queue-v1/README.md)保持模型物理并发16，仅切换队列0/48。开启队列后7个样本均无意外失败：Chat50为150/150，Chat100为278/314，SSE50为150/150，SSE100为264/300；两个100用户样本各保留36次应用层429。SSE50/100的成功请求p95分别增加约0.31/0.40秒，体现排队代价。全部14个样本结束时执行、排队和活跃流归零。10秒本地模型样本不能证明生产容量；完整分母、延迟、TTFT、失败码和资源记录均已保存。
 
 ## 本地部署与验证
 

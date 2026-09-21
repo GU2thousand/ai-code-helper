@@ -1,0 +1,12 @@
+{
+  "status": "UP",
+  "service": "ai-code-helper-backend",
+  "timestamp": "2026-09-21T05:55:58.521019505Z",
+  "chatProvider": "local",
+  "chatModel": "local-mock",
+  "embeddingProvider": "local",
+  "embeddingModel": "local-hash-embedding",
+  "mcpConfigured": false,
+  "mcpConnected": false,
+  "knowledgeSegments": 272
+}

@@ -1,0 +1,6 @@
+{
+  "attempted_after_final_sample": true,
+  "query": "{ name = \"provider.queue\" }",
+  "traces": [],
+  "error": "URLError: <urlopen error [Errno 61] Connection refused>"
+}

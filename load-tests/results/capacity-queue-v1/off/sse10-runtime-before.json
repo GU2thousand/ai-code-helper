@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "agentEvaluationMode": "controlled_runtime",
+  "embeddingProvider": "local",
+  "ingestion": {
+    "sourceCount": 11,
+    "chunkCount": 272,
+    "corpusHash": "1c83445c5ca3e407348fb670534cb7df95505dc59cab39e00e7bfac46bc09b43",
+    "embeddingModel": "local-hash-embedding",
+    "embeddingVersion": "v1",
+    "embedded": 0,
+    "reused": 272,
+    "deleted": 0,
+    "duplicates": 0,
+    "embeddingReady": true
+  },
+  "agentScenarios": [
+    "success",
+    "timeout",
+    "http_5xx_recovery",
+    "http_5xx_exhausted",
+    "malformed",
+    "empty",
+    "duplicate",
+    "unauthorized",
+    "provider_unavailable",
+    "mcp_connection_failure",
+    "loop",
+    "user_cancel",
+    "budget_exhausted",
+    "per_tool_limit",
+    "risk_denied"
+  ],
+  "admissionConfig": {
+    "persistenceEnabled": true,
+    "maxConversations": 2000,
+    "maxStartsPerMinute": 300,
+    "maxConcurrentRequests": 64,
+    "maxStartsPerMinutePerOwner": 20,
+    "maxConcurrentRequestsPerOwner": 2
+  },
+  "chatProvider": "local",
+  "retrievalConfig": {
+    "mode": "lexical",
+    "reranker": "deterministic-token-overlap",
+    "candidates": 25,
+    "backend": "pgvector",
+    "embeddingVersion": "v1",
+    "rrfK": 60
+  },
+  "providerConfig": {
+    "firstTokenTimeoutMs": 15000,
+    "embeddingTimeoutMs": 20000,
+    "chatTimeoutMs": 45000,
+    "streamTimeoutMs": 90000,
+    "queueTimeoutMs": 2000,
+    "maxQueued": 0,
+    "maxInFlight": 16
+  },
+  "embeddingModel": "local-hash-embedding"
+}
