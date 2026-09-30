@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": "^20.19.0 || >=22.12.0"
+    "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
   },
   "scripts": {
     "dev": "vite",
@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "6.0.7",
-    "@vue/test-utils": "2.4.11",
+    "@vue/test-utils": "2.5.1",
     "jsdom": "29.1.1",
     "vite": "8.1.5",
     "vitest": "4.1.11"

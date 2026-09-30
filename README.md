@@ -170,7 +170,7 @@ python3 deployment/smoke.py
 
 Open `http://localhost:5173`; Grafana is `http://localhost:3000` (`admin` / `local-development-only`). Ports bind to localhost. PostgreSQL, conversations/signing secret, metrics and traces use named volumes. See [`deployment/README.md`](deployment/README.md) for ports, lifecycle and overrides.
 
-For standalone development, use Java 21+, Maven 3.6+, and Node 20.19+ or 22.12+:
+For standalone development, use Java 21+, Maven 3.6+, and Node 22.22.2+ (22.x), 24.15+ (24.x), or 26+. CI and the frontend container use Node 22.23.2:
 
 ```bash
 mvn -f backend/pom.xml spring-boot:run
@@ -284,7 +284,7 @@ docker compose up --build --detach --wait --wait-timeout 240
 python3 deployment/smoke.py
 ```
 
-前端 `http://localhost:5173`；Grafana `http://localhost:3000`，本地账号 `admin` / `local-development-only`。端口仅绑定 localhost，具名卷保存数据库、会话/签名密钥、指标与 trace。生命周期和端口设置见 [`deployment/README.md`](deployment/README.md)。单独开发要求 Java 21+、Maven 3.6+、Node 20.19+ 或 22.12+，启动与测试命令见上方英文部分。
+前端 `http://localhost:5173`；Grafana `http://localhost:3000`，本地账号 `admin` / `local-development-only`。端口仅绑定 localhost，具名卷保存数据库、会话/签名密钥、指标与 trace。生命周期和端口设置见 [`deployment/README.md`](deployment/README.md)。单独开发要求 Java 21+、Maven 3.6+、Node 22.22.2+（22.x）、24.15+（24.x）或 26+；CI 与前端容器使用 Node 22.23.2，启动与测试命令见上方英文部分。
 
 完整检索/运行时评估只需本地诊断访问密钥：
 
