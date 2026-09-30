@@ -87,12 +87,27 @@ async (page) => {
     return {copiedCharacters: copied.length};
   });
   await check('clear dialog keyboard and cancellation', async () => {
-    await page.getByRole('button', {name: '清空当前对话记录'}).click();
-    await page.getByRole('alertdialog').waitFor();
-    assert(await page.getByRole('button', {name: '取消', exact: true}).evaluate(e => e === document.activeElement), 'Cancel did not receive focus');
-    await page.keyboard.press('Escape');
-    assert(await page.locator('.message-row').count() === 4, 'Cancel deleted messages');
-    return {escapeRestoredFocus: await page.getByRole('button', {name: '清空当前对话记录'}).evaluate(e => e === document.activeElement)};
+    const trigger = page.getByRole('button', {name: '清空当前对话记录'});
+    const dialog = page.getByRole('alertdialog');
+    await trigger.click();
+    try {
+      await dialog.waitFor();
+      // App focuses after nextTick and requestAnimationFrame, after the dialog becomes visible.
+      await page.waitForFunction(() => document.activeElement?.matches('[role="alertdialog"] .button-secondary'), null, {timeout: 6000});
+      assert(await page.getByRole('button', {name: '取消', exact: true}).evaluate(e => e === document.activeElement), 'Cancel did not receive focus');
+      await page.keyboard.press('Escape');
+      await dialog.waitFor({state: 'hidden'});
+      await page.waitForFunction(() => document.activeElement?.getAttribute('aria-label') === '清空当前对话记录', null, {timeout: 6000});
+      assert(await page.locator('.message-row').count() === 4, 'Cancel deleted messages');
+      assert(await trigger.evaluate(e => e === document.activeElement), 'Escape did not restore clear trigger focus');
+      return {escapeRestoredFocus: true};
+    } finally {
+      // A failed dialog assertion must not leave the background inert for later checks.
+      if (await dialog.isVisible()) {
+        await page.keyboard.press('Escape');
+        await dialog.waitFor({state: 'hidden'});
+      }
+    }
   });
   await check('WCAG automated accessibility scan', async () => {
     await page.addScriptTag({path: '/tmp/audit-tools/node_modules/axe-core/axe.min.js'});
