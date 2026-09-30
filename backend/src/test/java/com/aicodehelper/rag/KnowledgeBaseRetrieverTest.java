@@ -2,10 +2,14 @@ package com.aicodehelper.rag;
 
 import com.aicodehelper.config.AppProperties;
 import dev.langchain4j.community.model.dashscope.QwenEmbeddingModel;
+import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.model.embedding.EmbeddingModel;
+import dev.langchain4j.model.output.Response;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,16 +17,20 @@ class KnowledgeBaseRetrieverTest {
 
     @Test
     void healthSegmentCountDoesNotInitializeEmbeddings() {
-        KnowledgeBaseRetriever retriever = new KnowledgeBaseRetriever(segments -> {
-            throw new AssertionError("Health must not call the embedding provider");
+        KnowledgeBaseRetriever retriever = new KnowledgeBaseRetriever(new EmbeddingModel() {
+            @Override public Response<List<Embedding>> embedAll(List<TextSegment> segments) {
+                throw new AssertionError("Health must not call the embedding provider");
+            }
         }, new PathMatchingResourcePatternResolver(), new AppProperties());
         assertThat(retriever.segmentCount()).isZero();
     }
 
     @Test
     void marksRetrievalInputAsDashScopeQuery() {
-        EmbeddingModel unused = segments -> {
-            throw new UnsupportedOperationException();
+        EmbeddingModel unused = new EmbeddingModel() {
+            @Override public Response<List<Embedding>> embedAll(List<TextSegment> segments) {
+                throw new UnsupportedOperationException();
+            }
         };
         KnowledgeBaseRetriever retriever = new KnowledgeBaseRetriever(
                 unused,
@@ -41,8 +49,10 @@ class KnowledgeBaseRetrieverTest {
         AppProperties properties = new AppProperties();
         properties.getRag().setLocation("file:/opt/knowledge/*.md");
         KnowledgeBaseRetriever retriever = new KnowledgeBaseRetriever(
-                segments -> {
-                    throw new UnsupportedOperationException();
+                new EmbeddingModel() {
+                    @Override public Response<List<Embedding>> embedAll(List<TextSegment> segments) {
+                        throw new UnsupportedOperationException();
+                    }
                 },
                 new PathMatchingResourcePatternResolver(),
                 properties

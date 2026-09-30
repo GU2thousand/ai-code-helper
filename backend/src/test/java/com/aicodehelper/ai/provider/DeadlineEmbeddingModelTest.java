@@ -50,9 +50,11 @@ class DeadlineEmbeddingModelTest {
     @Test
     void defaultDimensionProbeIsAlsoBoundedByDeadline() {
         CountDownLatch release = new CountDownLatch(1);
-        EmbeddingModel delegate = segments -> {
-            DeadlineChatModelTest.waitIgnoringInterrupt(release);
-            return Response.from(List.of(VECTOR));
+        EmbeddingModel delegate = new EmbeddingModel() {
+            @Override public Response<List<Embedding>> embedAll(List<TextSegment> segments) {
+                DeadlineChatModelTest.waitIgnoringInterrupt(release);
+                return Response.from(List.of(VECTOR));
+            }
         };
         ProviderProperties properties = new ProviderProperties();
         properties.setMaxInFlight(1);
@@ -97,9 +99,11 @@ class DeadlineEmbeddingModelTest {
     @Test
     void addingListenersDoesNotRemoveEmbeddingDeadline() {
         CountDownLatch release = new CountDownLatch(1);
-        EmbeddingModel delegate = segments -> {
-            DeadlineChatModelTest.waitIgnoringInterrupt(release);
-            return Response.from(List.of(VECTOR));
+        EmbeddingModel delegate = new EmbeddingModel() {
+            @Override public Response<List<Embedding>> embedAll(List<TextSegment> segments) {
+                DeadlineChatModelTest.waitIgnoringInterrupt(release);
+                return Response.from(List.of(VECTOR));
+            }
         };
         try (ProviderCallExecutor executor = new ProviderCallExecutor(new ProviderProperties())) {
             EmbeddingModel model = new DeadlineEmbeddingModel(delegate, executor, Duration.ofMillis(150))
