@@ -16,12 +16,12 @@ const renderer = new marked.Renderer()
 
 renderer.html = () => ''
 
-renderer.image = (_href, _title, text) => {
+renderer.image = ({ text }) => {
   const label = String(text || '').trim()
   return label ? `<span class="markdown-image-placeholder">[图片已隐藏：${escapeHtml(label)}]</span>` : ''
 }
 
-renderer.code = (code, languageHint = '') => {
+renderer.code = ({ text: code, lang: languageHint = '' }) => {
   const language = String(languageHint).trim().split(/\s+/)[0].toLowerCase()
   let highlighted
   let label = language || 'text'
@@ -29,8 +29,9 @@ renderer.code = (code, languageHint = '') => {
   if (language && hljs.getLanguage(language)) {
     highlighted = hljs.highlight(code, { language, ignoreIllegals: true }).value
   } else {
-    highlighted = hljs.highlightAuto(code).value
-    label = language || highlighted.language || 'text'
+    const result = hljs.highlightAuto(code)
+    highlighted = result.value
+    label = language || result.language || 'text'
   }
 
   return `<div class="code-block">
@@ -42,7 +43,8 @@ renderer.code = (code, languageHint = '') => {
   </div>`
 }
 
-renderer.link = (href, title, text) => {
+renderer.link = function ({ href, title, tokens }) {
+  const text = this.parser.parseInline(tokens)
   const titleAttribute = title ? ` title="${escapeHtml(title)}"` : ''
   return `<a href="${escapeHtml(href)}"${titleAttribute} target="_blank" rel="noopener noreferrer">${text}</a>`
 }
@@ -50,9 +52,7 @@ renderer.link = (href, title, text) => {
 marked.setOptions({
   renderer,
   gfm: true,
-  breaks: true,
-  mangle: false,
-  headerIds: false
+  breaks: true
 })
 
 export function renderMarkdown(markdown, sources = []) {
