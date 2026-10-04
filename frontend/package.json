@@ -14,7 +14,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@lucide/vue": "1.48.0",
+    "@lucide/vue": "1.49.0",
     "axios": "1.20.0",
     "dompurify": "3.4.15",
     "highlight.js": "11.12.0",
